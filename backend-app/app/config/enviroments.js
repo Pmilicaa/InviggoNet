@@ -1,5 +1,5 @@
 module.exports = {
-  user: "milica",
-  password: "inviggo",
+  user: "root",
+  password: "root",
   host: "localhost",
 };
