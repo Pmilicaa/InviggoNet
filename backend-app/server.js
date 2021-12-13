@@ -1,11 +1,22 @@
 const express = require("express");
 const cors = require("cors");
+const { sequelize } = require('./app/models/index.js');
+
+async function run() {
+  try {
+
+    await sequelize.sync({ force: true });
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 const app = express();
 
 var corsOptions = {
   origin: "http://localhost:3000",
 };
+
 
 app.use(cors(corsOptions));
 
@@ -20,7 +31,8 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome to inviggo application." });
 });
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
+  run();
 });
