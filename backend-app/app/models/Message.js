@@ -1,15 +1,9 @@
-"use strict";
-const { Model } = require("sequelize");
-module.exports = (sequelize, DataTypes) => {
-  class Message extends Model {
-    static associate(model) {}
-  }
-  Message.init(
-    {},
-    {
-      sequelize,
-      modelName: "Like",
-    }
-  );
-  return Message;
-};
+const mongoose = require('mongoose');
+
+const messageSchema = new mongoose.Schema({
+    content: String,
+    friendshipId: Number,
+    senderId: Number
+});
+
+module.exports = mongoose.model("Message", messageSchema);

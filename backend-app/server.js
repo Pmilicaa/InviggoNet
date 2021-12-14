@@ -6,6 +6,7 @@ const { sequelize } = require("./app/models/index.js");
 async function run() {
   try {
     await sequelize.sync({ force: true });
+    await mongodb.main();
   } catch (error) {
     console.log(error);
   }
@@ -23,8 +24,6 @@ app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
 
-const db = require("./app/models");
-db.sequelize.sync({ force: true });
 
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to inviggo application." });
@@ -32,7 +31,6 @@ app.get("/", (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  mongodb.main();
   console.log(`Server is running on port ${PORT}.`);
-  //run();
+  run();
 });
