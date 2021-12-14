@@ -1,5 +1,5 @@
 export interface Message {
   content: String;
-  friendshipId: Number;
-  senderId: Number;
+  friendshipId?: Number;
+  senderId?: Number;
 }

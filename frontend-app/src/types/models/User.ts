@@ -11,7 +11,7 @@ export interface User {
   gender: String;
   age: Number;
   phoneNumber: String;
-  posts: Array<Post>;
-  likes: Array<Like>;
-  friendships: Array<Friendship>;
+  posts?: Array<Post>;
+  likes?: Array<Like>;
+  friendships?: Array<Friendship>;
 }
