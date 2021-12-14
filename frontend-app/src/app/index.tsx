@@ -14,7 +14,9 @@ import { GlobalStyle } from 'styles/global-styles';
 
 import { HomePage } from './pages/HomePage/Loadable';
 import { NotFoundPage } from './components/NotFoundPage/Loadable';
+import { Header } from './components/Header';
 import { useTranslation } from 'react-i18next';
+import { Footer } from './components/Footer';
 
 export function App() {
   const { i18n } = useTranslation();
@@ -27,11 +29,12 @@ export function App() {
       >
         <meta name="description" content="A React Boilerplate application" />
       </Helmet>
-
+      <Header />
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route component={NotFoundPage} />
       </Switch>
+      <Footer />
       <GlobalStyle />
     </BrowserRouter>
   );
