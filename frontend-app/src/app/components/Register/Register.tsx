@@ -56,7 +56,7 @@ export function Register() {
         <br></br>
         <Box sx={{ display: 'flex' }}>
           <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
-            <FormLabel component="legend">Genre</FormLabel>
+            <FormLabel component="legend">Gender</FormLabel>
             <FormGroup>
               <FormControlLabel
                 control={<Checkbox onChange={handleChange} name="male" />}
