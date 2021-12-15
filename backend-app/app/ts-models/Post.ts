@@ -1,22 +1,28 @@
-import { Table, Column, Model, HasMany, NotEmpty, CreatedAt, BelongsTo } from 'sequelize-typescript'
-import { Comment } from './Comment';
-import { User } from './User';
+import {
+  Table,
+  Column,
+  Model,
+  HasMany,
+  NotEmpty,
+  CreatedAt,
+  BelongsTo,
+} from "sequelize-typescript";
+import { Comment } from "./Comment";
+import { User } from "./User";
 
 @Table
 export class Post extends Model<Post> {
-    
-    @Column
-    @NotEmpty
-    content!: string
+  @NotEmpty
+  @Column
+  content!: string;
 
-    @CreatedAt
-    @Column
-    createdAt!: Date;
+  @CreatedAt
+  @Column
+  createdAt!: Date;
 
-    @BelongsTo(() => User)
-    user?: User
+  @BelongsTo(() => User, { foreignKey: "userPost" })
+  user?: User;
 
-    @HasMany(() => Comment)
-    comments?: Comment[]
-
+  @HasMany(() => Comment, { foreignKey: "postComment" })
+  comments?: Comment[];
 }

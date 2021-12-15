@@ -1,41 +1,53 @@
-import { Table, Column, Model, HasMany, NotEmpty, BelongsToMany} from 'sequelize-typescript'
-import { Friendship } from './Friendship'
-import { Post } from './Post'
-import { UserFriendship } from './UserFriendship'
+import {
+  Table,
+  Column,
+  Model,
+  HasMany,
+  NotEmpty,
+  BelongsToMany,
+} from "sequelize-typescript";
+import { Comment } from "./Comment";
+import { Friendship } from "./Friendship";
+import { Post } from "./Post";
+import { UserFriendship } from "./UserFriendship";
 
 @Table
 export class User extends Model<User> {
-    
-    @Column
-    @NotEmpty
-    email!: string
+  @NotEmpty
+  @Column
+  email!: string;
 
-    @Column
-    @NotEmpty
-    username!: string
+  @NotEmpty
+  @Column
+  username!: string;
 
-    @Column
-    @NotEmpty
-    password!: string
+  @NotEmpty
+  @Column
+  password!: string;
 
-    @Column
-    @NotEmpty
-    firstName!: string
+  @NotEmpty
+  @Column
+  firstName!: string;
 
-    @Column
-    @NotEmpty
-    lastName!: string
+  @NotEmpty
+  @Column
+  lastName!: string;
 
-    @Column
-    gender?: string
+  @Column
+  gender?: string;
 
-    @Column
-    age?: number
+  @Column
+  age?: number;
 
-    @HasMany(() => Post)
-    posts?: Post[]
+  @HasMany(() => Post, { foreignKey: "userPost" })
+  posts?: Post[];
 
-    @BelongsToMany(() => Friendship, () => UserFriendship)
-    friends!: Friendship[]
-    
+  @HasMany(() => Comment, { foreignKey: "userComment" })
+  comments?: Comment[];
+
+  @HasMany(() => Friendship, { foreignKey: "userFriendship" })
+  friendship?: Friendship[];
+
+  @HasMany(() => UserFriendship, { foreignKey: "userFriendshipF" })
+  userFriendship?: UserFriendship[];
 }
