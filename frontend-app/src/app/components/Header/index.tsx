@@ -5,18 +5,17 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
 import Avatar from '@mui/material/Avatar';
 import TextField from '@mui/material/TextField'
 import SearchIcon from '@mui/icons-material/Search';
 
 export function Header() {
-  
+
   const [search, setSearch] = useState("");
-  
+
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" style={{ backgroundColor: 'red' }}>
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             InviggoNet
@@ -35,7 +34,7 @@ export function Header() {
                 style: { backgroundColor: 'white' }
               }}
               size='small'
-              value={search} 
+              value={search}
               onChange={(e) => {
                 setSearch(e.target.value);
               }}
