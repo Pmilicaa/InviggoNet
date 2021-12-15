@@ -21,13 +21,8 @@ export class Friendship extends Model<Friendship> {
   @Column
   createdAt!: Date;
 
-  // @BelongsToMany(() => User, () => UserFriendship)
-  // friends!: Friendship[]
-
-  @BelongsTo(() => User, { foreignKey: "userFriendship" })
-  user?: User;
-  @HasMany(() => UserFriendship, { foreignKey: "userFriendshipF" })
-  userFriendship?: UserFriendship[];
+  @BelongsToMany(() => User, () => UserFriendship)
+  friends?: Friendship[]
 
   @ForeignKey(() => User)
   @Column

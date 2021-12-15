@@ -1,15 +1,16 @@
 // const mongodb = require("./config/db.mongodb");
 // const express = require("express");
 // const cors = require("cors");
-import mongodb from "./config/db.mongodb.js";
+import { run } from './models/Message'
 import express from "express";
 import cors from "cors";
 import { sequelize } from "./sequelize";
 
-async function run() {
+async function start() {
   try {
-    await sequelize.sync({ force: true });
-    await mongodb.main();
+    await 
+    await sequelize.sync({ alter: true });
+    await run();
   } catch (error) {
     console.log(error);
   }
@@ -34,5 +35,5 @@ app.get("/", (req: any, res: any) => {
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
-  run();
+  start();
 });

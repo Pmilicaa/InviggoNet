@@ -45,9 +45,9 @@ export class User extends Model<User> {
   @HasMany(() => Comment, { foreignKey: "userComment" })
   comments?: Comment[];
 
-  @HasMany(() => Friendship, { foreignKey: "userFriendship" })
-  friendship?: Friendship[];
+  @BelongsToMany(() => Friendship, () => UserFriendship)
+  friendships?: Friendship[];
 
-  @HasMany(() => UserFriendship, { foreignKey: "userFriendshipF" })
-  userFriendship?: UserFriendship[];
+  // @HasMany(() => UserFriendship, { foreignKey: "userFriendshipF" })
+  // userFriendship?: UserFriendship[];
 }
