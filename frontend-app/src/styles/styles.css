@@ -1,0 +1,21 @@
+div .container {
+    max-width: 90vw;
+    margin: 50px auto;
+    padding: 25px;
+    background-color: white;
+    background-image: linear-gradient(lighten(#f0f0f0, 10%), darken(#f0f0f0, 10%));  
+    box-shadow: 3px 3px 15px rgba(0,0,0,0.5);
+    border-radius: 3px;
+}
+
+div .cart {
+    background-color: #f0f0f0;
+    max-width: 90vw;
+    margin: 50px auto;
+    padding: 25px;
+    background-image: linear-gradient(lighten(#f0f0f0, 10%), darken(#f0f0f0, 10%));  
+    box-shadow: 3px 3px 15px rgba(0,0,0,0.5);
+    border-radius: 3px;
+    color: 'white';
+    
+}
