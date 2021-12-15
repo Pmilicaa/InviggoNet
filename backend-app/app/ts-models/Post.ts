@@ -11,7 +11,7 @@ import { Comment } from "./Comment";
 import { User } from "./User";
 
 @Table
-export class Post extends Model<Post> {
+export class Post extends Model {
   @NotEmpty
   @Column
   content!: string;

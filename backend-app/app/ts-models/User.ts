@@ -12,7 +12,7 @@ import { Post } from "./Post";
 import { UserFriendship } from "./UserFriendship";
 
 @Table
-export class User extends Model<User> {
+export class User extends Model {
   @NotEmpty
   @Column
   email!: string;

@@ -1,26 +1,24 @@
-const db = require("../models");
-const User = db.users;
+import { User } from "../ts-models/User";
+
 const getAllUsers = async () => {
   let users = await User.findAll();
   return users;
 };
-
-const createUser = async (body: typeof User) => {
-  let user;
+const createUser = async (body: any) => {
   try {
-    user = {
-      email: body.email,
-      username: body.username,
-      password: body.password,
-      firstName: body.firstName,
-      lastName: body.lastName,
-      age: body.age,
-      phoneNumber: body.phoneNumber,
+    const user = {
+      email: String(body.email),
+      username: String(body.username),
+      password: String(body.password),
+      firstName: String(body.firstName),
+      lastName: String(body.lastName),
+      gender: String(body.gender),
+      age: Number(body.age),
     };
     User.create(user);
+    return user;
   } catch (err: any) {
     throw new Error(err);
   }
-  return user;
 };
-export default createUser;
+export { createUser, getAllUsers };

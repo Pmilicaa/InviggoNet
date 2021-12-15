@@ -12,7 +12,7 @@ import { Post } from "./Post";
 import { User } from "./User";
 
 @Table
-export class Comment extends Model<Comment> {
+export class Comment extends Model {
   @NotEmpty
   @Column
   content!: string;

@@ -1,7 +1,11 @@
-const { sequelize, User } = require("../models");
-import createUser from "../repositories/user.repository";
+import { getAllUsers, createUser } from "../repositories/user.repository";
 
+const getUsers = async () => {
+  const users = await getAllUsers();
+  return users;
+};
 const register = async (params: any) => {
   createUser(params);
+  console.log(params);
 };
-export default register;
+export { register, getUsers };

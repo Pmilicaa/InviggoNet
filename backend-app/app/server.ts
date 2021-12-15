@@ -1,16 +1,15 @@
 // const mongodb = require("./config/db.mongodb");
 // const express = require("express");
 // const cors = require("cors");
-import { run } from './models/Message'
+import { run } from "./models/Message";
 import express from "express";
 import cors from "cors";
-import { sequelize } from "./sequelize";
+import { sequelize } from "../app/sequelize";
 
 async function start() {
   try {
-    await 
     await sequelize.sync({ alter: true });
-    await run();
+    // await run();
   } catch (error) {
     console.log(error);
   }
@@ -31,6 +30,8 @@ app.use(express.urlencoded({ extended: true }));
 app.get("/", (req: any, res: any) => {
   res.json({ message: "Welcome to inviggo application." });
 });
+sequelize.sync({ force: true });
+require("../app/routes/user.routes")(app);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
