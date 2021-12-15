@@ -3,15 +3,26 @@ import { Helmet } from 'react-helmet-async';
 import { User } from 'types/models/User';
 import { SearchUser } from '../../components/SearchUser'
 export function SearchUserPage() {
-  const user: User = {
-    email: 'asdf@gmail.com',
-    username: "ASdfa",
-    firstName: 'Ime',
-    lastName: "Prezime",
-    gender: "Male",
-    age: 23,
-    phoneNumber: "233444"
-  };
+  const users: User[] = [
+    {
+      email: 'asdf@gmail.com',
+      username: "PykeMain",
+      firstName: 'Ime',
+      lastName: "Prezime",
+      gender: "Male",
+      age: 23,
+      phoneNumber: "233444"
+    },
+    {
+      email: 'asdf@gmail.com',
+      username: "PykeMain",
+      firstName: 'Ime',
+      lastName: "Prezime",
+      gender: "Male",
+      age: 23,
+      phoneNumber: "233444"
+    },
+  ];
 
 
   return (
@@ -23,7 +34,11 @@ export function SearchUserPage() {
       <div className='container'>
         <h3>Search result</h3>
         <div>
-          <SearchUser user={user} />
+          {
+            users.map((user) => (
+              < SearchUser user={user} />
+            ))
+          }
         </div>
       </div>
     </>
