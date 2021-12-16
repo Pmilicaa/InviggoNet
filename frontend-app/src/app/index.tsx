@@ -15,10 +15,10 @@ import { GlobalStyle } from 'styles/global-styles';
 import { HomePage } from './pages/HomePage/Loadable';
 import { NotFoundPage } from './components/NotFoundPage/Loadable';
 import { Header } from './components/Header';
-import { SearchUserPage } from './pages/SearchUserPage/Loadable'
+import { SearchUserPage } from './pages/SearchUserPage/Loadable';
 import { useTranslation } from 'react-i18next';
 import { Footer } from './components/Footer';
-import '../styles/styles.css'
+import '../styles/styles.css';
 
 export function App() {
   const { i18n } = useTranslation();
@@ -28,8 +28,7 @@ export function App() {
         titleTemplate="%s - InviggoNet"
         defaultTitle="InviggoNet"
         htmlAttributes={{ lang: i18n.language }}
-      >
-      </Helmet>
+      ></Helmet>
       <Header />
       <Switch>
         <Route exact path="/" component={HomePage} />

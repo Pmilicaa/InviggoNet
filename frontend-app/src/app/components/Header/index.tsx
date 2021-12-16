@@ -6,13 +6,12 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Avatar from '@mui/material/Avatar';
-import TextField from '@mui/material/TextField'
+import TextField from '@mui/material/TextField';
 import SearchIcon from '@mui/icons-material/Search';
-import { useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom';
 
 export function Header() {
-
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
 
   const history = useHistory();
 
@@ -20,22 +19,26 @@ export function Header() {
     setSearch('');
     history.push({
       pathname: '/search',
-      search: '?' + search
+      search: '?' + search,
     });
-  }
+  };
 
   const handleHome = () => {
     history.push({
-      pathname: '/'
+      pathname: '/',
     });
-  }
-
+  };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" style={{ backgroundColor: 'red' }}>
         <Toolbar>
-          <Typography onClick={handleHome} variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography
+            onClick={handleHome}
+            variant="h6"
+            component="div"
+            sx={{ flexGrow: 1 }}
+          >
             InviggoNet
           </Typography>
 
@@ -49,11 +52,11 @@ export function Header() {
               type="search"
               variant="filled"
               inputProps={{
-                style: { backgroundColor: 'white' }
+                style: { backgroundColor: 'white' },
               }}
-              size='small'
+              size="small"
               value={search}
-              onChange={(e) => {
+              onChange={e => {
                 setSearch(e.target.value);
               }}
             />
