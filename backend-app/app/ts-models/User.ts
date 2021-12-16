@@ -39,6 +39,12 @@ export class User extends Model {
   @Column
   age?: number;
 
+  @Column
+  phoneNumber?: number;
+
+  @Column
+  image?: string;
+
   @HasMany(() => Post)
   posts?: Post[];
 
@@ -48,6 +54,4 @@ export class User extends Model {
   @BelongsToMany(() => Friendship, () => UserFriendship)
   friendships?: Friendship[];
 
-  // @HasMany(() => UserFriendship, { foreignKey: "userFriendshipF" })
-  // userFriendship?: UserFriendship[];
 }

@@ -1,29 +1,27 @@
-import * as React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
-import { User } from 'types/models/User';
-import { SearchUser } from '../../components/SearchUser'
-export function SearchUserPage() {
-  const users: User[] = [
-    {
-      email: 'asdf@gmail.com',
-      username: "PykeMain",
-      firstName: 'Ime',
-      lastName: "Prezime",
-      gender: "Male",
-      age: 23,
-      phoneNumber: "233444"
-    },
-    {
-      email: 'asdf@gmail.com',
-      username: "PykeMain",
-      firstName: 'Ime',
-      lastName: "Prezime",
-      gender: "Male",
-      age: 23,
-      phoneNumber: "233444"
-    },
-  ];
+import { User } from '../../components/User'
+import { selectSearchResult, selectSearchText } from './slice/selectors'
+import { useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useSearchPageSlice } from './slice'
 
+export function SearchUserPage() {
+
+
+  const searchResult = useSelector(selectSearchResult);
+  const searchText = useSelector(selectSearchText);
+  
+  const location = useLocation();
+
+  const dispatch = useDispatch();
+
+  const { actions } = useSearchPageSlice();
+
+  useEffect(() => {
+    const searchText = location.search.substring(1);
+    dispatch(actions.search(searchText));
+  }, [searchText])
 
   return (
     <>
@@ -34,10 +32,15 @@ export function SearchUserPage() {
       <div className='container'>
         <h3>Search result</h3>
         <div>
-          {
-            users.map((user) => (
-              < SearchUser user={user} />
-            ))
+          {searchResult ?
+
+            searchResult.length === 0 ? <h4>Nema rezultata</h4> :
+
+              searchResult.map((user) => (
+                <User user={user} addFriend={() => {
+
+                }} />
+              )) : <></>
           }
         </div>
       </div>

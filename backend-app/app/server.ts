@@ -1,14 +1,24 @@
 // const mongodb = require("./config/db.mongodb");
 // const express = require("express");
 // const cors = require("cors");
-import { run } from "./models/Message";
-import express from "express";
+import { run } from './models/Message'
+import express, { Request, Response } from "express";
 import cors from "cors";
-import { sequelize } from "../app/sequelize";
+import { sequelize } from "./sequelize";
+import { User } from './ts-models/User';
 
 async function start() {
   try {
     await sequelize.sync({ alter: true });
+    const user = {
+      email: 'dusanstoajn@gmail.com',
+      username: 'dusanstoajn',
+      firstName: 'Dusan',
+      lastName: 'Stojancevic',
+      password: '1234'
+
+    };
+    await User.create(user);
     // await run();
   } catch (error) {
     console.log(error);
@@ -20,14 +30,14 @@ const app = express();
 var corsOptions = {
   origin: "http://localhost:3000",
 };
-
 app.use(cors(corsOptions));
 
 app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
 
-app.get("/", (req: any, res: any) => {
+
+app.get("/", (req: Request, res: Response) => {
   res.json({ message: "Welcome to inviggo application." });
 });
 sequelize.sync({ force: true });
