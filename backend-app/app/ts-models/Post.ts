@@ -6,12 +6,13 @@ import {
   NotEmpty,
   CreatedAt,
   BelongsTo,
+  ForeignKey,
 } from "sequelize-typescript";
 import { Comment } from "./Comment";
 import { User } from "./User";
 
 @Table
-export class Post extends Model<Post> {
+export class Post extends Model {
   @NotEmpty
   @Column
   content!: string;
@@ -20,9 +21,13 @@ export class Post extends Model<Post> {
   @Column
   createdAt!: Date;
 
-  @BelongsTo(() => User, { foreignKey: "userPost" })
+  @ForeignKey(() => User)
+  @Column
+  userId?: number;
+
+  @BelongsTo(() => User)
   user?: User;
 
-  @HasMany(() => Comment, { foreignKey: "postComment" })
+  @HasMany(() => Comment)
   comments?: Comment[];
 }

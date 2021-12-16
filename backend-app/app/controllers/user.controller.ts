@@ -1,19 +1,29 @@
-import userService from '../services/user.service';
-import express, { Request, Response } from 'express'
+import { Request, Response } from 'express'
+import { register, getUsers, getMe, searchUsers } from "../services/user.service";
 
-const router = express.Router();
+exports.findAll = async (req: any, res: any) => {
+  const users = await getUsers();
+  console.log(users);
+  res.send(JSON.stringify(users));
+};
+exports.registerUser = async (req: any, res: any) => {
+  const user = await register(req.body);
+  console.log(user);
+  res.send(JSON.stringify(user));
+};
+exports.getMyInfo = async (req: any, res: any) => {
+  const user = await getMe(req.body);
+  res.send(JSON.stringify(user));
+};
 
-
-router.get('/search', async (req: Request, res: Response) => {
+exports.search = async (req: Request, res: Response) => {
   console.log(req.query);
   const search = req.query.search as string;
   try {
-    const users = await userService.searchUsers(search);
+    const users = await searchUsers(search);
     return res.json(users);
 
   } catch (error) {
     return res.sendStatus(400);
   }
-})
-
-export default router;
+}

@@ -5,7 +5,6 @@ import { run } from './models/Message'
 import express, { Request, Response } from "express";
 import cors from "cors";
 import { sequelize } from "./sequelize";
-import UserRouter from './controllers/user.controller'
 import { User } from './ts-models/User';
 
 async function start() {
@@ -20,7 +19,7 @@ async function start() {
 
     };
     await User.create(user);
-    await run();
+    // await run();
   } catch (error) {
     console.log(error);
   }
@@ -33,17 +32,17 @@ var corsOptions = {
 };
 app.use(cors(corsOptions));
 
-
-app.use('/users', UserRouter);
-
-
 app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
 
+
 app.get("/", (req: Request, res: Response) => {
   res.json({ message: "Welcome to inviggo application." });
 });
+sequelize.sync({ force: true });
+require("../app/routes/user.routes")(app);
+require("../app/routes/post.routes")(app);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

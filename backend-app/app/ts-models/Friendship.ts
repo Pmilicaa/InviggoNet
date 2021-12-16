@@ -13,7 +13,7 @@ import { User } from "./User";
 import { UserFriendship } from "./UserFriendship";
 
 @Table
-export class Friendship extends Model<Friendship> {
+export class Friendship extends Model {
   @Column
   accepted!: boolean;
 
@@ -22,7 +22,7 @@ export class Friendship extends Model<Friendship> {
   createdAt!: Date;
 
   @BelongsToMany(() => User, () => UserFriendship)
-  friends?: Friendship[]
+  friends?: Friendship[];
 
   @ForeignKey(() => User)
   @Column

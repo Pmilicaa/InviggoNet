@@ -7,7 +7,7 @@ import { selectSearchText } from './selectors';
 export function* searchUsers() {
 
   const searchText: string = yield select(selectSearchText);
-  const users: User[] = yield call(request, '/users/search?search=' + searchText)
+  const users: User[] = yield call(request, '/api/users/search?search=' + searchText)
 
   yield put(searchPageAction.changeResult(users));
 

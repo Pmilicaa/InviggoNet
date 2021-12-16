@@ -1,14 +1,9 @@
-import {
-  Table,
-  Column,
-  Model,
-  ForeignKey,
-} from "sequelize-typescript";
+import { Table, Column, Model, ForeignKey } from "sequelize-typescript";
 import { Friendship } from "./Friendship";
 import { User } from "./User";
 
 @Table
-export class UserFriendship extends Model<UserFriendship> {
+export class UserFriendship extends Model {
   @ForeignKey(() => User)
   @Column
   userId?: number;

@@ -45,7 +45,7 @@ export class User extends Model {
   @Column
   image?: string;
 
-  @HasMany(() => Post, { foreignKey: "userPost" })
+  @HasMany(() => Post)
   posts?: Post[];
 
   @HasMany(() => Comment, { foreignKey: "userComment" })
