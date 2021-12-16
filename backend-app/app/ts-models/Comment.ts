@@ -7,6 +7,7 @@ import {
   BelongsTo,
   HasMany,
   HasOne,
+  ForeignKey,
 } from "sequelize-typescript";
 import { Post } from "./Post";
 import { User } from "./User";
@@ -20,6 +21,10 @@ export class Comment extends Model {
   @CreatedAt
   @Column
   createdAt!: Date;
+
+  @ForeignKey(() => Post)
+  @Column
+  postId?: number;
 
   @BelongsTo(() => Post, { foreignKey: "postComment" })
   post?: Post;

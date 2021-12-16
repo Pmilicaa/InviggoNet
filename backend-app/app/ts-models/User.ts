@@ -39,7 +39,7 @@ export class User extends Model {
   @Column
   age?: number;
 
-  @HasMany(() => Post, { foreignKey: "userPost" })
+  @HasMany(() => Post)
   posts?: Post[];
 
   @HasMany(() => Comment, { foreignKey: "userComment" })

@@ -1,8 +1,20 @@
 import { User } from "../ts-models/User";
-
+import { getPost } from "../repositories/post.repository";
 const getAllUsers = async () => {
   let users = await User.findAll();
   return users;
+};
+const getOne = async (username: any) => {
+  try {
+    const user = await User.findOne({
+      where: {
+        username: username.username,
+      },
+    });
+    return user;
+  } catch (err: any) {
+    throw new Error(err);
+  }
 };
 const createUser = async (body: any) => {
   try {
@@ -21,4 +33,14 @@ const createUser = async (body: any) => {
     throw new Error(err);
   }
 };
-export { createUser, getAllUsers };
+const addPostToUser = async (body: any) => {
+  const id = body.userId;
+  console.log(id + "id usera");
+
+  try {
+    const result = await User.update({ posts: body }, { where: { id } });
+  } catch (err) {
+    throw new Error();
+  }
+};
+export { createUser, getAllUsers, getOne, addPostToUser };

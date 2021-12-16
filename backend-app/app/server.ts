@@ -32,6 +32,7 @@ app.get("/", (req: any, res: any) => {
 });
 sequelize.sync({ force: true });
 require("../app/routes/user.routes")(app);
+require("../app/routes/post.routes")(app);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
