@@ -13,28 +13,38 @@ import './styles.css';
 import { registerUser } from '../../services/UserService';
 export function Register() {
   const { register, handleSubmit } = useForm();
-  const [m, setMale] = React.useState({});
-  const [f, setFemale] = React.useState({});
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setMale({
-      ...m,
-      [event.target.name]: event.target.checked,
-    });
-    setFemale({
-      ...f,
-      [event.target.name]: event.target.checked,
-    });
-  };
+  // const [m, setMale] = React.useState({});
+  //const [f, setFemale] = React.useState({});
+  // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   setMale({
+  //     ...m,
+  //     [event.target.name]: event.target.checked,
+  //   });
+  //   setFemale({
+  //     ...f,
+  //     [event.target.name]: event.target.checked,
+  //   });
+  // };
   const onSubmit = data => {
     const firstName = data.firstName;
     const lastName = data.lastName;
     const username = data.username;
     const password = data.password;
     const email = data.email;
-    const gender = data.gender;
+    const male = data.male;
+    const female = data.female;
     const age = data.age;
     console.log(data);
-    signUp(username, password, lastName, firstName, email, age);
+    let gender;
+    if (male == true) {
+      console.log(male);
+      gender = 'm';
+      signUp(username, password, lastName, firstName, email, age, gender);
+    } else if (female == true) {
+      console.log(female);
+      gender = 'f';
+      signUp(username, password, lastName, firstName, email, age, gender);
+    }
   };
   const signUp = async (
     username,
@@ -43,6 +53,7 @@ export function Register() {
     firstName,
     email,
     age,
+    gender,
   ) => {
     const addedUser = await registerUser(
       username,
@@ -51,6 +62,7 @@ export function Register() {
       firstName,
       email,
       age,
+      gender,
     );
     return addedUser;
   };

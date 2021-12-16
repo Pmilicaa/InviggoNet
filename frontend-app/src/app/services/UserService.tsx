@@ -6,8 +6,8 @@ export const registerUser = async (
   lastName: string,
   email: string,
   age: number,
+  gender: string,
 ) => {
-  const gender = 'm';
   return await axios
     .post('http://localhost:5000/api/users', {
       username,
