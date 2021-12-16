@@ -8,20 +8,42 @@ import IconButton from '@mui/material/IconButton';
 import Avatar from '@mui/material/Avatar';
 import TextField from '@mui/material/TextField';
 import SearchIcon from '@mui/icons-material/Search';
+import { useHistory } from 'react-router-dom';
 
 export function Header() {
   const [search, setSearch] = useState('');
+
+  const history = useHistory();
+
+  const handleSearch = () => {
+    setSearch('');
+    history.push({
+      pathname: '/search',
+      search: '?' + search,
+    });
+  };
+
+  const handleHome = () => {
+    history.push({
+      pathname: '/',
+    });
+  };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" style={{ backgroundColor: 'red' }}>
         <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography
+            onClick={handleHome}
+            variant="h6"
+            component="div"
+            sx={{ flexGrow: 1 }}
+          >
             InviggoNet
           </Typography>
 
           <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
-            <IconButton>
+            <IconButton onClick={handleSearch}>
               <SearchIcon style={{ fill: 'white' }} />
             </IconButton>
             <TextField

@@ -2,7 +2,9 @@ import {
   getAllUsers,
   createUser,
   getOne,
+  searchUser
 } from "../repositories/user.repository";
+import { User } from "../ts-models/User";
 
 const getUsers = async () => {
   const users = await getAllUsers();
@@ -21,4 +23,9 @@ const getMe = async (params: any) => {
     throw new Error();
   }
 };
-export { register, getUsers, getMe };
+
+const searchUsers = async (query: string): Promise<User[]> => {
+  return await searchUser(query);
+}
+
+export { register, getUsers, getMe, searchUsers };
