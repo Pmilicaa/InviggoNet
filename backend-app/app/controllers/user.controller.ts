@@ -8,7 +8,7 @@ exports.findAll = async (req: any, res: any) => {
 };
 exports.registerUser = async (req: any, res: any) => {
   const user = await register(req.body);
-  console.log(user);
+  console.log(req.body.username + "dosao user");
   res.send(JSON.stringify(user));
 };
 exports.getMyInfo = async (req: any, res: any) => {

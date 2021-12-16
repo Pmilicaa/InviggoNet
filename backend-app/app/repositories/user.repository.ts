@@ -55,7 +55,13 @@ const createUser = async (body: any) => {
       gender: String(body.gender),
       age: Number(body.age),
     };
-    User.create(user);
+    console.log(user.username + "user u repou");
+    try {
+      const newUser = await User.create(user);
+      console.log("success", newUser.toJSON());
+    } catch (err) {
+      console.log(err, user.email);
+    }
     return user;
   } catch (err: any) {
     throw new Error(err);
