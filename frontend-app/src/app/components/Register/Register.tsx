@@ -105,9 +105,19 @@ export function Register() {
           type="email"
         />
         <br></br>
-        <Box sx={{ display: 'flex' }}>
+
+        <TextField
+          label="Age"
+          {...register('age')}
+          helperText=" Please enter your age"
+        />
+        <br></br>
+
+        <Box sx={{ display: 'flex' }} className="box">
           <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
-            <FormLabel component="legend">Gender</FormLabel>
+            <FormLabel component="legend" className="gender">
+              Gender
+            </FormLabel>
             <FormGroup>
               <FormControlLabel
                 control={<Checkbox {...register('male')} name="male" />}
@@ -116,17 +126,12 @@ export function Register() {
               <FormControlLabel
                 control={<Checkbox {...register('female')} name="female" />}
                 label="female"
+                className="gender-bottom"
               />
             </FormGroup>
           </FormControl>
         </Box>
-        <br></br>
 
-        <TextField
-          label="Age"
-          {...register('age')}
-          helperText=" Please enter your age"
-        />
         <div>
           <Button variant="contained">Cancel</Button>
           <Button type="submit" variant="contained" color="primary">
