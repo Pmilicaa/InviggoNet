@@ -14,24 +14,28 @@ import { GlobalStyle } from 'styles/global-styles';
 
 import { HomePage } from './pages/HomePage/Loadable';
 import { NotFoundPage } from './components/NotFoundPage/Loadable';
+import { Header } from './components/Header';
+import { SearchUserPage } from './pages/SearchUserPage/Loadable';
 import { useTranslation } from 'react-i18next';
+import { Footer } from './components/Footer';
+import '../styles/styles.css';
 
 export function App() {
   const { i18n } = useTranslation();
   return (
     <BrowserRouter>
       <Helmet
-        titleTemplate="%s - React Boilerplate"
-        defaultTitle="React Boilerplate"
+        titleTemplate="%s - InviggoNet"
+        defaultTitle="InviggoNet"
         htmlAttributes={{ lang: i18n.language }}
-      >
-        <meta name="description" content="A React Boilerplate application" />
-      </Helmet>
-
+      ></Helmet>
+      <Header />
       <Switch>
         <Route exact path="/" component={HomePage} />
+        <Route exact path="/search" component={SearchUserPage} />
         <Route component={NotFoundPage} />
       </Switch>
+      <Footer />
       <GlobalStyle />
     </BrowserRouter>
   );
