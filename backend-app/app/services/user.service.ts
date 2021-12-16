@@ -1,7 +1,9 @@
-const { sequelize, User } = require("../models");
 import createUser from "../repositories/user.repository";
+import { User } from '../ts-models/User'
+import userRepository from "../repositories/user.repository";
 
-const register = async (params: any) => {
-  createUser(params);
-};
-export default register;
+const searchUsers = async (query: string): Promise<User[]> => {
+  return await userRepository.searchUser(query);
+}
+
+export default { searchUsers  };

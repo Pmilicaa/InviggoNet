@@ -12,7 +12,7 @@ import { Post } from "./Post";
 import { UserFriendship } from "./UserFriendship";
 
 @Table
-export class User extends Model<User> {
+export class User extends Model {
   @NotEmpty
   @Column
   email!: string;
@@ -39,6 +39,12 @@ export class User extends Model<User> {
   @Column
   age?: number;
 
+  @Column
+  phoneNumber?: number;
+
+  @Column
+  image?: string;
+
   @HasMany(() => Post, { foreignKey: "userPost" })
   posts?: Post[];
 
@@ -48,6 +54,4 @@ export class User extends Model<User> {
   @BelongsToMany(() => Friendship, () => UserFriendship)
   friendships?: Friendship[];
 
-  // @HasMany(() => UserFriendship, { foreignKey: "userFriendshipF" })
-  // userFriendship?: UserFriendship[];
 }

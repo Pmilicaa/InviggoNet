@@ -1,26 +1,29 @@
-const db = require("../models");
-const User = db.users;
-const getAllUsers = async () => {
-  let users = await User.findAll();
-  return users;
-};
+import { User } from '../ts-models/User';
+import { Op } from "sequelize";
 
-const createUser = async (body: typeof User) => {
-  let user;
-  try {
-    user = {
-      email: body.email,
-      username: body.username,
-      password: body.password,
-      firstName: body.firstName,
-      lastName: body.lastName,
-      age: body.age,
-      phoneNumber: body.phoneNumber,
-    };
-    User.create(user);
-  } catch (err: any) {
-    throw new Error(err);
-  }
-  return user;
-};
-export default createUser;
+const searchUser = async (query: string): Promise<User[]> => {
+  let users = await User.findAll({
+    where: {
+      [Op.or] : [
+        {
+          username: {
+            [Op.substring]: query
+          }
+        }, 
+        {
+          firstName: {
+            [Op.substring]: query
+          }
+        }, 
+        {
+          lastName: {
+            [Op.substring]: query
+          }
+        }
+      ]
+    }
+  });
+  return users;
+}
+
+export default { searchUser };
