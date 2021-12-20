@@ -22,6 +22,7 @@ import '../styles/styles.css';
 import { FriendRequestsPage } from './pages/FriendRequests';
 import { RegisterPage } from './pages/RegisterPage/Loadable';
 import { ProfilePage } from './pages/ProfilePage';
+import { LoginPage } from './pages/LoginPage';
 
 export function App() {
   const { i18n } = useTranslation();
@@ -40,6 +41,7 @@ export function App() {
         <Route exact path="/requests" component={FriendRequestsPage} />
         <Route exact path="/profile" component={ProfilePage} />
         <Route exact path="/register" component={RegisterPage} />
+        <Route exact path="/login" component={LoginPage} />
         <Route component={NotFoundPage} />
       </Switch>
       <Footer />
