@@ -1,5 +1,10 @@
-import { Request, Response } from 'express'
-import { register, getUsers, getMe, searchUsers } from "../services/user.service";
+import { Request, Response } from "express";
+import {
+  register,
+  getUsers,
+  getMe,
+  searchUsers,
+} from "../services/user.service";
 
 exports.findAll = async (req: any, res: any) => {
   const users = await getUsers();
@@ -13,6 +18,7 @@ exports.registerUser = async (req: any, res: any) => {
 };
 exports.getMyInfo = async (req: any, res: any) => {
   const user = await getMe(req.body);
+  console.log(JSON.stringify(user) + "user za koji su potrebne inf");
   res.send(JSON.stringify(user));
 };
 
@@ -22,8 +28,7 @@ exports.search = async (req: Request, res: Response) => {
   try {
     const users = await searchUsers(search);
     return res.json(users);
-
   } catch (error) {
     return res.sendStatus(400);
   }
-}
+};

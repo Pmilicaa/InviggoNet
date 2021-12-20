@@ -22,3 +22,12 @@ export const registerUser = async (
       return response.data;
     });
 };
+export const getMe = async (username: string) => {
+  return await axios
+    .post('http://localhost:5000/api/users/me', {
+      username,
+    })
+    .then(response => {
+      return response.data;
+    });
+};

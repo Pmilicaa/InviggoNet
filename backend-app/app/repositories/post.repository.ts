@@ -18,6 +18,26 @@ const createPost = async (body: any) => {
     throw new Error(err);
   }
 };
+const getPosts = async (body: any) => {
+  try {
+    const user = await getOne(body);
+    const id = user?.id;
+    console.log(
+      JSON.stringify(user) +
+        "user je" +
+        body +
+        "body je----------------------------------------------------------"
+    );
+    const posts = await Post.findAll({
+      where: {
+        userId: id,
+      },
+    });
+    return posts;
+  } catch (err: any) {
+    throw new Error(err);
+  }
+};
 const getPost = async (id: any) => {
   try {
     const post = await Post.findOne({
@@ -30,4 +50,4 @@ const getPost = async (id: any) => {
     throw new Error(err);
   }
 };
-export { createPost, getPost };
+export { createPost, getPost, getPosts };

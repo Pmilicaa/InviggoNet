@@ -28,7 +28,11 @@ export function Header() {
       pathname: '/',
     });
   };
-
+  const handleProfile = () => {
+    history.push({
+      pathname: '/profile',
+    });
+  };
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" style={{ backgroundColor: 'red' }}>
@@ -62,7 +66,11 @@ export function Header() {
             />
           </Box>
           <IconButton>
-            <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+            <Avatar
+              alt="Remy Sharp"
+              src="/static/images/avatar/2.jpg"
+              onClick={handleProfile}
+            />
           </IconButton>
           <Button color="inherit">Login</Button>
         </Toolbar>
