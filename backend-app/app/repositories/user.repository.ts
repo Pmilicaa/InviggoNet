@@ -6,13 +6,10 @@ const searchUser = async (query: string): Promise<User[]> => {
   let users = await User.findAll({
     raw: true,
     where: {
-      [Op.or] : [
-        where(fn('concat', 
-              col('firstName'), ' ', col('lastName')),
-              {
-                [Op.substring]: query
-              }
-        ),
+      [Op.or]: [
+        where(fn("concat", col("firstName"), " ", col("lastName")), {
+          [Op.substring]: query,
+        }),
         {
           username: {
             [Op.substring]: query,
@@ -50,11 +47,23 @@ const getOne = async (username: any) => {
     throw new Error(err);
   }
 };
+const getInfo = async (username: any) => {
+  try {
+    const user = await User.findOne({
+      where: {
+        username: username,
+      },
+    });
+    return user;
+  } catch (err: any) {
+    throw new Error(err);
+  }
+};
 
 export const getOneById = async (id: number): Promise<User | null> => {
   const user = await User.findByPk(id);
   return user;
-}
+};
 
 const createUser = async (body: any) => {
   try {
@@ -89,4 +98,4 @@ const addPostToUser = async (body: any) => {
     throw new Error();
   }
 };
-export { createUser, getAllUsers, getOne, addPostToUser, searchUser };
+export { createUser, getAllUsers, getOne, addPostToUser, searchUser, getInfo };
