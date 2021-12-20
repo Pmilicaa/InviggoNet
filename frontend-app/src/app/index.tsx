@@ -19,9 +19,12 @@ import { SearchUserPage } from './pages/SearchUserPage/Loadable';
 import { useTranslation } from 'react-i18next';
 import { Footer } from './components/Footer';
 import '../styles/styles.css';
+import { RegisterPage } from './pages/RegisterPage/Loadable';
+import { ProfilePage } from './pages/ProfilePage';
 
 export function App() {
   const { i18n } = useTranslation();
+
   return (
     <BrowserRouter>
       <Helmet
@@ -33,6 +36,9 @@ export function App() {
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route exact path="/search" component={SearchUserPage} />
+
+        <Route exact path="/profile" component={ProfilePage} />
+        <Route exact path="/register" component={RegisterPage} />
         <Route component={NotFoundPage} />
       </Switch>
       <Footer />

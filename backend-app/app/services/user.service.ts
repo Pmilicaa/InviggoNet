@@ -2,7 +2,7 @@ import {
   getAllUsers,
   createUser,
   getOne,
-  searchUser
+  searchUser,
 } from "../repositories/user.repository";
 import { User } from "../ts-models/User";
 
@@ -16,6 +16,7 @@ const register = async (params: any) => {
 };
 const getMe = async (params: any) => {
   try {
+    console.log(params.username + "parametri su ti i ti");
     const user = await getOne(params);
     return user;
     console.log(JSON.stringify(user) + "user lik");
@@ -26,6 +27,6 @@ const getMe = async (params: any) => {
 
 const searchUsers = async (query: string): Promise<User[]> => {
   return await searchUser(query);
-}
+};
 
 export { register, getUsers, getMe, searchUsers };
