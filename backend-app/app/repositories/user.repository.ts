@@ -15,25 +15,24 @@ const searchUser = async (query: string): Promise<User[]> => {
         ),
         {
           username: {
-            [Op.substring]: query
-          }
-        }, 
+            [Op.substring]: query,
+          },
+        },
         {
           firstName: {
-            [Op.substring]: query
-          }
-        }, 
+            [Op.substring]: query,
+          },
+        },
         {
           lastName: {
-            [Op.substring]: query
-          }
-        }
-      ]
-    }
+            [Op.substring]: query,
+          },
+        },
+      ],
+    },
   });
   return users;
-}
-
+};
 
 const getAllUsers = async () => {
   let users = await User.findAll();
@@ -91,4 +90,3 @@ const addPostToUser = async (body: any) => {
   }
 };
 export { createUser, getAllUsers, getOne, addPostToUser, searchUser };
-

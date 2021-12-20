@@ -3,7 +3,7 @@ import {
   getAllUsers,
   createUser,
   getOne,
-  searchUser
+  searchUser,
 } from "../repositories/user.repository";
 import { checkFriends } from '../repositories/friendship.repository'
 
@@ -17,6 +17,7 @@ const register = async (params: any) => {
 };
 const getMe = async (params: any) => {
   try {
+    console.log(params.username + "parametri su ti i ti");
     const user = await getOne(params);
     return user;
     console.log(JSON.stringify(user) + "user lik");

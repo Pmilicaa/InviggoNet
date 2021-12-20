@@ -28,3 +28,13 @@ export async function sendFriendRequest(userId: number, reciverId: number): Prom
   const res = await axios.post(`http://localhost:5000/api/friendship/${userId}/${reciverId}`);
   return res.data;
 }
+
+export const getMe = async (username: string) => {
+  return await axios
+    .post('http://localhost:5000/api/users/me', {
+      username,
+    })
+    .then(response => {
+      return response.data;
+    });
+}

@@ -1,14 +1,13 @@
-import { Profile } from 'app/components/Profile/Profile';
 import { Register } from 'app/components/Register/Register';
-import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 
-export function HomePage() {
+export function RegisterPage() {
   return (
     <>
       <Helmet>
-        <title>Home Page</title>
+        <title>Register</title>
       </Helmet>
+      <Register />
     </>
   );
 }
