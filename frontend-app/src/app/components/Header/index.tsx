@@ -8,6 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import Avatar from '@mui/material/Avatar';
 import TextField from '@mui/material/TextField';
 import SearchIcon from '@mui/icons-material/Search';
+import PublicIcon from '@mui/icons-material/Public';
 import { useHistory } from 'react-router-dom';
 
 export function Header() {
@@ -16,11 +17,18 @@ export function Header() {
   const history = useHistory();
 
   const handleSearch = () => {
+    if(!search)
+      return;
     setSearch('');
     history.push({
-      pathname: '/search',
-      search: '?' + search,
+      pathname: '/search/' + search,
     });
+  };
+
+  const handleEnter = e => {
+    if (e.code === "Enter") {
+      handleSearch();
+    }
   };
 
   const handleHome = () => {
@@ -33,6 +41,12 @@ export function Header() {
       pathname: '/profile',
     });
   };
+
+  const handleRequests = () => {
+    history.push({
+      pathname: '/requests',
+    });
+  }
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" style={{ backgroundColor: 'red' }}>
@@ -45,14 +59,12 @@ export function Header() {
           >
             InviggoNet
           </Typography>
-
           <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
             <IconButton onClick={handleSearch}>
               <SearchIcon style={{ fill: 'white' }} />
             </IconButton>
             <TextField
               id="outlined-search"
-              label="Search friend"
               type="search"
               variant="filled"
               inputProps={{
@@ -63,8 +75,12 @@ export function Header() {
               onChange={e => {
                 setSearch(e.target.value);
               }}
+              onKeyPress={handleEnter}
             />
           </Box>
+          <IconButton onClick={handleRequests}>
+              <PublicIcon style={{ fill: 'white' }} />
+          </IconButton>
           <IconButton>
             <Avatar
               alt="Remy Sharp"

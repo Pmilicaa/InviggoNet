@@ -1,10 +1,11 @@
+import { UserSearchDTO } from "../dto/user..search.dto.";
 import {
   getAllUsers,
   createUser,
   getOne,
   searchUser,
 } from "../repositories/user.repository";
-import { User } from "../ts-models/User";
+import { checkFriends } from '../repositories/friendship.repository'
 
 const getUsers = async () => {
   const users = await getAllUsers();
@@ -25,8 +26,16 @@ const getMe = async (params: any) => {
   }
 };
 
-const searchUsers = async (query: string): Promise<User[]> => {
-  return await searchUser(query);
-};
+const searchUsers = async (query: string, userId: number): Promise<UserSearchDTO[]> => {
+  
+  const users = await searchUser(query);
+  const usersDTO: UserSearchDTO[] = [];
+  for(const user of users){
+    const userDTO: UserSearchDTO = user;
+    userDTO.friends = await checkFriends(userId, user.id);
+    usersDTO.push(userDTO);
+  }
+  return usersDTO;
+}
 
 export { register, getUsers, getMe, searchUsers };

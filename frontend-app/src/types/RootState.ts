@@ -1,5 +1,6 @@
 // [IMPORT NEW CONTAINERSTATE ABOVE] < Needed for generating containers seamlessly
 
+import { FriendRequestState } from "app/pages/FriendRequests/slice/types";
 import { SearchPageState } from "app/pages/SearchUserPage/slice/types";
 
 /* 
@@ -8,5 +9,6 @@ import { SearchPageState } from "app/pages/SearchUserPage/slice/types";
 */
 export interface RootState {
   // [INSERT NEW REDUCER KEY ABOVE] < Needed for generating containers seamlessly
-  searchResultState?: SearchPageState
+  searchResultState?: SearchPageState;
+  requestsState?: FriendRequestState;
 }

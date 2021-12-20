@@ -1,11 +1,18 @@
 import { User } from "../ts-models/User";
 import { getPost } from "../repositories/post.repository";
-import { Op } from "sequelize";
+import { Op, fn, col, where } from "sequelize";
 
 const searchUser = async (query: string): Promise<User[]> => {
   let users = await User.findAll({
+    raw: true,
     where: {
-      [Op.or]: [
+      [Op.or] : [
+        where(fn('concat', 
+              col('firstName'), ' ', col('lastName')),
+              {
+                [Op.substring]: query
+              }
+        ),
         {
           username: {
             [Op.substring]: query,
@@ -43,6 +50,12 @@ const getOne = async (username: any) => {
     throw new Error(err);
   }
 };
+
+export const getOneById = async (id: number): Promise<User | null> => {
+  const user = await User.findByPk(id);
+  return user;
+}
+
 const createUser = async (body: any) => {
   try {
     const user = {

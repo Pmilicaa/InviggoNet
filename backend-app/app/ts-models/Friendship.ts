@@ -2,15 +2,11 @@ import {
   Table,
   Column,
   Model,
-  NotEmpty,
   CreatedAt,
   ForeignKey,
-  BelongsToMany,
   BelongsTo,
-  HasMany,
 } from "sequelize-typescript";
 import { User } from "./User";
-import { UserFriendship } from "./UserFriendship";
 
 @Table
 export class Friendship extends Model {
@@ -21,10 +17,17 @@ export class Friendship extends Model {
   @Column
   createdAt!: Date;
 
-  @BelongsToMany(() => User, () => UserFriendship)
-  friends?: Friendship[];
+  @ForeignKey(() => User)
+  @Column
+  reciverId?: number;
+
+  @BelongsTo(() => User, 'reciverId')
+  reciver?: User;
 
   @ForeignKey(() => User)
   @Column
   senderId?: number;
+
+  @BelongsTo(() => User, 'senderId')
+  sender?: User;
 }

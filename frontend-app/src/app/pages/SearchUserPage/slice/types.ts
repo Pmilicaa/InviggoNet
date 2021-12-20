@@ -1,6 +1,10 @@
-import { User } from "types/models/User";
+import { UserSearchDTO } from "types/models/UserSearchDTO";
 
 export interface SearchPageState {
-  searchResult: User[],
+  searchResult: UserSearchDTO[],
   searchText: string
+}
+
+export type SearchParam = {
+  search: string;
 }

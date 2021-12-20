@@ -13,7 +13,13 @@ export const User = ({ user, addFriend }) => {
                     <div style={{ display: 'inline-block', float: 'right' }} >
                         <Button onClick={addFriend} variant="contained">Add friend</Button>
                     </div>
-                    : <></>
+                    : user.friends === false ?
+                    <div style={{ display: 'inline-block', float: 'right' }} >
+                        <h3 style={{color: '#1976d2'}}>Pending</h3>
+                    </div> : 
+                    <div style={{ display: 'inline-block', float: 'right' }} >
+                        <h3 style={{color: '#1976d2'}}>Friends</h3>
+                    </div> 
             }
         </div>
     )

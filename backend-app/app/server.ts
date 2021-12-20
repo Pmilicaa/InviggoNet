@@ -6,19 +6,29 @@ import express, { Request, Response } from "express";
 import cors from "cors";
 import { sequelize } from "./sequelize";
 import { User } from './ts-models/User';
+import { Friendship } from './ts-models/Friendship';
 
 async function start() {
   try {
-    await sequelize.sync({ alter: true });
-    const user = {
-      email: 'dusanstoajn@gmail.com',
-      username: 'dusanstoajn',
-      firstName: 'Dusan',
-      lastName: 'Stojancevic',
-      password: '1234'
+    await sequelize.sync({ force: true });
+    await Friendship.destroy({
+      where: {}
+    });
+    await User.destroy({
+      where: {}
+    })
+    for (let i = 0; i < 10; i++) {
 
-    };
-    await User.create(user);
+      const user = {
+        email: i + 'dusanstoajn@gmail.com',
+        username: 'dusanstoajn' + i,
+        firstName: 'Dusan' + i,
+        lastName: 'Stojancevic' + i,
+        password: '1234' + i
+
+      };
+      await User.create(user);
+    }
     // await run();
   } catch (error) {
     console.log(error);
@@ -30,19 +40,19 @@ const app = express();
 var corsOptions = {
   origin: "http://localhost:3000",
 };
-app.use(cors(corsOptions));
+app.use(cors());
 
 app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
 
-
 app.get("/", (req: Request, res: Response) => {
   res.json({ message: "Welcome to inviggo application." });
 });
-sequelize.sync({ force: true });
+
 require("../app/routes/user.routes")(app);
 require("../app/routes/post.routes")(app);
+require("../app/routes/friendship.routes")(app);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
