@@ -8,6 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import Avatar from '@mui/material/Avatar';
 import TextField from '@mui/material/TextField';
 import SearchIcon from '@mui/icons-material/Search';
+import PublicIcon from '@mui/icons-material/Public';
 import { useHistory } from 'react-router-dom';
 
 export function Header() {
@@ -40,6 +41,12 @@ export function Header() {
       pathname: '/profile',
     });
   };
+
+  const handleRequests = () => {
+    history.push({
+      pathname: '/requests',
+    });
+  }
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" style={{ backgroundColor: 'red' }}>
@@ -52,7 +59,6 @@ export function Header() {
           >
             InviggoNet
           </Typography>
-
           <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
             <IconButton onClick={handleSearch}>
               <SearchIcon style={{ fill: 'white' }} />
@@ -72,6 +78,9 @@ export function Header() {
               onKeyPress={handleEnter}
             />
           </Box>
+          <IconButton onClick={handleRequests}>
+              <PublicIcon style={{ fill: 'white' }} />
+          </IconButton>
           <IconButton>
             <Avatar
               alt="Remy Sharp"

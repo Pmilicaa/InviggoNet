@@ -27,7 +27,7 @@ export function FriendRequestsPage() {
   return (
     <>
       <Helmet>
-        <title>User result</title>
+        <title>Friend requests</title>
         <meta name="description" content="Friend requests" />
       </Helmet>
       <div className="container">
