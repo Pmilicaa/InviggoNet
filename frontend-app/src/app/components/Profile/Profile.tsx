@@ -23,7 +23,7 @@ export function Profile() {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    const username = 'pmilica';
+    const username = 'dusanstoajn0';
     const userPost = userPosts(username);
     userPost.then(post => setPosts(post));
   }, []);
@@ -33,13 +33,13 @@ export function Profile() {
   };
 
   useEffect(() => {
-    const username = 'pmilica';
+    const username = 'dusanstoajn0';
 
     const newUser = ulogovani(username);
     newUser.then(user => setUser(user));
   }, []);
   const getAllPosts = async () => {
-    const username = 'pmilica';
+    const username = 'dusanstoajn0';
 
     const get = await getPosts(username);
     return get;
