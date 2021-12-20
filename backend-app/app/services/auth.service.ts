@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 
 const jwt = require("jsonwebtoken");
-const userService = require("../controllers/user.service");
 
 const verifyToken = (req: any, res: Response, next: any) => {
   const token =
@@ -18,3 +17,4 @@ const verifyToken = (req: any, res: Response, next: any) => {
   }
   return next();
 };
+export default verifyToken;
