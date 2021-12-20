@@ -19,3 +19,28 @@ div .cart {
     color: 'white';
     
 }
+
+
+.grid-container {
+    display: grid;
+    grid-template-areas: ". . . . . . . ." ". . . . . . . ." ". . . . . . . ." ;
+    justify-items: center;
+    padding: 40px;
+}
+
+
+.label {
+    grid-column-start: 4;
+    padding-top: 10px;
+}
+  
+.input-text {
+    grid-column-start: 5;
+    padding-top: 10px;
+}
+
+.login-btn {
+    grid-column-start: 4;
+    grid-column-end: 6;
+    padding-top: 20px;
+}

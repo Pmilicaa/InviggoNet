@@ -17,7 +17,7 @@ export function Header() {
   const history = useHistory();
 
   const handleSearch = () => {
-    if(!search)
+    if (!search)
       return;
     setSearch('');
     history.push({
@@ -31,28 +31,21 @@ export function Header() {
     }
   };
 
-  const handleHome = () => {
-    history.push({
-      pathname: '/',
-    });
-  };
-  const handleProfile = () => {
-    history.push({
-      pathname: '/profile',
-    });
-  };
-
-  const handleRequests = () => {
-    history.push({
-      pathname: '/requests',
-    });
+  const handleNavigate = (route: string) => {
+    return () => {
+      history.push({
+        pathname: route,
+      });
+    }
   }
+
+
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ height: '50px' ,flexGrow: 1 }}>
       <AppBar position="static" style={{ backgroundColor: 'red' }}>
-        <Toolbar>
+        <Toolbar sx={{ alignContent: 'center'}}>
           <Typography
-            onClick={handleHome}
+            onClick={handleNavigate("/")}
             variant="h6"
             component="div"
             sx={{ flexGrow: 1 }}
@@ -78,17 +71,17 @@ export function Header() {
               onKeyPress={handleEnter}
             />
           </Box>
-          <IconButton onClick={handleRequests}>
-              <PublicIcon style={{ fill: 'white' }} />
+          <IconButton onClick={handleNavigate("/requests")}>
+            <PublicIcon style={{ fill: 'white' }} />
           </IconButton>
           <IconButton>
             <Avatar
               alt="Remy Sharp"
               src="/static/images/avatar/2.jpg"
-              onClick={handleProfile}
+              onClick={handleNavigate("/profile")}
             />
           </IconButton>
-          <Button color="inherit">Login</Button>
+          <Button color="inherit" onClick={handleNavigate("/login")} >Login</Button>
         </Toolbar>
       </AppBar>
     </Box>
