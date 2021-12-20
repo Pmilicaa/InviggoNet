@@ -19,6 +19,7 @@ import { SearchUserPage } from './pages/SearchUserPage/Loadable';
 import { useTranslation } from 'react-i18next';
 import { Footer } from './components/Footer';
 import '../styles/styles.css';
+import { FriendRequestsPage } from './pages/FriendRequests';
 
 export function App() {
   const { i18n } = useTranslation();
@@ -32,7 +33,8 @@ export function App() {
       <Header />
       <Switch>
         <Route exact path="/" component={HomePage} />
-        <Route exact path="/search" component={SearchUserPage} />
+        <Route exact path="/search/:search" component={SearchUserPage} />
+        <Route exact path="/requests" component={FriendRequestsPage} />
         <Route component={NotFoundPage} />
       </Switch>
       <Footer />

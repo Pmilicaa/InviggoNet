@@ -2,25 +2,29 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
 import { User } from '../../components/User';
 import { selectSearchResult, selectSearchText } from './slice/selectors';
-import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useSearchPageSlice } from './slice';
+import { SearchParam } from './slice/types';
+import { sendFriendRequest } from 'app/services/UserService';
 
 export function SearchUserPage() {
   const searchResult = useSelector(selectSearchResult);
-  const searchText = useSelector(selectSearchText);
-
-  const location = useLocation();
 
   const dispatch = useDispatch();
 
   const { actions } = useSearchPageSlice();
 
-  useEffect(() => {
-    const searchText = location.search.substring(1);
-    dispatch(actions.search(searchText));
-  }, [searchText]);
+  const { search } = useParams<SearchParam>();
 
+  useEffect(() => {
+    dispatch(actions.search(search));
+  }, [search]);
+
+
+  const handleAdd = (senderId: number, reciverId: number) => {
+    dispatch(actions.addFriend([senderId, reciverId]));
+  }
   return (
     <>
       <Helmet>
@@ -35,7 +39,12 @@ export function SearchUserPage() {
               <h4>Nema rezultata</h4>
             ) : (
               searchResult.map(user => (
-                <User user={user} addFriend={() => {}} />
+                user.friends === null ?
+                <User user={user} addFriend={() => {
+                  handleAdd(1 ,user.id)
+                }} /> 
+                : 
+                <User user={user} addFriend={undefined} /> 
               ))
             )
           ) : (

@@ -17,10 +17,10 @@ exports.getMyInfo = async (req: any, res: any) => {
 };
 
 exports.search = async (req: Request, res: Response) => {
-  console.log(req.query);
   const search = req.query.search as string;
   try {
-    const users = await searchUsers(search);
+    // Kasnije iz jwt izvuci idUsera
+    const users = await searchUsers(search, 1);
     return res.json(users);
 
   } catch (error) {

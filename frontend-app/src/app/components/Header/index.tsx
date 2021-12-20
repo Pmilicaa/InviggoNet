@@ -16,11 +16,18 @@ export function Header() {
   const history = useHistory();
 
   const handleSearch = () => {
+    if(!search)
+      return;
     setSearch('');
     history.push({
-      pathname: '/search',
-      search: '?' + search,
+      pathname: '/search/' + search,
     });
+  };
+
+  const handleEnter = e => {
+    if (e.code === "Enter") {
+      handleSearch();
+    }
   };
 
   const handleHome = () => {
@@ -48,7 +55,6 @@ export function Header() {
             </IconButton>
             <TextField
               id="outlined-search"
-              label="Search friend"
               type="search"
               variant="filled"
               inputProps={{
@@ -59,6 +65,7 @@ export function Header() {
               onChange={e => {
                 setSearch(e.target.value);
               }}
+              onKeyPress={handleEnter}
             />
           </Box>
           <IconButton>

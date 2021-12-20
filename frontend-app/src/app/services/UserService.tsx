@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { ResponseError } from 'utils/request';
 export const registerUser = async (
   username: string,
   password: string,
@@ -22,3 +23,8 @@ export const registerUser = async (
       return response.data;
     });
 };
+
+export async function sendFriendRequest(userId: number, reciverId: number): Promise<{} | { err: ResponseError }> {
+  const res = await axios.post(`http://localhost:5000/api/friendship/${userId}/${reciverId}`);
+  return res.data;
+}

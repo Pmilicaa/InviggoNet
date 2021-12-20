@@ -14,12 +14,22 @@ const slice = createSlice({
   name: 'searchResultState',
   initialState,
   reducers: {
-    changeResult(state, action){
+    changeResult(state, action) {
       state.searchResult = action.payload;
     },
-    search(state, action){
+    search(state, action) {
       state.searchText = action.payload;
+    },
+    
+    addFriend(state, action) {
+    },
+
+    changeType(state, action) {
+      const reciverId = action.payload[1];
+      const index = state.searchResult.findIndex(res => res.id === reciverId);
+      state.searchResult[index].friends = false;
     }
+
   },
 });
 

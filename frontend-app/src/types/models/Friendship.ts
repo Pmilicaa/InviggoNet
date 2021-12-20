@@ -1,7 +1,9 @@
 import { User } from './User';
 
 export interface Friendship {
+  id: number;
   accepted: boolean;
-  users?: Array<User>;
   senderId?: Number;
+  sender?: User;
+  reciverId?: Number;
 }

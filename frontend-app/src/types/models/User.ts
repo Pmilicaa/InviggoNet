@@ -3,6 +3,7 @@ import { Like } from './Like';
 import { Post } from './Post';
 
 export interface User {
+  id: Number;
   email: String;
   username: String;
   password?: String;
@@ -13,5 +14,6 @@ export interface User {
   phoneNumber: String;
   posts?: Array<Post>;
   likes?: Array<Like>;
-  friendships?: Array<Friendship>;
+  sender?: Array<Friendship>;
+  reciver?: Array<Friendship>;
 }

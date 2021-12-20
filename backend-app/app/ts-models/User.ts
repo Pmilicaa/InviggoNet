@@ -9,7 +9,6 @@ import {
 import { Comment } from "./Comment";
 import { Friendship } from "./Friendship";
 import { Post } from "./Post";
-import { UserFriendship } from "./UserFriendship";
 
 @Table
 export class User extends Model {
@@ -51,7 +50,10 @@ export class User extends Model {
   @HasMany(() => Comment, { foreignKey: "userComment" })
   comments?: Comment[];
 
-  @BelongsToMany(() => Friendship, () => UserFriendship)
-  friendships?: Friendship[];
+  @HasMany(() => Friendship, 'senderId')
+  sender?: Friendship[];
+
+  @HasMany(() => Friendship, 'reciverId')
+  reciver?: Friendship[];
 
 }
