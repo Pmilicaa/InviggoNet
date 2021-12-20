@@ -24,9 +24,9 @@ export function Profile() {
 
   useEffect(() => {
     const username = 'pmilica';
-    const posts = userPosts(username);
-    posts.then(post => setPosts(post));
-  }, [posts]);
+    const userPost = userPosts(username);
+    userPost.then(post => setPosts(post));
+  }, []);
   const userPosts = async (username: string) => {
     const userPosts = await getPosts(username);
     return userPosts;
@@ -57,8 +57,6 @@ export function Profile() {
     let loggedInUser = await getMe(username);
     return loggedInUser;
   };
-
-  console.log(user.id);
 
   return (
     <div>
