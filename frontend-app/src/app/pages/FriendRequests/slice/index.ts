@@ -33,6 +33,11 @@ const slice = createSlice({
     deleteReq(state, action) {
       const index = state.requests.findIndex(req => req.id === action.payload);
       state.requests.splice(index, 1);
+    },
+
+    handleAccept(state, action) {
+      const index = state.requests.findIndex(req => req.id === action.payload);
+      state.requests[index].accepted = true;
     }
 
   },

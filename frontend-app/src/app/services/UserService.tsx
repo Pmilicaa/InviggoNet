@@ -29,11 +29,9 @@ export async function sendFriendRequest(userId: number, reciverId: number): Prom
   return res.data;
 }
 
-export const getMe = async (username: string) => {
+export const getMe = async () => {
   return await axios
-    .post('http://localhost:5000/api/users/me', {
-      username,
-    })
+    .post('http://localhost:5000/api/users/me')
     .then(response => {
       return response.data;
     });

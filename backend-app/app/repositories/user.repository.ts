@@ -39,7 +39,7 @@ const getOne = async (username: any) => {
   try {
     const user = await User.findOne({
       where: {
-        username: username.username,
+        username: username,
       },
     });
     return user;

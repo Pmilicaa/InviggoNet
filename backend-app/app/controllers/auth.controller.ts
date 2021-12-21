@@ -7,10 +7,12 @@ exports.login = async (req: any, res: Response) => {
 
   if (!(username && password)) {
     res.status(400).send("All input is required");
+    return;
   }
   const user = await infoForLogin(username);
   if (user == null || user == undefined) {
     res.status(401).send("Bad credentials");
+    return;
   }
   const token = jwt.sign(
     { user_id: user?.id, user_name: user?.username },
