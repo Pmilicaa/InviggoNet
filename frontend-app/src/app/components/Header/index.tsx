@@ -11,8 +11,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import PublicIcon from '@mui/icons-material/Public';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectUser } from "../../pages/LoginPage/slice/selectors";
-import { useCurrentUserSlice } from "../../pages/LoginPage/slice";
+import { selectUser } from '../../pages/LoginPage/slice/selectors';
+import { useCurrentUserSlice } from '../../pages/LoginPage/slice';
 
 export function Header() {
   const [search, setSearch] = useState('');
@@ -50,9 +50,9 @@ export function Header() {
   const handleLogout = () => {
     dispatch(actions.logout(undefined));
     history.push({
-      pathname: '/login'
-    })
-  }
+      pathname: '/login',
+    });
+  };
 
   return (
     <Box sx={{ height: '50px', flexGrow: 1 }}>
@@ -85,33 +85,32 @@ export function Header() {
               onKeyPress={handleEnter}
             />
           </Box>
-          {
-            user?.id === -1 ?
-              <>
-                <Button color="inherit" onClick={handleNavigate('/register')}>
-                  Register
-                </Button>
-                <Button color="inherit" onClick={handleNavigate('/login')}>
-                  Login
-                </Button>
-              </>
-              :
-              <>
-                <IconButton onClick={handleNavigate('/requests')}>
-                  <PublicIcon style={{ fill: 'white' }} />
-                </IconButton>
-                <IconButton>
-                  <Avatar
-                    alt="Remy Sharp"
-                    src="/static/images/avatar/2.jpg"
-                    onClick={handleNavigate('/profile')}
-                  />
-                </IconButton>
-                <Button color="inherit" onClick={handleLogout}>
-                  Logout
-                </Button>
-              </>
-          }
+          {user?.id === -1 ? (
+            <>
+              <Button color="inherit" onClick={handleNavigate('/register')}>
+                Register
+              </Button>
+              <Button color="inherit" onClick={handleNavigate('/login')}>
+                Login
+              </Button>
+            </>
+          ) : (
+            <>
+              <IconButton onClick={handleNavigate('/requests')}>
+                <PublicIcon style={{ fill: 'white' }} />
+              </IconButton>
+              <IconButton>
+                <Avatar
+                  alt="Remy Sharp"
+                  src="/static/images/avatar/2.jpg"
+                  onClick={handleNavigate('/profile')}
+                />
+              </IconButton>
+              <Button color="inherit" onClick={handleLogout}>
+                Logout
+              </Button>
+            </>
+          )}
         </Toolbar>
       </AppBar>
     </Box>

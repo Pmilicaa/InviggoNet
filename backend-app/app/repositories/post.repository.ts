@@ -5,13 +5,14 @@ const createPost = async (body: any) => {
   try {
     const user = await getOne(body);
     const id = user?.id;
-
+    console.log(user?.username + "user je dosao sa tim i tim imenom");
     const post = {
       content: String(body.content),
       createdAt: new Date(),
       user: user,
       userId: id,
     };
+    console.log(body.content + "content je");
     Post.create(post);
     //user?.posts?.push(post);
     return post;
