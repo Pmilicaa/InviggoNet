@@ -1,5 +1,8 @@
 import { Button } from '@material-ui/core';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { useCurrentUserSlice } from './slice';
 
 export const LoginPage = () => {
   const [username, setUsername] = useState('');
@@ -18,6 +21,21 @@ export const LoginPage = () => {
   //         setUsername('');
   //     }
   // }
+
+  const history = useHistory();
+
+  const { actions } = useCurrentUserSlice();
+
+  const dispatch = useDispatch();
+
+  const handleLogin = () => {
+    dispatch(actions.login({ username, password }));
+    setUsername('');
+    setPassword('');
+    history.push({
+      pathname: '/',
+    });
+  };
 
   return (
     <>
@@ -49,7 +67,9 @@ export const LoginPage = () => {
           />
         </div>
         <div className="login-btn">
-          <Button color="primary">Log in</Button>
+          <Button onClick={handleLogin} color="primary">
+            Log in
+          </Button>
         </div>
       </div>
     </>

@@ -9,9 +9,9 @@ export interface User {
   password?: String;
   firstName: String;
   lastName: String;
-  gender: String;
-  age: Number;
-  phoneNumber: String;
+  gender?: String;
+  age?: Number;
+  phoneNumber?: String;
   posts?: Array<Post>;
   likes?: Array<Like>;
   sender?: Array<Friendship>;

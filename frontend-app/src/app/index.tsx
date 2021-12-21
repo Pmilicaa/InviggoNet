@@ -16,23 +16,31 @@ import { HomePage } from './pages/HomePage/Loadable';
 import { NotFoundPage } from './components/NotFoundPage/Loadable';
 import { Header } from './components/Header';
 import { SearchUserPage } from './pages/SearchUserPage/Loadable';
-import { useTranslation } from 'react-i18next';
 import { Footer } from './components/Footer';
 import '../styles/styles.css';
 import { FriendRequestsPage } from './pages/FriendRequests';
 import { RegisterPage } from './pages/RegisterPage/Loadable';
 import { ProfilePage } from './pages/ProfilePage';
 import { LoginPage } from './pages/LoginPage';
+import { useDispatch } from 'react-redux';
+import { useCurrentUserSlice } from './pages/LoginPage/slice';
+
 
 export function App() {
-  const { i18n } = useTranslation();
+
+  const dispatch = useDispatch();
+
+  const { actions } = useCurrentUserSlice();
+
+  React.useEffect(() => {
+    dispatch(actions.getUser(undefined));
+  }, [])
 
   return (
     <BrowserRouter>
       <Helmet
         titleTemplate="%s - InviggoNet"
         defaultTitle="InviggoNet"
-        htmlAttributes={{ lang: i18n.language }}
       ></Helmet>
       <Header />
       <Switch>

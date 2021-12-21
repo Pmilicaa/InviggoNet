@@ -20,7 +20,7 @@ async function start() {
     for (let i = 0; i < 10; i++) {
       const user = {
         email: i + "dusanstoajn@gmail.com",
-        username: "dusanstoajn" + i,
+        username: "user" + i,
         firstName: "Dusan" + i,
         lastName: "Stojancevic" + i,
         password: "1234" + i,

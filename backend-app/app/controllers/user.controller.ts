@@ -17,9 +17,13 @@ exports.registerUser = async (req: any, res: any) => {
   res.send(JSON.stringify(user));
 };
 exports.getMyInfo = async (req: any, res: any) => {
-  const user = await getMe(req.body);
-  console.log(JSON.stringify(user) + "user za koji su potrebne inf");
-  res.send(JSON.stringify(user));
+  if(!req.user){
+    res.sendStatus(401);
+  } else{
+    const user = await getMe(req.user.user_name);
+    console.log(JSON.stringify(user) + "user za koji su potrebne inf");
+    res.send(JSON.stringify(user));
+  }
 };
 
 exports.search = async (req: Request, res: Response) => {
