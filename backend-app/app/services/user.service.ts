@@ -16,12 +16,10 @@ const register = async (params: any) => {
   const joka = await createUser(params);
   console.log(joka.username + "user u servicu kao");
 };
-const getMe = async (params: any) => {
+const getMe = async (username: string) => {
   try {
-    console.log(params + "parametri su ti i ti");
-    const user = await getOne(params);
+    const user = await getOne(username);
     return user;
-    console.log(JSON.stringify(user) + "user lik");
   } catch (err: any) {
     throw new Error();
   }

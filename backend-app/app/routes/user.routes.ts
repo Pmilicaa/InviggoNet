@@ -4,7 +4,7 @@ module.exports = (app: any) => {
   const auth = require("../controllers/auth.controller");
   var router = require("express").Router();
   router.get("/", verifyToken, users.findAll);
-  router.post("/me", users.getMyInfo);
+  router.post("/me", verifyToken, users.getMyInfo);
   router.post("/", users.registerUser);
   router.get("/search", users.search);
   router.post("/login", auth.login);

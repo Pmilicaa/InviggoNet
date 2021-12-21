@@ -15,7 +15,7 @@ export function* acceptFriendRequest(action) {
   const friendshipId = action.payload;
   
   const requests: Friendship[] = yield call(AFR, friendshipId);
-  yield put(friendRequestAction.deleteReq(friendshipId));
+  yield put(friendRequestAction.handleAccept(friendshipId));
 
 }
 

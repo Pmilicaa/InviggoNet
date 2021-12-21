@@ -54,7 +54,7 @@ export function Profile() {
     maxHeight: '100%',
   });
   const ulogovani = async (username: string) => {
-    let loggedInUser = await getMe(username);
+    let loggedInUser = await getMe();
     return loggedInUser;
   };
 

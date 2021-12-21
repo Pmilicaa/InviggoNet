@@ -5,6 +5,7 @@ export const acceptFriendRequest = async (req: Request, res: Response) => {
     try {
         const param = parseInt(req.params.id);
         await acceptRequest(param);
+        res.json(true);
     } catch (error) {
         console.log(error);
         res.sendStatus(400);
@@ -17,7 +18,7 @@ export const addRequest = async (req: Request, res: Response) => {
         const senderId = parseInt(req.params.senderId);
         const reciverId = parseInt(req.params.reciverId);
         await addFriendRequest(senderId, reciverId);
-    
+        res.json(true);
     } catch (error) {
         console.log(error);
         res.sendStatus(400);
@@ -39,6 +40,7 @@ export const deleteFriendRequest = async (req: Request, res: Response) => {
     try {
         const param = parseInt(req.params.id);
         await deleteRequest(param);
+        res.json(true);
     } catch (error) {
         console.log(error);
         res.sendStatus(400);

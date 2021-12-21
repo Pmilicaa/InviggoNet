@@ -10,9 +10,18 @@ import TextField from '@mui/material/TextField';
 import SearchIcon from '@mui/icons-material/Search';
 import PublicIcon from '@mui/icons-material/Public';
 import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectUser } from "../../pages/LoginPage/slice/selectors";
+import { useCurrentUserSlice } from "../../pages/LoginPage/slice";
 
 export function Header() {
   const [search, setSearch] = useState('');
+
+  const { actions } = useCurrentUserSlice();
+
+  const dispatch = useDispatch();
+
+  const user = useSelector(selectUser);
 
   const history = useHistory();
 
@@ -37,6 +46,13 @@ export function Header() {
       });
     };
   };
+
+  const handleLogout = () => {
+    dispatch(actions.logout(undefined));
+    history.push({
+      pathname: '/login'
+    })
+  }
 
   return (
     <Box sx={{ height: '50px', flexGrow: 1 }}>
@@ -69,22 +85,33 @@ export function Header() {
               onKeyPress={handleEnter}
             />
           </Box>
-          <IconButton onClick={handleNavigate('/requests')}>
-            <PublicIcon style={{ fill: 'white' }} />
-          </IconButton>
-          <IconButton>
-            <Avatar
-              alt="Remy Sharp"
-              src="/static/images/avatar/2.jpg"
-              onClick={handleNavigate('/profile')}
-            />
-          </IconButton>
-          <Button color="inherit" onClick={handleNavigate('/register')}>
-            Register
-          </Button>
-          <Button color="inherit" onClick={handleNavigate('/login')}>
-            Login
-          </Button>
+          {
+            user?.id === -1 ?
+              <>
+                <Button color="inherit" onClick={handleNavigate('/register')}>
+                  Register
+                </Button>
+                <Button color="inherit" onClick={handleNavigate('/login')}>
+                  Login
+                </Button>
+              </>
+              :
+              <>
+                <IconButton onClick={handleNavigate('/requests')}>
+                  <PublicIcon style={{ fill: 'white' }} />
+                </IconButton>
+                <IconButton>
+                  <Avatar
+                    alt="Remy Sharp"
+                    src="/static/images/avatar/2.jpg"
+                    onClick={handleNavigate('/profile')}
+                  />
+                </IconButton>
+                <Button color="inherit" onClick={handleLogout}>
+                  Logout
+                </Button>
+              </>
+          }
         </Toolbar>
       </AppBar>
     </Box>

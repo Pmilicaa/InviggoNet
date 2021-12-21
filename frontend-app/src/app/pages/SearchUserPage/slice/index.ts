@@ -25,7 +25,7 @@ const slice = createSlice({
     },
 
     changeType(state, action) {
-      const reciverId = action.payload[1];
+      const reciverId = action.payload;
       const index = state.searchResult.findIndex(res => res.id === reciverId);
       state.searchResult[index].friends = false;
     }
