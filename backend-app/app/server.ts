@@ -1,31 +1,29 @@
 // const mongodb = require("./config/db.mongodb");
 // const express = require("express");
 // const cors = require("cors");
-import { run } from './models/Message'
+import { run } from "./models/Message";
 import express, { Request, Response } from "express";
 import cors from "cors";
 import { sequelize } from "./sequelize";
-import { User } from './ts-models/User';
-import { Friendship } from './ts-models/Friendship';
+import { User } from "./ts-models/User";
+import { Friendship } from "./ts-models/Friendship";
 
 async function start() {
   try {
     await sequelize.sync({ force: true });
     await Friendship.destroy({
-      where: {}
+      where: {},
     });
     await User.destroy({
-      where: {}
-    })
+      where: {},
+    });
     for (let i = 0; i < 10; i++) {
-
       const user = {
-        email: i + 'dusanstoajn@gmail.com',
-        username: 'dusanstoajn' + i,
-        firstName: 'Dusan' + i,
-        lastName: 'Stojancevic' + i,
-        password: '1234' + i
-
+        email: i + "dusanstoajn@gmail.com",
+        username: "dusanstoajn" + i,
+        firstName: "Dusan" + i,
+        lastName: "Stojancevic" + i,
+        password: "1234" + i,
       };
       await User.create(user);
     }
@@ -53,6 +51,7 @@ app.get("/", (req: Request, res: Response) => {
 require("../app/routes/user.routes")(app);
 require("../app/routes/post.routes")(app);
 require("../app/routes/friendship.routes")(app);
+require("../app/routes/comment.routes")(app);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

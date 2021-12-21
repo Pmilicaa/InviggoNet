@@ -13,8 +13,8 @@ const getUsers = async () => {
   return users;
 };
 const register = async (params: any) => {
-  const joka = await createUser(params);
-  console.log(joka.username + "user u servicu kao");
+  const createdUser = await createUser(params);
+  console.log(createdUser.username + "user u servicu kao");
 };
 const getMe = async (params: any) => {
   try {

@@ -18,3 +18,12 @@ export const getPosts = async (username: string) => {
       return response.data;
     });
 };
+export const getFriendsPosts = async (userId: number) => {
+  return await axios
+    .post('http://localhost:5000/api/posts/friendsPosts', {
+      userId,
+    })
+    .then(response => {
+      return response.data;
+    });
+};

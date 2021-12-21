@@ -26,10 +26,14 @@ export class Comment extends Model {
   @Column
   postId?: number;
 
-  @BelongsTo(() => Post, { foreignKey: "postComment" })
+  @ForeignKey(() => User)
+  @Column
+  userId?: number;
+
+  @BelongsTo(() => Post, "postId")
   post?: Post;
   //{ foreignKey: "userComment" }
 
-  @BelongsTo(() => User, { foreignKey: "userComment" })
+  @BelongsTo(() => User, "userId")
   user?: User;
 }

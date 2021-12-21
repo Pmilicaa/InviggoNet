@@ -47,13 +47,12 @@ export class User extends Model {
   @HasMany(() => Post)
   posts?: Post[];
 
-  @HasMany(() => Comment, { foreignKey: "userComment" })
+  @HasMany(() => Comment, "userId")
   comments?: Comment[];
 
-  @HasMany(() => Friendship, 'senderId')
+  @HasMany(() => Friendship, "senderId")
   sender?: Friendship[];
 
-  @HasMany(() => Friendship, 'reciverId')
+  @HasMany(() => Friendship, "reciverId")
   reciver?: Friendship[];
-
 }

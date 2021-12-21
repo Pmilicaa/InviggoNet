@@ -28,6 +28,6 @@ export class Post extends Model {
   @BelongsTo(() => User)
   user?: User;
 
-  @HasMany(() => Comment)
+  @HasMany(() => Comment, "postId")
   comments?: Comment[];
 }
