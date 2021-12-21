@@ -5,6 +5,7 @@ import {
   getOne,
   searchUser,
   getInfo,
+  getOneById,
 } from "../repositories/user.repository";
 import { checkFriends } from "../repositories/friendship.repository";
 
@@ -33,7 +34,14 @@ const infoForLogin = async (params: any) => {
     throw new Error();
   }
 };
-
+const getFriendInfo = async (userId: number) => {
+  try {
+    const user = await getOneById(userId);
+    return user;
+  } catch (err: any) {
+    throw new Error();
+  }
+};
 const searchUsers = async (
   query: string,
   userId: number
@@ -48,4 +56,4 @@ const searchUsers = async (
   return usersDTO;
 };
 
-export { register, getUsers, getMe, searchUsers, infoForLogin };
+export { register, getUsers, getMe, searchUsers, infoForLogin, getFriendInfo };
