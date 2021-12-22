@@ -13,5 +13,6 @@ module.exports = (app: any) => {
   router.post("/current", verifyToken, users.getCurrentUser);
   router.get("/search", searchMiddleware, users.search);
   router.post("/login", auth.login);
+  router.post("/getInfo", users.getFriend);
   app.use("/api/users", router);
 };

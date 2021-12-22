@@ -6,6 +6,7 @@ import {
   searchUsers,
   infoForLogin,
   searchUsersNotLogedIn
+  getFriendInfo,
 } from "../services/user.service";
 
 exports.findAll = async (req: any, res: any) => {
@@ -19,11 +20,20 @@ exports.registerUser = async (req: any, res: any) => {
   res.send(JSON.stringify(user));
 };
 exports.getMyInfo = async (req: any, res: any) => {
-  if(!req.user){
+  if (!req.user) {
     res.sendStatus(401);
-  } else{
+  } else {
     const user = await getMe(req.user.user_name);
     console.log(JSON.stringify(user) + "user za koji su potrebne inf");
+    res.send(JSON.stringify(user));
+  }
+};
+exports.getFriend = async (req: any, res: any) => {
+  if (!req.body) {
+    res.sendStatus(401);
+  } else {
+    const user = await getFriendInfo(req.body.userId);
+    console.log(JSON.stringify(user) + "info prijatelj");
     res.send(JSON.stringify(user));
   }
 };

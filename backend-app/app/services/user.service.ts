@@ -5,6 +5,7 @@ import {
   getOne,
   searchUser,
   getInfo,
+  getOneById,
 } from "../repositories/user.repository";
 import { checkFriends } from "../repositories/friendship.repository";
 import { User } from "../ts-models/User";
@@ -33,7 +34,14 @@ const infoForLogin = async (params: string) => {
     throw new Error();
   }
 };
-
+const getFriendInfo = async (userId: number) => {
+  try {
+    const user = await getOneById(userId);
+    return user;
+  } catch (err: any) {
+    throw new Error();
+  }
+};
 const searchUsers = async (
   query: string,
   userId: number
@@ -48,7 +56,6 @@ const searchUsers = async (
   return usersDTO;
 };
 
-
 const searchUsersNotLogedIn = async (
   query: string,
 ): Promise<User[]> => {
@@ -56,5 +63,4 @@ const searchUsersNotLogedIn = async (
   return users;
 };
 
-
-export { register, getUsers, getMe, searchUsers, infoForLogin, searchUsersNotLogedIn };
+export { register, getUsers, getMe, searchUsers, infoForLogin, getFriendInfo, searchUsersNotLogedIn };
