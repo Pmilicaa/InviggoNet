@@ -24,6 +24,12 @@ export const LoginPage = () => {
     });
   };
 
+  const handleEnter = e => {
+    if (e.code === 'Enter') {
+      handleLogin();
+    }
+  };
+
   return (
     <>
       <h1 style={{ textAlign: 'center' }}>Log in</h1>
@@ -69,6 +75,7 @@ export const LoginPage = () => {
               onChange={e => {
                 setPassword(e.target.value);
               }}
+              onKeyPress={handleEnter}
             />
             <Button
               onClick={handleLogin}

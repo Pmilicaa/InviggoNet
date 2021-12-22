@@ -5,7 +5,7 @@ import {
   getMe,
   searchUsers,
   infoForLogin,
-  searchUsersNotLogedIn
+  searchUsersNotLogedIn,
   getFriendInfo,
 } from "../services/user.service";
 

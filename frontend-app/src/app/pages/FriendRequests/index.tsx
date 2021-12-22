@@ -40,7 +40,7 @@ export function FriendRequestsPage() {
             <h4>Nema rezultata</h4>
           ) : (
             requests.map(req =>
-              !req.accepted && req.senderId !== currentUser?.id? (
+              !req.accepted && req.senderId !== currentUser?.id ? (
                 <UserRequest
                   user={req.sender}
                   acceptRequest={() => {
@@ -52,7 +52,13 @@ export function FriendRequestsPage() {
                 />
               ) : req.senderId !== currentUser?.id ? (
                 <User user={req.sender} addFriend={undefined} loggedIn={true} />
-              ) : <User user={ { ...req.reciver, friends: req.accepted}} addFriend={undefined} loggedIn={true} />
+              ) : (
+                <User
+                  user={{ ...req.reciver, friends: req.accepted }}
+                  addFriend={undefined}
+                  loggedIn={true}
+                />
+              ),
             )
           )}
         </div>
