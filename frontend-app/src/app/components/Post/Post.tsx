@@ -10,7 +10,9 @@ import InboxIcon from '@mui/icons-material/Inbox';
 import DraftsIcon from '@mui/icons-material/Drafts';
 import { getUserInfo } from 'app/services/UserService';
 import { Divider, Avatar, Grid, Paper } from '@material-ui/core';
-
+import Comment from '../Comment/Comment';
+import Comments from '../Comments/Comments';
+import AddComment from '../AddComment/AddComment';
 export default function Post(props) {
   const [firstName, setFirstName] = React.useState('');
   const [lastName, setLastName] = React.useState('');
@@ -19,6 +21,7 @@ export default function Post(props) {
     const newFriends = await getUserInfo(userId);
     setFirstName(newFriends.firstName);
     setLastName(newFriends.lastName);
+    console.log(props.post.id + 'post id je taj i taj');
   };
   React.useEffect(() => {
     userFriends(props.post.userId);
@@ -51,6 +54,9 @@ export default function Post(props) {
           </Paper>
         </Box>
       </nav>
+      <AddComment postId={props.post.id} />
+
+      <Comments postId={props.post.id} />
     </div>
   );
 }
