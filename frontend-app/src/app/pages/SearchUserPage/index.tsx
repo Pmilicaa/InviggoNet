@@ -1,15 +1,17 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
 import { User } from '../../components/User';
-import { selectSearchResult, selectSearchText } from './slice/selectors';
+import { selectSearchResult } from './slice/selectors';
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useSearchPageSlice } from './slice';
 import { SearchParam } from './slice/types';
-import { sendFriendRequest } from 'app/services/UserService';
+import { selectUser } from '../LoginPage/slice/selectors';
 
 export function SearchUserPage() {
   const searchResult = useSelector(selectSearchResult);
+
+  const currentUser = useSelector(selectUser);
 
   const dispatch = useDispatch();
 
@@ -21,10 +23,9 @@ export function SearchUserPage() {
     dispatch(actions.search(search));
   }, [search]);
 
-
   const handleAdd = (senderId: number, reciverId: number) => {
     dispatch(actions.addFriend([senderId, reciverId]));
-  }
+  };
   return (
     <>
       <Helmet>
@@ -37,14 +38,23 @@ export function SearchUserPage() {
           {searchResult ? (
             searchResult.length === 0 ? (
               <h4>Nema rezultata</h4>
+            ) : currentUser?.id !== -1 ? (
+              searchResult.map(user =>
+                user.friends === null ? (
+                  <User
+                    user={user}
+                    addFriend={() => {
+                      if (currentUser) handleAdd(currentUser.id, user.id);
+                    }}
+                    loggedIn={true}
+                  />
+                ) : (
+                  <User user={user} addFriend={undefined} loggedIn={true} />
+                ),
+              )
             ) : (
               searchResult.map(user => (
-                user.friends === null ?
-                <User user={user} addFriend={() => {
-                  handleAdd(1 ,user.id)
-                }} /> 
-                : 
-                <User user={user} addFriend={undefined} /> 
+                <User user={user} addFriend={undefined} loggedIn={false} />
               ))
             )
           ) : (

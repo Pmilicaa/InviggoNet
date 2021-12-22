@@ -1,8 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { useInjectReducer, useInjectSaga } from "utils/redux-injectors";
-import { currentUserSaga } from "./saga";
-import { CurrentUserState } from "./types";
-
+import { createSlice } from '@reduxjs/toolkit';
+import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
+import { currentUserSaga } from './saga';
+import { CurrentUserState } from './types';
 
 export const initialState: CurrentUserState = {
   user: {
@@ -11,21 +10,18 @@ export const initialState: CurrentUserState = {
     username: '',
     firstName: '',
     lastName: '',
-  }
+  },
 };
 
 const slice = createSlice({
   name: 'currentUserState',
   initialState,
   reducers: {
-
     changeUser(state, action) {
       state.user = action.payload;
     },
 
-    getUser(state, action) {
-
-    },
+    getUser(state) {},
 
     logout(state, action) {
       state.user = {
@@ -34,11 +30,10 @@ const slice = createSlice({
         username: '',
         firstName: '',
         lastName: '',
-      }
+      };
     },
 
-    login(state, action) {
-    }
+    login(state, action) {},
   },
 });
 

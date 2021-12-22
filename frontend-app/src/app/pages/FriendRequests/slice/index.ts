@@ -1,34 +1,26 @@
-
 import { createSlice } from 'utils/@reduxjs/toolkit';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
 import { FriendRequestState } from './types';
-import { friendRequstsSaga } from './saga'
+import { friendRequstsSaga } from './saga';
 
 // The initial state of the Homepage
 export const initialState: FriendRequestState = {
-  requests: []
+  requests: [],
 };
 
 const slice = createSlice({
   name: 'requestsState',
   initialState,
   reducers: {
-
     changeRequests(state, action) {
       state.requests = action.payload;
     },
 
-    getRequests(state, action) {
+    getRequests(state, action) {},
 
-    },
+    acceptRequest(state, action) {},
 
-    acceptRequest(state, action) {
-      
-    },
-
-    declineRequest(state, action) {
-
-    },
+    declineRequest(state, action) {},
 
     deleteReq(state, action) {
       const index = state.requests.findIndex(req => req.id === action.payload);
@@ -38,8 +30,7 @@ const slice = createSlice({
     handleAccept(state, action) {
       const index = state.requests.findIndex(req => req.id === action.payload);
       state.requests[index].accepted = true;
-    }
-
+    },
   },
 });
 

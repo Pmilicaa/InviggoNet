@@ -1,4 +1,5 @@
-import { Button } from '@material-ui/core';
+import Button from '@mui/material/Button';
+import { TextField } from '@mui/material';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -7,20 +8,6 @@ import { useCurrentUserSlice } from './slice';
 export const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-
-  // const handleLogin = async () => {
-  //     try {
-  //         await login(username, password);
-  //         const user = await getUserData();
-  //         setUser(user);
-  //         navigate('/');
-  //     }
-  //     catch (err) {
-  //         alert('Wrong username or password')
-  //         setPassword('');
-  //         setUsername('');
-  //     }
-  // }
 
   const history = useHistory();
 
@@ -37,39 +24,72 @@ export const LoginPage = () => {
     });
   };
 
+  const handleEnter = e => {
+    if (e.code === 'Enter') {
+      handleLogin();
+    }
+  };
+
   return (
     <>
       <h1 style={{ textAlign: 'center' }}>Log in</h1>
-      <div className="cart grid-container" style={{ fontSize: '20px' }}>
-        <div className="label">
-          <label>Username:</label>
-        </div>
-        <div className="input-text">
-          <input
-            type="text"
-            value={username}
-            onChange={e => setUsername(e.target.value)}
-            id="username"
-            name="username"
-          />
-          <br />
-        </div>
-        <div className="label">
-          <label>Password:</label>
-        </div>
-        <div className="input-text">
-          <input
-            type="password"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            id="password"
-            name="password"
-          />
-        </div>
-        <div className="login-btn">
-          <Button onClick={handleLogin} color="primary">
-            Log in
-          </Button>
+      <div style={{ fontSize: '20px' }}>
+        <div className="cart">
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-around',
+              gap: '10px',
+            }}
+          >
+            <TextField
+              variant="filled"
+              inputProps={{
+                style: { backgroundColor: 'white' },
+              }}
+              label="Username"
+              size="small"
+              sx={{
+                width: '70%',
+                margin: 'auto',
+              }}
+              value={username}
+              onChange={e => {
+                setUsername(e.target.value);
+              }}
+            />
+            <TextField
+              variant="filled"
+              inputProps={{
+                style: { backgroundColor: 'white' },
+              }}
+              sx={{
+                width: '70%',
+                margin: 'auto',
+              }}
+              label="Password"
+              size="small"
+              type="password"
+              value={password}
+              onChange={e => {
+                setPassword(e.target.value);
+              }}
+              onKeyPress={handleEnter}
+            />
+            <Button
+              onClick={handleLogin}
+              variant="contained"
+              style={{
+                background: 'red',
+                color: 'white',
+                width: '100px',
+                margin: 'auto',
+              }}
+            >
+              Log in
+            </Button>
+          </div>
         </div>
       </div>
     </>

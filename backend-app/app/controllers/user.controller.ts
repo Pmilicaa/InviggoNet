@@ -4,6 +4,8 @@ import {
   getUsers,
   getMe,
   searchUsers,
+  infoForLogin,
+  searchUsersNotLogedIn,
   getFriendInfo,
 } from "../services/user.service";
 
@@ -32,16 +34,28 @@ exports.getFriend = async (req: any, res: any) => {
   } else {
     const user = await getFriendInfo(req.body.userId);
     console.log(JSON.stringify(user) + "info prijatelj");
-
     res.send(JSON.stringify(user));
   }
 };
-exports.search = async (req: Request, res: Response) => {
+
+exports.getCurrentUser = async (req: any, res: any) => {
+  if(!req.user){
+    res.sendStatus(401);
+  } else{
+    const user = await infoForLogin(req.user.user_name);
+    res.send(JSON.stringify(user));
+  }
+};
+
+exports.search = async (req: any, res: Response) => {
   const search = req.query.search as string;
   try {
-    // Kasnije iz jwt izvuci idUsera
-    const users = await searchUsers(search, 1);
-    return res.json(users);
+    let users;
+    if(req.user)
+      users = await searchUsers(search, req.user.user_id);
+    else 
+      users = await searchUsersNotLogedIn(search);
+      return res.json(users);
   } catch (error) {
     return res.sendStatus(400);
   }

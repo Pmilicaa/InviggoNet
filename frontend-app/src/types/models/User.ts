@@ -3,7 +3,7 @@ import { Like } from './Like';
 import { Post } from './Post';
 
 export interface User {
-  id: Number;
+  id: number;
   email: String;
   username: String;
   password?: String;

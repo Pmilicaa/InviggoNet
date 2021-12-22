@@ -2,8 +2,39 @@ import { User } from "../ts-models/User";
 import { getPost } from "../repositories/post.repository";
 import { Op, fn, col, where } from "sequelize";
 
-const searchUser = async (query: string): Promise<User[]> => {
-  let users = await User.findAll({
+const searchUser = async (query: string, userId: number | undefined): Promise<User[]> => {
+  let users;
+  if(userId){
+    users = await User.findAll({
+      raw: true,
+      where: {
+        id: {
+          [Op.not]: userId
+        },
+        [Op.or]: [
+          where(fn("concat", col("firstName"), " ", col("lastName")), {
+            [Op.substring]: query,
+          }),
+          {
+            username: {
+              [Op.substring]: query,
+            },
+          },
+          {
+            firstName: {
+              [Op.substring]: query,
+            },
+          },
+          {
+            lastName: {
+              [Op.substring]: query,
+            },
+          },
+        ],
+      },
+    });
+  }else{
+    users = await User.findAll({
     raw: true,
     where: {
       [Op.or]: [
@@ -28,6 +59,8 @@ const searchUser = async (query: string): Promise<User[]> => {
       ],
     },
   });
+  }
+  
   return users;
 };
 
@@ -47,7 +80,7 @@ const getOne = async (username: any) => {
     throw new Error(err);
   }
 };
-const getInfo = async (username: any) => {
+const getInfo = async (username: string) => {
   try {
     const user = await User.findOne({
       where: {

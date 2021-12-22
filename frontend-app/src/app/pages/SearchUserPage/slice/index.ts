@@ -1,13 +1,12 @@
-
 import { createSlice } from 'utils/@reduxjs/toolkit';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
 import { SearchPageState } from './types';
-import { searchSaga } from './saga'
+import { searchSaga } from './saga';
 
 // The initial state of the Homepage
 export const initialState: SearchPageState = {
   searchResult: [],
-  searchText: ''
+  searchText: '',
 };
 
 const slice = createSlice({
@@ -20,16 +19,14 @@ const slice = createSlice({
     search(state, action) {
       state.searchText = action.payload;
     },
-    
-    addFriend(state, action) {
-    },
+
+    addFriend(state, action) {},
 
     changeType(state, action) {
       const reciverId = action.payload;
       const index = state.searchResult.findIndex(res => res.id === reciverId);
       state.searchResult[index].friends = false;
-    }
-
+    },
   },
 });
 
