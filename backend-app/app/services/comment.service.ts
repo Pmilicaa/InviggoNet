@@ -19,4 +19,13 @@ const getAllComments = async (params: any) => {
     throw new Error();
   }
 };
-export { addComment, getAllComments };
+const getPostComments = async (params: any) => {
+  try {
+    const comments = await getComments(params);
+    console.log(comments + "komentari od to g posta su heheh i da vidimi");
+    return comments;
+  } catch (err: any) {
+    throw new Error();
+  }
+};
+export { addComment, getAllComments, getPostComments };

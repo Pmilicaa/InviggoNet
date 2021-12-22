@@ -1,4 +1,8 @@
-import { addComment, getAllComments } from "../services/comment.service";
+import {
+  addComment,
+  getAllComments,
+  getPostComments,
+} from "../services/comment.service";
 
 exports.getAllComments = async (req: any, res: any) => {
   const allComments = await getAllComments(req.body);
@@ -7,8 +11,10 @@ exports.getAllComments = async (req: any, res: any) => {
 };
 exports.newComment = async (req: any, res: any) => {
   const newComment = await addComment(req.body);
-
-  console.log(req.body.userId + "da vidimo sta je doslo");
-  console.log(JSON.stringify(newComment) + "novi koment je to");
   res.send(JSON.stringify(newComment));
+};
+exports.getAllPostComments = async (req: any, res: any) => {
+  const allComments = await getPostComments(req.body.postId);
+  console.log(req.body.postId + "req body iz post comments");
+  res.send(JSON.stringify(allComments));
 };
