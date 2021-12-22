@@ -1,6 +1,4 @@
 import { Button } from '@mui/material';
-import * as React from 'react';
-import Box from '@mui/material/Box';
 import { postService, getPosts } from '../../services/PostService';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import './styles.css';

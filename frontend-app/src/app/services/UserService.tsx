@@ -24,8 +24,13 @@ export const registerUser = async (
     });
 };
 
-export async function sendFriendRequest(userId: number, reciverId: number): Promise<{} | { err: ResponseError }> {
-  const res = await axios.post(`http://localhost:5000/api/friendship/${userId}/${reciverId}`);
+export async function sendFriendRequest(
+  userId: number,
+  reciverId: number,
+): Promise<{} | { err: ResponseError }> {
+  const res = await axios.post(
+    `http://localhost:5000/api/friendship/${userId}/${reciverId}`,
+  );
   return res.data;
 }
 
@@ -35,4 +40,20 @@ export const getMe = async () => {
     .then(response => {
       return response.data;
     });
-}
+};
+
+export const getCurrent = async () => {
+  return await axios
+    .post('http://localhost:5000/api/users/current')
+    .then(response => {
+      return response.data;
+    });
+};
+
+export const search = async (search: string) => {
+  return await axios
+    .get('http://localhost:5000/api/users/search?search=' + search)
+    .then(response => {
+      return response.data;
+    });
+};

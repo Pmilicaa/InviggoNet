@@ -38,7 +38,6 @@ function checkStatus(response: Response) {
 
 const baseUrl = 'http://localhost:5000';
 
-
 /**
  * Requests a URL, returning a promise
  *

@@ -6,7 +6,7 @@
  * contain code that should be seen on all pages. (e.g. navigation bar)
  */
 
-import * as React from 'react';
+import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
 
@@ -25,16 +25,14 @@ import { LoginPage } from './pages/LoginPage';
 import { useDispatch } from 'react-redux';
 import { useCurrentUserSlice } from './pages/LoginPage/slice';
 
-
 export function App() {
-
   const dispatch = useDispatch();
 
   const { actions } = useCurrentUserSlice();
 
-  React.useEffect(() => {
-    dispatch(actions.getUser(undefined));
-  }, [])
+  useEffect(() => {
+    dispatch(actions.getUser());
+  }, []);
 
   return (
     <BrowserRouter>

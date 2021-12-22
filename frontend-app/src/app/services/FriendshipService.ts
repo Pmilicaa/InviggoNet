@@ -1,5 +1,5 @@
-import axios from "axios";
-import { Friendship } from "types/models/Friendship";
+import axios from 'axios';
+import { Friendship } from 'types/models/Friendship';
 
 export async function getFriendRequest(userId: number): Promise<Friendship[]> {
   const res = await axios.get(`http://localhost:5000/api/friendship/${userId}`);

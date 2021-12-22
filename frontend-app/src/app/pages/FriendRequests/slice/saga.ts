@@ -1,41 +1,45 @@
-import { getFriendRequest, acceptFriendRequest as AFR, deleteFriendRequest } from 'app/services/FriendshipService';
-import { takeLatest, call, put, select, all } from 'redux-saga/effects';
+import {
+  getFriendRequest,
+  acceptFriendRequest as AFR,
+  deleteFriendRequest,
+} from 'app/services/FriendshipService';
+import { takeLatest, call, put, all } from 'redux-saga/effects';
 import { Friendship } from 'types/models/Friendship';
-import { friendRequestAction } from "."
+import { friendRequestAction } from '.';
 
 export function* getFriendRequests(action) {
   const senderId = action.payload;
-  
+
   const requests: Friendship[] = yield call(getFriendRequest, senderId);
   yield put(friendRequestAction.changeRequests(requests));
-
 }
 
 export function* acceptFriendRequest(action) {
   const friendshipId = action.payload;
-  
-  const requests: Friendship[] = yield call(AFR, friendshipId);
-  yield put(friendRequestAction.handleAccept(friendshipId));
 
+  yield call(AFR, friendshipId);
+  yield put(friendRequestAction.handleAccept(friendshipId));
 }
 
 export function* declineFriendRequest(action) {
   const friendshipId = action.payload;
-  
-  const requests: Friendship[] = yield call(deleteFriendRequest, friendshipId);
-  yield put(friendRequestAction.deleteReq(friendshipId));
 
+  yield call(deleteFriendRequest, friendshipId);
+  yield put(friendRequestAction.deleteReq(friendshipId));
 }
 
-function* watchGetFriendRequest(){
+function* watchGetFriendRequest() {
   yield takeLatest(friendRequestAction.getRequests.type, getFriendRequests);
 }
 
-function* watchAcceptFriendRequest(){
+function* watchAcceptFriendRequest() {
   yield takeLatest(friendRequestAction.acceptRequest.type, acceptFriendRequest);
 }
-function* watchDeclineFriendRequest(){
-  yield takeLatest(friendRequestAction.declineRequest.type, declineFriendRequest);
+function* watchDeclineFriendRequest() {
+  yield takeLatest(
+    friendRequestAction.declineRequest.type,
+    declineFriendRequest,
+  );
 }
 
 // Root saga
@@ -44,6 +48,6 @@ export function* friendRequstsSaga() {
   yield all([
     watchGetFriendRequest(),
     watchAcceptFriendRequest(),
-    watchDeclineFriendRequest()
+    watchDeclineFriendRequest(),
   ]);
 }

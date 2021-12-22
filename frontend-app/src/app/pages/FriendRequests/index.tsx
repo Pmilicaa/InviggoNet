@@ -5,24 +5,27 @@ import { useEffect } from 'react';
 import { selectRequests } from './slice/selectors';
 import { useFriendRequestSlice } from './slice';
 import { User } from 'app/components/User';
+import { selectUser } from '../LoginPage/slice/selectors';
 
 export function FriendRequestsPage() {
   const requests = useSelector(selectRequests);
 
   const { actions } = useFriendRequestSlice();
 
+  const currentUser = useSelector(selectUser);
+
   const dispatch = useDispatch();
 
   const declineRequest = (friendshipId: number) => {
     dispatch(actions.declineRequest(friendshipId));
-  }
+  };
   const acceptRequest = (friendshipId: number) => {
     dispatch(actions.acceptRequest(friendshipId));
-  }
+  };
 
   useEffect(() => {
-    dispatch(actions.getRequests(2));
-  }, []);
+    if (currentUser) dispatch(actions.getRequests(currentUser.id));
+  }, [currentUser]);
 
   return (
     <>
@@ -33,22 +36,25 @@ export function FriendRequestsPage() {
       <div className="container">
         <h3>Friend requests</h3>
         <div>
-          {!requests || requests.length === 0 ?
+          {!requests || requests.length === 0 ? (
             <h4>Nema rezultata</h4>
-            : (
-              requests.map(req => (
-                !req.accepted ?
-                  <UserRequest user={req.sender}
-                    acceptRequest={() => {
-                      acceptRequest(req.id);
-                    }}
-                    declineRequest={() => {
-                      declineRequest(req.id);
-                    }} /> :
-                  <User user={req.sender} addFriend={undefined} />
-              )
-              )
-            )}
+          ) : (
+            requests.map(req =>
+              !req.accepted && req.senderId !== currentUser?.id? (
+                <UserRequest
+                  user={req.sender}
+                  acceptRequest={() => {
+                    acceptRequest(req.id);
+                  }}
+                  declineRequest={() => {
+                    declineRequest(req.id);
+                  }}
+                />
+              ) : req.senderId !== currentUser?.id ? (
+                <User user={req.sender} addFriend={undefined} loggedIn={true} />
+              ) : <User user={ { ...req.reciver, friends: req.accepted}} addFriend={undefined} loggedIn={true} />
+            )
+          )}
         </div>
       </div>
     </>
