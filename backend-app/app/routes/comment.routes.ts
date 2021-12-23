@@ -4,6 +4,6 @@ module.exports = (app: any) => {
   var router = require("express").Router();
   router.post("/", comment.newComment);
   router.post("/all", comment.getAllComments);
-
+  router.post("/getAllPostComments", comment.getAllPostComments);
   app.use("/api/comments", router);
 };

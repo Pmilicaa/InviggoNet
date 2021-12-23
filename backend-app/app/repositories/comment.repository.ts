@@ -1,4 +1,5 @@
 import { Comment } from "../ts-models/Comment";
+import { User } from "../ts-models/User";
 import { getPost } from "./post.repository";
 import { getOne, getOneById } from "./user.repository";
 
@@ -25,12 +26,18 @@ const createComment = async (body: any) => {
   }
 };
 const getComments = async (id: any) => {
+  console.log(id + "id posta je");
   try {
     const comments = await Comment.findAll({
       where: {
         postId: id,
       },
+      include: {
+        model: User,
+        as: "user",
+      },
     });
+    return comments;
   } catch (err: any) {
     throw new Error();
   }
