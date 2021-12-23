@@ -11,6 +11,7 @@ export const initialState: CurrentUserState = {
     firstName: '',
     lastName: '',
   },
+  users: [],
 };
 
 const slice = createSlice({
@@ -31,6 +32,11 @@ const slice = createSlice({
         firstName: '',
         lastName: '',
       };
+    },
+
+    getUsers(state) {},
+    setUsers(state, action) {
+      state.users = action.payload;
     },
 
     login(state, action) {},

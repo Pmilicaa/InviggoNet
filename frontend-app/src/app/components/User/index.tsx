@@ -1,6 +1,15 @@
 import { Button } from '@mui/material';
+import { useHistory } from 'react-router-dom';
 
 export const User = ({ user, addFriend, loggedIn }) => {
+  const history = useHistory();
+
+  const handleUserProfile = (userId: string) => {
+    history.push({
+      pathname: `/user/${userId}`,
+    });
+  };
+
   return (
     <div className="cart">
       <div style={{ display: 'inline-block' }}>
@@ -22,7 +31,13 @@ export const User = ({ user, addFriend, loggedIn }) => {
         <div style={{ display: 'inline-block', float: 'right' }}>
           <div>
             <h3 style={{ color: '#1976d2', textAlign: 'center' }}>Friends</h3>
-            <Button style={{ width: '100px' }} variant="contained">
+            <Button
+              onClick={() => {
+                handleUserProfile(user.id);
+              }}
+              style={{ width: '100px' }}
+              variant="contained"
+            >
               Profile
             </Button>
           </div>
@@ -30,7 +45,13 @@ export const User = ({ user, addFriend, loggedIn }) => {
       ) : (
         <div style={{ display: 'inline-block', float: 'right' }}>
           <div>
-            <Button style={{ width: '100px' }} variant="contained">
+            <Button
+              onClick={() => {
+                handleUserProfile(user.id);
+              }}
+              style={{ width: '100px' }}
+              variant="contained"
+            >
               Profile
             </Button>
           </div>

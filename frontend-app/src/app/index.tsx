@@ -32,6 +32,7 @@ export function App() {
 
   useEffect(() => {
     dispatch(actions.getUser());
+    dispatch(actions.getUsers());
   }, []);
 
   return (
@@ -44,6 +45,7 @@ export function App() {
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route exact path="/search/:search" component={SearchUserPage} />
+        <Route exact path="/user/:userId" component={ProfilePage} />
         <Route exact path="/requests" component={FriendRequestsPage} />
         <Route exact path="/profile" component={ProfilePage} />
         <Route exact path="/register" component={RegisterPage} />
