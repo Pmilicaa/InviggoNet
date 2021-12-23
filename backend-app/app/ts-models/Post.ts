@@ -9,6 +9,7 @@ import {
   ForeignKey,
 } from "sequelize-typescript";
 import { Comment } from "./Comment";
+import { Like } from "./Like";
 import { User } from "./User";
 
 @Table
@@ -20,6 +21,9 @@ export class Post extends Model {
   @CreatedAt
   @Column
   createdAt!: Date;
+
+  @HasMany(() => Like, "postId")
+  likes?: Like[];
 
   @ForeignKey(() => User)
   @Column
