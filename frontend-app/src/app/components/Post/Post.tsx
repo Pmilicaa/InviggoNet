@@ -10,6 +10,7 @@ import InboxIcon from '@mui/icons-material/Inbox';
 import DraftsIcon from '@mui/icons-material/Drafts';
 import { getUserInfo } from 'app/services/UserService';
 import { Divider, Avatar, Grid, Paper } from '@material-ui/core';
+import { Likes } from '../Likes';
 
 export default function Post(props) {
   const [firstName, setFirstName] = React.useState('');
@@ -46,6 +47,7 @@ export default function Post(props) {
                 <p style={{ textAlign: 'left', color: 'gray' }}>
                   posted {new Date(props.post.createdAt).toLocaleDateString()}
                 </p>
+                <Likes />
               </Grid>
             </Grid>
           </Paper>

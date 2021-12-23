@@ -52,6 +52,7 @@ require("../app/routes/user.routes")(app);
 require("../app/routes/post.routes")(app);
 require("../app/routes/friendship.routes")(app);
 require("../app/routes/comment.routes")(app);
+require("../app/routes/like.routes")(app);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

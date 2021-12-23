@@ -1,7 +1,5 @@
 import verifyToken from "../services/auth.service";
-import { searchMiddleware } from "../services/auth.service"
-
-
+import { searchMiddleware } from "../services/auth.service";
 
 module.exports = (app: any) => {
   const users = require("../controllers/user.controller");
