@@ -7,6 +7,8 @@ import cors from "cors";
 import { sequelize } from "./sequelize";
 import { User } from "./ts-models/User";
 import { Friendship } from "./ts-models/Friendship";
+import busboy from 'connect-busboy'
+import { upload } from "./firebase/firebase";
 
 async function start() {
   try {
@@ -46,6 +48,33 @@ app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req: Request, res: Response) => {
   res.json({ message: "Welcome to inviggo application." });
+});
+
+function appendToUint8Array(arr: Uint8Array, data: Uint8Array) {
+	const newArray = new Uint8Array(arr.length + data.length);
+	newArray.set(arr);              // copy old data
+	newArray.set(data, arr.length); // copy new data after end of old data
+	return newArray;
+}
+
+app.post("/api/upload", busboy({ immediate: true }) ,(req: Request, res: Response) => {
+  if (req.busboy) {
+    let fileData: Uint8Array | Buffer | null = null;
+    let fileName: any = '';
+    req.busboy.on('file', (name, file, info) => {
+      file.on('data', (data) => {
+        fileName = info;
+        if (fileData === null) {
+          fileData = data;
+        } else {
+          fileData = Buffer.concat([fileData, data]);
+        }
+      });
+    });
+    req.busboy.on('finish', () => {
+      upload(fileData, fileName);
+    })
+  }
 });
 
 require("../app/routes/user.routes")(app);

@@ -10,6 +10,7 @@ import {
 import { checkFriends } from "../repositories/friendship.repository";
 import { User } from "../ts-models/User";
 
+
 const getUsers = async () => {
   const users = await getAllUsers();
   return users;
@@ -63,4 +64,8 @@ const searchUsersNotLogedIn = async (
   return users;
 };
 
-export { register, getUsers, getMe, searchUsers, infoForLogin, getFriendInfo, searchUsersNotLogedIn };
+const uploadImage = async () => {
+  
+}
+
+export { register, getUsers, getMe, searchUsers, infoForLogin, getFriendInfo, searchUsersNotLogedIn, uploadImage };
