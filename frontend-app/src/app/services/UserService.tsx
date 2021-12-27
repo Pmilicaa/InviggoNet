@@ -73,3 +73,14 @@ export const search = async (search: string) => {
       return response.data;
     });
 };
+
+export const editUser = async (formData: FormData) => {
+  const editedUser = await axios.post(
+    'http://localhost:5000/api/users/edit',
+    formData,
+    {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    },
+  );
+  return editedUser.data;
+};

@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { upload } from "../firebase/firebase";
 import {
   register,
   getUsers,
@@ -11,7 +12,6 @@ import {
 
 exports.findAll = async (req: any, res: any) => {
   const users = await getUsers();
-  console.log(users);
   res.send(JSON.stringify(users));
 };
 exports.registerUser = async (req: any, res: any) => {

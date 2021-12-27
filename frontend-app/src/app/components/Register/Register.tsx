@@ -11,7 +11,6 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import './styles.css';
 import { registerUser } from '../../services/UserService';
-import axios from 'axios';
 export function Register() {
   const { register, handleSubmit } = useForm();
   // const [m, setMale] = React.useState({});
@@ -26,21 +25,6 @@ export function Register() {
   //     [event.target.name]: event.target.checked,
   //   });
   // };
-
-  const [file, setFile] = React.useState<File>();
-
-  // const uploadFile = () => {
-  //   const formData = new FormData();
-  //   if(file){
-  //     formData.append('file', file);
-  //     axios.post('http://localhost:5000/api/upload', formData, {
-  //       headers: { "Content-Type": "multipart/form-data" }
-  //     });
-  //   }
-  // }
-
-
-  // <input type="file" onChange={handleFile}/>
 
   const onSubmit = data => {
     const firstName = data.firstName;
@@ -83,14 +67,6 @@ export function Register() {
     );
     return addedUser;
   };
-
-
-  const handleFile = (e) => {
-    if (e.target.files[0]) {
-      const image: File = e.target.files[0];
-      setFile(image);
-    }
-  }
 
   return (
     <div>

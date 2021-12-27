@@ -10,6 +10,9 @@ export const initialState: CurrentUserState = {
     username: '',
     firstName: '',
     lastName: '',
+    image: '',
+    age: 0,
+    gender: '',
   },
   users: [],
 };

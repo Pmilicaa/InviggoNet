@@ -27,7 +27,8 @@ const upload = async (file: any, info: any) => {
         contentType: info.mimeType,
         contentEncoding: info.encoding
       });
-      console.log(await getDownloadURL(storageRef));
+      const url = await getDownloadURL(storageRef);
+      return url;
   } catch (error) {
       console.log(error)
   }

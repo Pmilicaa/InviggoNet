@@ -3,18 +3,16 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import ButtonBase from '@mui/material/ButtonBase';
 import { styled } from '@mui/material/styles';
-import { getMe } from '../../services/UserService';
 import { useEffect, useState } from 'react';
-import Post from '../Post/Post';
 import { getPosts } from '../../services/PostService';
 import AddPost from '../AddPost/AddPost';
 import Posts from '../Posts/Posts';
+import { Avatar } from '@mui/material';
 
-export function Profile({ user }) {
+export function Profile({ user, myProfile }) {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    console.log(user);
     if (user.username) {
       const userPost = userPosts(user.username);
       userPost.then(post => setPosts(post));
@@ -56,9 +54,15 @@ export function Profile({ user }) {
       <Paper sx={{ p: 2, margin: 'auto', maxWidth: 500, flexGrow: 1 }}>
         <Grid container spacing={2}>
           <Grid item>
-            <ButtonBase sx={{ width: 128, height: 128 }}>
-              <Img alt="complex" src={imgSrc} />
-            </ButtonBase>
+            {user?.image ? (
+              <Avatar
+                alt=""
+                src={user?.image + ''}
+                sx={{ width: 100, height: 100 }}
+              />
+            ) : (
+              <Avatar sx={{ width: 100, height: 100 }} />
+            )}
           </Grid>
           <Grid item xs={12} sm container>
             <Grid item xs container direction="column" spacing={2}>
@@ -83,7 +87,7 @@ export function Profile({ user }) {
           </Grid>
         </Grid>
       </Paper>
-      <AddPost />
+      {myProfile ? <AddPost /> : <></>}
       <Posts posts={posts} />
     </div>
   );

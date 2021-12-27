@@ -6,6 +6,7 @@ import {
   searchUser,
   getInfo,
   getOneById,
+  updateUser
 } from "../repositories/user.repository";
 import { checkFriends } from "../repositories/friendship.repository";
 import { User } from "../ts-models/User";
@@ -64,8 +65,9 @@ const searchUsersNotLogedIn = async (
   return users;
 };
 
-const uploadImage = async () => {
-  
+const editUser = async (user: User) => {
+  const newUser = await updateUser(user);
+  return newUser;
 }
 
-export { register, getUsers, getMe, searchUsers, infoForLogin, getFriendInfo, searchUsersNotLogedIn, uploadImage };
+export { register, getUsers, getMe, searchUsers, infoForLogin, getFriendInfo, searchUsersNotLogedIn, editUser };
