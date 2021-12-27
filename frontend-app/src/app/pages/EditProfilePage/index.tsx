@@ -12,9 +12,12 @@ import { selectUser } from '../LoginPage/slice/selectors';
 import './styles.css';
 import { Radio, RadioGroup } from '@mui/material';
 import { useCurrentUserSlice } from '../LoginPage/slice';
+import { useState } from 'react';
 
 export function EditProfilePage() {
   const currentUser = useSelector(selectUser);
+
+  const [image, setImage] = useState(currentUser?.image);
 
   const { actions } = useCurrentUserSlice();
 
@@ -28,7 +31,7 @@ export function EditProfilePage() {
       username: currentUser?.username,
       email: currentUser?.email,
       age: currentUser?.age,
-      file: currentUser?.image,
+      image: currentUser?.image,
       gender: currentUser?.gender,
     },
   });
@@ -40,13 +43,21 @@ export function EditProfilePage() {
     }
     formData.append('id', currentUser?.id + '');
 
-    if (data['file']) formData.append('file', data['file'][0]);
-    else if (currentUser?.image)
-      formData.append('image', currentUser?.image + '');
-    else formData.append('image', '');
+    if (typeof data['image'] !== 'string' && data['image'])
+      formData.append('image', data['image'][0]);
+    if (data['image'] === null) formData.append('image', '');
     editUser(formData).then(freshUser => {
       dispatch(actions.changeUser(freshUser));
     });
+  };
+
+  const handleImage = e => {
+    const file = e.target.files[0];
+    console.log(file);
+    if (file) {
+      setImage(URL.createObjectURL(file));
+      console.log(URL.createObjectURL(file));
+    }
   };
 
   return (
@@ -97,8 +108,8 @@ export function EditProfilePage() {
             helperText=" Please enter your age"
           />
           <br></br>
-          {currentUser?.image ? (
-            <img src={currentUser?.image + ''} width="100px" height="100px" />
+          {image ? (
+            <img src={image + ''} width="100px" height="100px" />
           ) : (
             <></>
           )}
@@ -108,7 +119,13 @@ export function EditProfilePage() {
 
           <Button variant="contained" component="label">
             Change image
-            <input type="file" {...register('file')} hidden />
+            <input
+              type="file"
+              {...register('image', {
+                onChange: handleImage,
+              })}
+              hidden
+            />
           </Button>
           <br />
           <br />

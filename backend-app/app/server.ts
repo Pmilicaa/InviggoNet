@@ -23,6 +23,8 @@ async function start() {
         firstName: "Dusan" + i,
         lastName: "Stojancevic" + i,
         password: "1234" + i,
+        age: 30,
+        gender: i % 2 ? 'male' : 'female'
       };
       await User.create(user);
     }
