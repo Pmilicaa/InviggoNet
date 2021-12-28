@@ -21,7 +21,7 @@ export function SearchUserPage() {
 
   useEffect(() => {
     dispatch(actions.search(search));
-  }, [search]);
+  }, [search, dispatch, actions]);
 
   const handleAdd = (senderId: number, reciverId: number) => {
     dispatch(actions.addFriend([senderId, reciverId]));
@@ -42,6 +42,7 @@ export function SearchUserPage() {
               searchResult.map(user =>
                 user.friends === null ? (
                   <User
+                    key={user.id}
                     user={user}
                     addFriend={() => {
                       if (currentUser) handleAdd(currentUser.id, user.id);
@@ -49,12 +50,22 @@ export function SearchUserPage() {
                     loggedIn={true}
                   />
                 ) : (
-                  <User user={user} addFriend={undefined} loggedIn={true} />
+                  <User
+                    key={user.id}
+                    user={user}
+                    addFriend={undefined}
+                    loggedIn={true}
+                  />
                 ),
               )
             ) : (
               searchResult.map(user => (
-                <User user={user} addFriend={undefined} loggedIn={false} />
+                <User
+                  key={user.id}
+                  user={user}
+                  addFriend={undefined}
+                  loggedIn={false}
+                />
               ))
             )
           ) : (

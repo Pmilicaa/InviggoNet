@@ -50,6 +50,12 @@ export const getCurrent = async () => {
     });
 };
 
+export const getAll = async () => {
+  return await axios.get('http://localhost:5000/api/users').then(response => {
+    return response.data;
+  });
+};
+
 export const getUserInfo = async (userId: number) => {
   return await axios
     .post('http://localhost:5000/api/users/getInfo', {
@@ -66,4 +72,15 @@ export const search = async (search: string) => {
     .then(response => {
       return response.data;
     });
+};
+
+export const editUser = async (formData: FormData) => {
+  const editedUser = await axios.post(
+    'http://localhost:5000/api/users/edit',
+    formData,
+    {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    },
+  );
+  return editedUser.data;
 };

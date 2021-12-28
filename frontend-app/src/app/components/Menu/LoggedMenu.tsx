@@ -63,6 +63,9 @@ export default function NotLogedMenu() {
         <MenuItem color="inherit" onClick={handleNavigate('/profile')}>
           Profile
         </MenuItem>
+        <MenuItem color="inherit" onClick={handleNavigate('/edit')}>
+          Edit Profile
+        </MenuItem>
         <MenuItem />
         <MenuItem color="inherit" onClick={handleNavigate('/requests')}>
           Requests

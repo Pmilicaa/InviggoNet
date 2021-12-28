@@ -9,6 +9,7 @@ export interface User {
   password?: String;
   firstName: String;
   lastName: String;
+  image?: String;
   gender?: String;
   age?: Number;
   phoneNumber?: String;

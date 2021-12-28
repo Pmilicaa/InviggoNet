@@ -25,6 +25,7 @@ export function Register() {
   //     [event.target.name]: event.target.checked,
   //   });
   // };
+
   const onSubmit = data => {
     const firstName = data.firstName;
     const lastName = data.lastName;
@@ -66,6 +67,7 @@ export function Register() {
     );
     return addedUser;
   };
+
   return (
     <div>
       <form className="center" onSubmit={handleSubmit(onSubmit)}>

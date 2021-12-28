@@ -1,12 +1,11 @@
-// const mongodb = require("./config/db.mongodb");
-// const express = require("express");
-// const cors = require("cors");
-import { run } from "./models/Message";
 import express, { Request, Response } from "express";
 import cors from "cors";
 import { sequelize } from "./sequelize";
 import { User } from "./ts-models/User";
 import { Friendship } from "./ts-models/Friendship";
+import busboy from 'connect-busboy'
+import { upload } from "./firebase/firebase";
+import { editUser } from "./services/user.service"
 
 async function start() {
   try {
@@ -24,6 +23,8 @@ async function start() {
         firstName: "Dusan" + i,
         lastName: "Stojancevic" + i,
         password: "1234" + i,
+        age: 30,
+        gender: i % 2 ? 'male' : 'female'
       };
       await User.create(user);
     }
@@ -46,6 +47,46 @@ app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req: Request, res: Response) => {
   res.json({ message: "Welcome to inviggo application." });
+});
+
+app.post("/api/users/edit", busboy({ immediate: true }) ,(req: Request, res: Response) => {
+  if (req.busboy) {
+    let fileData: Uint8Array | Buffer | null = null;
+    let fileName: any;
+    const user: any = {
+      id: -1,
+      email: '',
+      username: '',
+      firstName: '',
+      lastName: '',
+      password: '',
+      image: '',
+      age: 0,
+      gender: '',
+    };
+    req.busboy.on('file', (name, file, info) => {
+      fileName = info;
+      file.on('data', (data) => {
+        if (fileData === null) {
+          fileData = data;
+        } else {
+          fileData = Buffer.concat([fileData, data]);
+        }
+      });
+    });
+    req.busboy.on('field', (fieldName, value) => {
+      user[fieldName] = value;
+    });
+
+    req.busboy.on('finish', async () => {
+      if(fileName){
+        const url = await upload(fileData, fileName);
+        user.image = url;
+      }
+      const newUser = await editUser(user);
+      res.json(newUser);
+    })
+  }
 });
 
 require("../app/routes/user.routes")(app);
