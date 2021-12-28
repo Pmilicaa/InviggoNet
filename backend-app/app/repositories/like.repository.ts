@@ -1,4 +1,6 @@
+import { searchUsersNotLogedIn } from "../services/user.service";
 import { Like } from "../ts-models/Like";
+import { User } from "../ts-models/User";
 import { getPost } from "./post.repository";
 import { getOneById } from "./user.repository";
 
@@ -9,6 +11,17 @@ const getLike = async (id: number) => {
   } catch (err: any) {
     throw new Error();
   }
+};
+export const deleteLike = async (
+  postId: number,
+  userId: number
+): Promise<void> => {
+  await Like.destroy({
+    where: {
+      postId: postId,
+      userId: userId,
+    },
+  });
 };
 const getPostLikes = async (postId: number) => {
   try {
@@ -22,6 +35,19 @@ const getPostLikes = async (postId: number) => {
     throw new Error("nema post lajkove");
   }
 };
+const getPostAndUserLikes = async (postId: number, userId: number) => {
+  try {
+    const likes = await Like.findAll({
+      where: {
+        postId: postId,
+        userId: userId,
+      },
+    });
+    return likes;
+  } catch (err: any) {
+    throw new Error("nema user lajkove");
+  }
+};
 const getLikes = async () => {
   try {
     const likes = await Like.findAll();
@@ -30,8 +56,24 @@ const getLikes = async () => {
     throw new Error();
   }
 };
+const getUserLikes = async (postId: number) => {
+  try {
+    const likes = await Like.findAll({
+      where: {
+        postId: postId,
+      },
+      include: {
+        model: User,
+        as: "user",
+      },
+    });
+  } catch (err: any) {
+    throw new Error("nema user like-ova");
+  }
+};
 const createLike = async (body: any) => {
   try {
+    console.log(body + "dosao u repo");
     const user = await getOneById(body.userId);
     const post = await getPost(body.postId);
     const like = {
@@ -46,4 +88,4 @@ const createLike = async (body: any) => {
     throw new Error();
   }
 };
-export { getLike, getLikes, createLike, getPostLikes };
+export { getLike, getLikes, createLike, getPostLikes, getPostAndUserLikes };

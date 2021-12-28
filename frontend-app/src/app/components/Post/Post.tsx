@@ -1,18 +1,11 @@
 import './styles.css';
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/Inbox';
-import DraftsIcon from '@mui/icons-material/Drafts';
+
 import { getUserInfo } from 'app/services/UserService';
-import { Divider, Avatar, Grid, Paper } from '@material-ui/core';
+import { Grid, Paper } from '@material-ui/core';
 import { Likes } from '../Likes';
 
-import Comment from '../Comment/Comment';
 import Comments from '../Comments/Comments';
 import AddComment from '../AddComment/AddComment';
 export default function Post(props) {
@@ -51,7 +44,7 @@ export default function Post(props) {
                 <p style={{ textAlign: 'left', color: 'gray' }}>
                   posted {new Date(props.post.createdAt).toLocaleDateString()}
                 </p>
-                <Likes />
+                <Likes postId={props.post.id} />
               </Grid>
             </Grid>
           </Paper>

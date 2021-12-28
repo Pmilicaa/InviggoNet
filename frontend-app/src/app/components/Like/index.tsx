@@ -2,56 +2,72 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { IconButton } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { getAllLikes } from 'app/services/LikeService';
+import { addLike, getAllLikes, unlikePost } from 'app/services/LikeService';
 export function Like(props) {
   const [like, setLike] = useState(false);
-  const [likes, setLikes] = useState([]);
   const [numberOflikes, setNumberOfLikes] = useState(0);
-  //const [count, setCount] = useState(0);
+  const [lajkovao, setLajkovao] = useState(false);
   useEffect(() => {
-    const productId = 1;
-    getLikes(productId);
-    // setCount(likes.length);
-    setNumberOfLikes(likes.length);
-    console.log(numberOflikes);
-  }, [numberOflikes]);
-
-  const getLikes = async (productId: number) => {
-    const allLikes = await getAllLikes(productId);
-    setLikes(allLikes);
-    return allLikes;
-  };
-  let count = likes.length;
+    console.log(numberOflikes + 'u useefektu');
+    provjeraUsera();
+    // if (!status) {
+    //   setLajkovao(true);
+    // }
+  }, []);
+  function provjeraUsera() {
+    let status = false;
+    console.log(props.allLikes);
+    for (let index = 0; index < props.userLikes.length; index++) {
+      const element = props.userLikes[index];
+      console.log(element.userId);
+      for (let inx = 0; inx < props.allLikes.length; inx++) {
+        const like = props.allLikes[inx];
+        if (element.userId === like.userId) {
+          status = true;
+        }
+      }
+    }
+    if (!status) {
+      setLajkovao(true);
+    }
+  }
   const handleClick = () => {
-    console.log('klikno');
-    if (like) {
+    console.log(props.allLikes.lenght + 'duzina likea');
+    console.log(lajkovao);
+    if (lajkovao) {
       setLike(false);
-      count = count - 1;
-      setNumberOfLikes(count);
+      setLajkovao(false);
+      setNumberOfLikes(props.allLikes.lenght + 1);
+      const userId = 1;
+      deleteLike(props.postId, userId);
     } else {
+      setLajkovao(true);
       setLike(true);
-      count = count + 1;
-      setNumberOfLikes(count + 1);
-
-      addLike(1, 1);
+      setNumberOfLikes(props.allLikes.lenght - 1);
+      addLikes(props.postId, 1);
     }
   };
-
-  const addLike = async (productId: number, userId: number) => {
-    const add = await addLike(userId, productId);
-    setNumberOfLikes(count + 1);
+  const deleteLike = async (postId: number, userId: number) => {
+    const deleted = await unlikePost(postId, userId);
+    console.log(deleted + 'izbrisan');
+    return deleted;
+  };
+  const addLikes = async (postId: number, userId: number) => {
+    const add = await addLike(userId, postId);
+    console.log(props.likes);
+    return add;
   };
   return (
     <>
+      {props.allLikes.length}
       <IconButton onClick={handleClick}>
-        {like ? (
+        {lajkovao ? (
           <>
-            {count + 1}
             <FavoriteIcon />{' '}
           </>
         ) : (
           <>
-            {count - 1} <FavoriteBorderIcon />
+            <FavoriteBorderIcon />
           </>
         )}
       </IconButton>

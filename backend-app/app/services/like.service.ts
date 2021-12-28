@@ -1,7 +1,9 @@
 import {
   createLike,
+  deleteLike,
   getLike,
   getLikes,
+  getPostAndUserLikes,
   getPostLikes,
 } from "../repositories/like.repository";
 
@@ -32,6 +34,21 @@ const getOne = async (params: any) => {
     throw new Error("nema tog lajka");
   }
 };
+const allUserLikes = async (params: any) => {
+  try {
+    const likes = await getPostAndUserLikes(params.postId, params.userId);
+    console.log(JSON.stringify(likes) + "lajkovao user");
+    return likes;
+  } catch (err: any) {
+    throw new Error("nema lajka");
+  }
+};
+const unlike = async (params: any): Promise<void> => {
+  console.log(params + "dosao params u like srevicu");
+  const postId = parseInt(params.postId);
+  const userId = parseInt(params.userId);
+  return await deleteLike(postId, userId);
+};
 const getAllPostLikes = async (postId: number) => {
   try {
     const postLikes = await getPostLikes(postId);
@@ -40,4 +57,4 @@ const getAllPostLikes = async (postId: number) => {
     throw new Error();
   }
 };
-export { create, getAll, getOne, getAllPostLikes };
+export { create, getAll, getOne, getAllPostLikes, unlike, allUserLikes };
