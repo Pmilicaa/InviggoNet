@@ -3,12 +3,13 @@ import {
   getPosts,
   getFriendsPosts,
 } from "../repositories/post.repository";
+import { io } from "../server";
 import { Friendship } from "../ts-models/Friendship";
 import { Post } from "../ts-models/Post";
 import { getMe } from "./user.service";
 
 const addPost = async (params: any) => {
-  createPost(params);
+  createPost(params).then((post) => io.emit("post-added", post));
 };
 const getAllUserPost = async (params: any) => {
   try {
