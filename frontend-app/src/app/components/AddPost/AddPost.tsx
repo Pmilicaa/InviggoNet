@@ -8,7 +8,7 @@ type FormValues = {
 };
 export default function AddPost() {
   const { register, handleSubmit } = useForm<FormValues>();
-  const username = 'dusanstoajn0';
+  const username = 'user0';
 
   const onSubmit: SubmitHandler<FormValues> = data =>
     addPost(data.content, username);
