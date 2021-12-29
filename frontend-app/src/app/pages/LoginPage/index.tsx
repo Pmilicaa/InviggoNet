@@ -9,7 +9,6 @@ export const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-
   const { actions } = useCurrentUserSlice();
 
   const dispatch = useDispatch();

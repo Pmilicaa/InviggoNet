@@ -74,6 +74,13 @@ export function Header() {
               onKeyPress={handleEnter}
             />
           </Box>
+          <DraftsIcon
+            onClick={handleNavigate('/messages')}
+            sx={{
+              marginLeft: '20px',
+              cursor: 'pointer',
+            }}
+          />
           {user?.id !== -1 ? (
             user?.image ? (
               <>
@@ -82,13 +89,6 @@ export function Header() {
                   src={user?.image + ''}
                   sx={{
                     marginLeft: '20px',
-                  }}
-                />
-                <DraftsIcon
-                  onClick={handleNavigate('/messages')}
-                  sx={{
-                    marginLeft: '20px',
-                    cursor: 'pointer',
                   }}
                 />
               </>

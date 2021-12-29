@@ -1,7 +1,7 @@
-import React from 'react';
+import { TextField } from '@mui/material';
+import React, { useEffect, useState } from 'react';
 
 const Message = ({ message }) => {
-  let length = message.content.length * 9;
   return (
     <div
       style={{
@@ -38,16 +38,65 @@ const Message = ({ message }) => {
   );
 };
 
-const Chat = ({ friend, messages }) => {
-  return (
-    <div className='containerWithoutMargin' style={{ padding: '10px', borderLeft: 'black solid 1px', height: '100%', backgroundImage: 'linear-gradient(white, #00aaff)' }}>
-      <h1 style={{ textAlign: 'center'}}>
-        {friend.firstName} {friend.lastName}
-      </h1>
+const Chat = ({ friend, socket, friendshipId, sender }) => {
 
-      {messages.map(message => (
-        <Message message={message} />
-      ))}
+
+  const [messages, setMessages] = useState<any>([]);
+  const [currentMessage, setCurrentMessage ] = useState("");
+
+  useEffect(() => {
+    socket.on("receive_message", (data) => {
+      setMessages([...messages, data]);
+    });
+  }, [socket]);
+
+  const handleEnter = e => {
+    if (e.code === 'Enter') {
+      let messageData = {
+        content: currentMessage,
+        room: friendshipId,
+        sender: sender,
+      }
+      socket.emit("send_message", messageData);
+      setCurrentMessage('');
+    }
+  };
+
+  return (
+    <div>
+      <div
+        className="containerWithoutMargin"
+        style={{
+          padding: '10px',
+          borderLeft: 'black solid 1px',
+          height: '100%',
+          backgroundImage: 'linear-gradient(white, #00aaff)',
+        }}
+      >
+        <h1 style={{ textAlign: 'center' }}>
+          {friend.firstName} {friend.lastName}
+        </h1>
+
+        {messages.map(message => (
+          <Message message={message} />
+        ))}
+      </div>
+      <div>
+        <TextField
+          id="outlined-search"
+          type="search"
+          variant="outlined"
+          inputProps={{
+            style: { backgroundColor: 'white' },
+          }}
+          size="small"
+          value={currentMessage}
+          onChange={e => {
+            setCurrentMessage(e.target.value);
+          }}
+          onKeyPress={handleEnter}
+        />
+      </div>
     </div>
   );
 };
