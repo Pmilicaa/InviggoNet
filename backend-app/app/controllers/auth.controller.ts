@@ -14,6 +14,10 @@ exports.login = async (req: any, res: Response) => {
     res.status(401).send("Bad credentials");
     return;
   }
+  if (user.password !== password) {
+    res.status(401).send("Bad credentials");
+    return;
+  }
   const token = jwt.sign(
     { user_id: user?.id, user_name: user?.username },
     "sedrftghyjkds567wikjd678ik3",

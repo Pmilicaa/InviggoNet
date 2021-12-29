@@ -9,8 +9,6 @@ export const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const history = useHistory();
-
   const { actions } = useCurrentUserSlice();
 
   const dispatch = useDispatch();
@@ -19,9 +17,6 @@ export const LoginPage = () => {
     dispatch(actions.login({ username, password }));
     setUsername('');
     setPassword('');
-    history.push({
-      pathname: '/',
-    });
   };
 
   const handleEnter = e => {

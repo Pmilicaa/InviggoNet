@@ -1,45 +1,83 @@
 div .container {
-    max-width: 90vw;
-    margin: 50px auto;
-    padding: 25px;
-    background-color: white;
-    background-image: linear-gradient(lighten(#f0f0f0, 10%), darken(#f0f0f0, 10%));  
-    box-shadow: 3px 3px 15px rgba(0,0,0,0.5);
-    border-radius: 3px;
+  max-width: 90vw;
+  margin: 50px auto;
+  padding: 25px;
+  background-color: white;
+  background-image: linear-gradient(
+    lighten(#f0f0f0, 10%),
+    darken(#f0f0f0, 10%)
+  );
+  box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.5);
+  border-radius: 3px;
+}
+
+div .containerLittleMargin {
+  max-width: 90vw;
+  margin: 10px auto;
+  padding: 25px;
+  background-color: white;
+  background-image: linear-gradient(to bottom right, #00aaff, #aaaaff);
+  
+  box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.5);
+  border-radius: 3px;
+}
+
+div .containerWithoutMargin {
+  max-width: 90vw;
+  margin: 5px auto;
+  padding: 25px;
+  background-color: white;
+  background-image: linear-gradient(
+    lighten(#f0f0f0, 10%),
+    darken(#f0f0f0, 10%)
+  );
+  box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.5);
+  border-radius: 3px;
+}
+
+div .containerLittleMargin:hover {
+  cursor: pointer;
+  background-image: linear-gradient(to bottom right, #37bcff, #d2d2ff);
 }
 
 div .cart {
-    background-color: #f0f0f0;
-    max-width: 90vw;
-    margin: 50px auto;
-    padding: 25px;
-    background-image: linear-gradient(lighten(#f0f0f0, 10%), darken(#f0f0f0, 10%));  
-    box-shadow: 3px 3px 15px rgba(0,0,0,0.5);
-    border-radius: 3px;
-    color: 'white';
+  background-color: #f0f0f0;
+  max-width: 90vw;
+  margin: 50px auto;
+  padding: 25px;
+  background-image: linear-gradient(
+    lighten(#f0f0f0, 10%),
+    darken(#f0f0f0, 10%)
+  );
+  box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.5);
+  border-radius: 3px;
+  color: 'white';
 }
-
 
 .grid-container {
-    display: grid;
-    grid-template-areas: ". . . . . . . ." ". . . . . . . ." ". . . . . . . ." ;
-    justify-items: center;
-    padding: 40px;
+  display: grid;
+  grid-template-areas: '. . . . . . . .' '. . . . . . . .' '. . . . . . . .';
+  justify-items: center;
+  padding: 40px;
 }
-
 
 .label {
-    grid-column-start: 4;
-    padding-top: 10px;
+  grid-column-start: 4;
+  padding-top: 10px;
 }
-  
+
 .input-text {
-    grid-column-start: 5;
-    padding-top: 10px;
+  grid-column-start: 5;
+  padding-top: 10px;
 }
 
 .login-btn {
-    grid-column-start: 4;
-    grid-column-end: 6;
-    padding-top: 20px;
+  grid-column-start: 4;
+  grid-column-end: 6;
+  padding-top: 20px;
+}
+
+html,
+body {
+  margin: 0px;
 }

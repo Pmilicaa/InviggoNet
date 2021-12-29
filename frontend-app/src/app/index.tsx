@@ -27,6 +27,9 @@ import { RegisterPage } from './pages/RegisterPage/Loadable';
 import { ProfilePage } from './pages/ProfilePage/Loadable';
 import { FriendRequestsPage } from './pages/FriendRequests/Loadable';
 import { EditProfilePage } from './pages/EditProfilePage/Loadable';
+import { MessagesPage } from './pages/MessagesPage/Loadable';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 
 export function App() {
   const dispatch = useDispatch();
@@ -53,6 +56,17 @@ export function App() {
         defaultTitle="InviggoNet"
       ></Helmet>
       <Header />
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <Switch>
         <Route exact path="/" component={() => <HomePage />} />
         <Route
@@ -106,6 +120,7 @@ export function App() {
             </Guard>
           )}
         />
+        <Route exact path="/messages" component={MessagesPage} />
         <Route component={NotFoundPage} />
       </Switch>
       <Footer />
