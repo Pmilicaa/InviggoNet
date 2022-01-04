@@ -11,6 +11,6 @@ const allMessages = async (req: Request, res: Response) => {
   console.log(req.body);
   const messages = await getMessages(req.body);
   console.log(messages + "u kontrolleru");
-  return res.send(messages);
+  return res.send(JSON.stringify(messages));
 };
 export { addNewMessage, allMessages };

@@ -10,7 +10,7 @@ import { MongoClient } from "mongodb";
 import mongoose, { ConnectOptions } from "mongoose";
 import * as http from "http";
 
-import { connectToDatabase } from "./config/mongodb";
+import { connectToDatabase } from "../app/config/mongodb";
 import * as socketio from "socket.io";
 
 async function start() {
