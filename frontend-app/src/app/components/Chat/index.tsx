@@ -2,6 +2,7 @@ import { Box, InputAdornment, TextField } from '@mui/material';
 import { getAllMessages } from 'app/services/MessageService';
 import React, { useEffect, useState, useRef } from 'react';
 import SendIcon from '@mui/icons-material/Send';
+import { io } from 'socket.io-client';
 
 const Message = ({ message }) => {
   return (
@@ -9,7 +10,7 @@ const Message = ({ message }) => {
       <div
         style={{
           display: 'flex',
-          justifyContent: message.content ? 'flex-end' : 'flex-start',
+          justifyContent: message.myMessage ? 'flex-end' : 'flex-start',
         }}
       >
         <div
@@ -20,7 +21,7 @@ const Message = ({ message }) => {
           <div
             style={{
               borderRadius: '15px',
-              backgroundColor: message.content ? 'orange' : 'red',
+              backgroundColor: message.myMessage ? 'orange' : 'red',
               color: 'white',
               margin: '10px',
               padding: '10px',
@@ -31,74 +32,68 @@ const Message = ({ message }) => {
           <div
             style={{
               paddingInline: '20px',
-              textAlign: message.content ? 'end' : 'start',
+              textAlign: message.myMessage ? 'end' : 'start',
             }}
           >
-            Sent:{message.sender}{' '}
-            {new Date(message.createdAt).toLocaleDateString()}
+            Sent: {new Date(message.createdAt).toLocaleDateString('sr-RS')}
           </div>
         </div>
       </div>
     </>
   );
 };
+const socket = io('ws://localhost:5000');
 
 const Chat = ({ friend, socket, friendshipId, sender }) => {
   const [messages, setMessages] = useState<any>([]);
   const messagesEnd = useRef<HTMLDivElement>(null);
   const [currentMessage, setCurrentMessage] = useState('');
 
+  const getMessages = async () => {
+    const allMessages = await getAllMessages(friendshipId);
+    return allMessages;
+  };
+
   useEffect(() => {
+    socket.off('receive_message');
+
     const poruke = async () => {
       const primljenePoruke = await getMessages();
       setMessages(primljenePoruke);
     };
     poruke();
-  }, []);
 
-  const getMessages = async () => {
-    const allMessages = await getAllMessages(friendshipId);
-    return allMessages;
-  };
-  useEffect(() => {
-    const socket = io('ws://localhost:5000');
-
-
-  useEffect(() => {
-    let init = false;
-    socket.on('initilize_chat', data => {
-      if (!init) {
-        for (const message of data) {
-          message.myMessage = message.sender.id === sender.id;
-        }
-        console.log("prosao i ovde");
-        setMessages(data);
-      }
-    });
     socket.on('chat_messages', data => {
+      for(const message of data)
+        message.myMessage = message.senderId === sender.id;
       setMessages(data);
     });
-  }, []);
+
+    socket.on('receive_message', data => {
+      console.log('usao');
+      data.myMessage = data.senderId === sender.id;
+      setMessages((list) => [...list, data]);
+    });
+
+  }, [friendshipId]);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+
   const handleEnter = e => {
     if (!currentMessage) return;
     if (e.code === 'Enter') {
-      console.log(sender);
-      console.log(sender.id);
-      let messageData = {
-        content: currentMessage,
-        friendshipId: friendshipId,
-        senderId: sender.id,
-      };
-      socket.emit('send_message', messageData);
-      setCurrentMessage('');
+      sendMessage();
     }
   };
 
   const sendMessage = async () => {
     let messageData = {
       content: currentMessage,
-      room: friendshipId,
-      sender: sender,
+      friendshipId: friendshipId,
+      senderId: sender.id,
     };
     await socket.emit('send_message', messageData);
     setCurrentMessage('');
@@ -163,9 +158,6 @@ const Chat = ({ friend, socket, friendshipId, sender }) => {
           }}
           onKeyPress={handleEnter}
         />
-        {messages.map((message, index) => (
-          <Message key={index} message={message} />
-        ))}
       </div>
     </div>
   );

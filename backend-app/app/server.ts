@@ -35,6 +35,19 @@ async function start() {
       };
       await User.create(user);
     }
+
+    await Friendship.create({
+      accepted: true,
+      senderId: 1,
+      reciverId: 2,
+    });
+
+    Friendship.create({
+      accepted: true,
+      senderId: 1,
+      reciverId: 3,
+    });
+
     connectToDatabase();
   } catch (error) {
     console.log(error);
@@ -75,7 +88,9 @@ const io = require("socket.io")(server, {
 io.on("connection", (socket: any) => {
   socket.on("join_room", (data: any) => {
     socket.join(data);
-    getMessages(data).then((messages) => io.emit("chat_messages", messages));
+    getMessages(data).then((messages) =>
+      io.in(data).emit("chat_messages", messages)
+    );
   });
 
   socket.on("send_message", (data: any) => {
@@ -83,7 +98,9 @@ io.on("connection", (socket: any) => {
       const addedMessage = await newMessage(data);
       return addedMessage;
     }
-    message(data).then((added) => io.emit("receive_message", added));
+    message(data).then((added) =>
+      io.in(data.friendshipId).emit("receive_message", added)
+    );
   });
 
   socket.on("disconnect", () => {

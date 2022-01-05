@@ -32,6 +32,7 @@ const getAllMessages = async (body: any) => {
     });
     return messages;
   } catch (err: any) {
+    console.log(err);
     throw new Error("nema poruka");
   }
 };

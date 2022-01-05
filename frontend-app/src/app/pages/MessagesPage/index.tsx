@@ -7,7 +7,7 @@ import { User } from 'types/models/User';
 import { useFriendRequestSlice } from '../FriendRequests/slice';
 import { selectRequests } from '../FriendRequests/slice/selectors';
 import { selectUser } from '../LoginPage/slice/selectors';
-import io from 'socket.io-client';
+import io, { Socket } from 'socket.io-client';
 
 const mapedRequests = (
   requests: Friendship[] | undefined,
@@ -27,7 +27,6 @@ const mapedRequests = (
     });
 };
 
-const socket = io('ws://localhost:5000');
 
 export const MessagesPage = () => {
   const requests = useSelector(selectRequests);
@@ -42,17 +41,24 @@ export const MessagesPage = () => {
 
   const [friend, setFriend] = useState<User>();
 
+  const [socket, setSocket] = useState<Socket>()
+
   const changeChat = (friendshipId: number) => {
-    socket.emit('join_room', friendshipId);
     const findFriendship = requests?.find(req => req.id === friendshipId);
     if (findFriendship?.reciverId === currentUser?.id)
-    setFriend(findFriendship?.sender);
-    else setFriend(findFriendship?.reciver);
-    console.log('join room');
-    socket.emit('join_room', friendshipId);
+      setFriend(findFriendship?.sender);
+    else 
+      setFriend(findFriendship?.reciver);
+    setChat(friendshipId);
+    if(socket)
+      socket.emit('join_room', friendshipId);
   };
 
   useEffect(() => {
+    if(socket)
+      socket.disconnect();
+    const initSocket = io('ws://localhost:5000', );
+    setSocket(initSocket);
     if (currentUser) dispatch(actions.getRequests(currentUser.id));
   }, [currentUser, actions, dispatch]);
 
