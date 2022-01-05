@@ -64,23 +64,20 @@ const Chat = ({ friend, socket, friendshipId, sender }) => {
     poruke();
 
     socket.on('chat_messages', data => {
-      for(const message of data)
+      for (const message of data)
         message.myMessage = message.senderId === sender.id;
       setMessages(data);
     });
 
     socket.on('receive_message', data => {
-      console.log('usao');
       data.myMessage = data.senderId === sender.id;
-      setMessages((list) => [...list, data]);
+      setMessages(list => [...list, data]);
     });
-
   }, [friendshipId]);
 
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
-
 
   const handleEnter = e => {
     if (!currentMessage) return;
@@ -127,7 +124,7 @@ const Chat = ({ friend, socket, friendshipId, sender }) => {
           }}
         >
           {messages.map((message, index) => (
-            <Message message={message} key={index}/>
+            <Message message={message} key={index} />
           ))}
           <div ref={messagesEnd} />
         </div>
