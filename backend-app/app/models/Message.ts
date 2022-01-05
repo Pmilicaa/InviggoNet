@@ -6,6 +6,7 @@ export interface Message {
   friendshipId: number;
   senderId: number;
   sender: string;
+  createdAt: Date;
 }
 
 const schema = new Schema<Message>({
@@ -13,6 +14,7 @@ const schema = new Schema<Message>({
   friendshipId: { type: Number, required: true },
   senderId: { type: Number, required: true },
   sender: { type: String, required: true },
+  createdAt: { type: Date },
 });
 
 export const MessageModel = model<Message>("Message", schema);

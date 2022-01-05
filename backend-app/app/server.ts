@@ -10,8 +10,14 @@ import mongoose, { ConnectOptions } from "mongoose";
 import * as http from "http";
 
 import { connectToDatabase } from "../app/config/mongodb";
+<<<<<<< HEAD
 import {  } from "socket.io";
 import { MessageDTO } from "./dto/message.dto";
+=======
+import * as socketio from "socket.io";
+import { getMessages, newMessage } from "./services/message.service";
+import { join } from "path/posix";
+>>>>>>> a419b9564f5fdbf56b2cc13cf1698e97337efd03
 
 async function start() {
   try {
@@ -62,7 +68,6 @@ require("../app/routes/friendship.routes")(app);
 require("../app/routes/comment.routes")(app);
 
 const server = http.createServer(app);
-//const io = new socketio.Server(server);
 
 const io = require("socket.io")(server, {
   cors: {
@@ -72,10 +77,32 @@ const io = require("socket.io")(server, {
     credentials: true,
   },
 });
+<<<<<<< HEAD
 
 
 
 
+=======
+io.on("connection", (socket: any) => {
+  socket.on("join_room", (data: any) => {
+    socket.join(data);
+    getMessages(data).then((messages) => io.emit("chat_messages", messages));
+  });
+
+  socket.on("send_message", (data: any) => {
+    async function message(data: any) {
+      const addedMessage = await newMessage(data);
+      return addedMessage;
+    }
+    message(data).then((added) => io.emit("receive_message", added));
+  });
+
+  socket.on("disconnect", () => {
+    console.log("User Disconnected", socket.id);
+  });
+});
+console.log("usao");
+>>>>>>> a419b9564f5fdbf56b2cc13cf1698e97337efd03
 server.listen(5000, () => {
   start();
   console.log("Running at localhost:5000");
