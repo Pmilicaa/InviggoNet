@@ -1,8 +1,6 @@
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import ButtonBase from '@mui/material/ButtonBase';
-import { styled } from '@mui/material/styles';
 import { useEffect, useState } from 'react';
 import { getPosts } from '../../services/PostService';
 import AddPost from '../AddPost/AddPost';
@@ -27,27 +25,12 @@ export function Profile({ user, myProfile }) {
     return userPosts;
   };
 
-  // useEffect(() => {
-  //   const username = 'dusanstoajn0';
-
-  //   const newUser = ulogovani(username);
-  //   newUser.then(user => setUser(user));
-  // }, []);
-
   const getAllPosts = async () => {
     const get = await getPosts(user.username);
     return get;
   };
 
   getAllPosts();
-  const imgSrc = 'https://picsum.photos/200/300?random=2';
-
-  const Img = styled('img')({
-    margin: 'auto',
-    display: 'block',
-    maxWidth: '100%',
-    maxHeight: '100%',
-  });
 
   return (
     <div>

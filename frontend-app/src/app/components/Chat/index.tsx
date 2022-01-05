@@ -1,8 +1,7 @@
-import { Box, InputAdornment, TextField } from '@mui/material';
+import { InputAdornment, TextField } from '@mui/material';
 import { getAllMessages } from 'app/services/MessageService';
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import SendIcon from '@mui/icons-material/Send';
-import { io } from 'socket.io-client';
 
 const Message = ({ message }) => {
   return (
@@ -42,7 +41,6 @@ const Message = ({ message }) => {
     </>
   );
 };
-const socket = io('ws://localhost:5000');
 
 const Chat = ({ friend, socket, friendshipId, sender }) => {
   const [messages, setMessages] = useState<any>([]);
@@ -133,8 +131,8 @@ const Chat = ({ friend, socket, friendshipId, sender }) => {
           type="search"
           InputProps={{
             endAdornment: (
-              <InputAdornment position="end">
-                <div style={{ color: 'white' }}>
+              <InputAdornment position="end" sx={{ backgroundColor: 'red' }}>
+                <div style={{ color: 'black', cursor: 'pointer' }}>
                   <SendIcon color="inherit" onClick={sendMessage} />
                 </div>
               </InputAdornment>
