@@ -77,12 +77,6 @@ const io = require("socket.io")(server, {
     credentials: true,
   },
 });
-<<<<<<< HEAD
-
-
-
-
-=======
 io.on("connection", (socket: any) => {
   socket.on("join_room", (data: any) => {
     socket.join(data);
@@ -102,7 +96,6 @@ io.on("connection", (socket: any) => {
   });
 });
 console.log("usao");
->>>>>>> a419b9564f5fdbf56b2cc13cf1698e97337efd03
 server.listen(5000, () => {
   start();
   console.log("Running at localhost:5000");
