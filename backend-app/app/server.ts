@@ -124,13 +124,11 @@ io.on("connection", (socket: any) => {
   });
 
   socket.on("send_message", (data: any) => {
-    console.log(data.senderId + "dodat ");
     async function message(data: any) {
-      const add = await newMessage(data);
-      console.log(add.sender);
-      return add;
+      const addedMessage = await newMessage(data);
+      return addedMessage;
     }
-    message(data).then((add) => io.emit("receive_message", add));
+    message(data).then((added) => io.emit("receive_message", added));
   });
 
   socket.on("disconnect", () => {

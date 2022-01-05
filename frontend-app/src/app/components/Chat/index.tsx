@@ -4,8 +4,6 @@ import React, { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 
 const Message = ({ message }) => {
-  console.log(message.sender);
-  console.log(message.createdAt);
   return (
     <>
       <div
