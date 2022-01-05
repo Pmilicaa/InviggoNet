@@ -12,6 +12,8 @@ import * as http from "http";
 
 import { connectToDatabase } from "../app/config/mongodb";
 import * as socketio from "socket.io";
+import { getMessages, newMessage } from "./services/message.service";
+import { join } from "path/posix";
 
 async function start() {
   try {
@@ -106,7 +108,6 @@ require("../app/routes/friendship.routes")(app);
 require("../app/routes/comment.routes")(app);
 
 const server = http.createServer(app);
-//const io = new socketio.Server(server);
 
 const io = require("socket.io")(server, {
   cors: {
@@ -116,15 +117,30 @@ const io = require("socket.io")(server, {
     credentials: true,
   },
 });
+io.on("connection", (socket: any) => {
+  socket.on("join_room", (data: any) => {
+    socket.join(data);
+    getMessages(data).then((messages) => io.emit("chat_messages", messages));
+  });
+
+  socket.on("send_message", (data: any) => {
+    console.log(data.senderId + "dodat ");
+    async function message(data: any) {
+      const add = await newMessage(data);
+      console.log(add.sender);
+      return add;
+    }
+    message(data).then((add) => io.emit("receive_message", add));
+  });
+
+  socket.on("disconnect", () => {
+    console.log("User Disconnected", socket.id);
+  });
+});
 console.log("usao");
 server.listen(5000, () => {
   start();
   console.log("Running at localhost:5000");
 });
 
-// const PORT = process.env.PORT || 5000;
-// app.listen(PORT, () => {
-//   console.log(`Server is running on port ${PORT}.`);
-//   start();
-// });
 export { io };

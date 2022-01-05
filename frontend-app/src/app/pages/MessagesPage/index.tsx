@@ -27,7 +27,7 @@ const mapedRequests = (
     });
 };
 
-const socket = io('http://localhost:5000');
+const socket = io('ws://localhost:5000');
 
 export const MessagesPage = () => {
   const requests = useSelector(selectRequests);
@@ -48,6 +48,7 @@ export const MessagesPage = () => {
     if (findFriendship?.reciverId === currentUser?.id)
       setFriend(findFriendship?.sender);
     else setFriend(findFriendship?.reciver);
+    console.log('join room');
     socket.emit('join_room', friendshipId);
   };
 

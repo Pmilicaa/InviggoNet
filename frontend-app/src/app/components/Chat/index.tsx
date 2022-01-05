@@ -4,39 +4,44 @@ import React, { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 
 const Message = ({ message }) => {
+  console.log(message.sender);
+  console.log(message.createdAt);
   return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: message.content ? 'flex-end' : 'flex-start',
-      }}
-    >
+    <>
       <div
         style={{
-          maxWidth: '50%',
+          display: 'flex',
+          justifyContent: message.content ? 'flex-end' : 'flex-start',
         }}
       >
         <div
           style={{
-            borderRadius: '15px',
-            backgroundColor: message.content ? 'orange' : 'red',
-            color: 'white',
-            margin: '10px',
-            padding: '10px',
+            maxWidth: '50%',
           }}
         >
-          {message.content}
-        </div>
-        <div
-          style={{
-            paddingInline: '20px',
-            textAlign: message.content ? 'end' : 'start',
-          }}
-        >
-          Sent: {message.sender}
+          <div
+            style={{
+              borderRadius: '15px',
+              backgroundColor: message.content ? 'orange' : 'red',
+              color: 'white',
+              margin: '10px',
+              padding: '10px',
+            }}
+          >
+            {message.content}
+          </div>
+          <div
+            style={{
+              paddingInline: '20px',
+              textAlign: message.content ? 'end' : 'start',
+            }}
+          >
+            Sent:{message.sender}{' '}
+            {new Date(message.createdAt).toLocaleDateString()}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
@@ -45,21 +50,15 @@ const Chat = ({ friend, socket, friendshipId, sender }) => {
   const [currentMessage, setCurrentMessage] = useState('');
 
   useEffect(() => {
-    // const poruke = svePoruke();
-    //console.log(poruke + 'sve poruke u chatu');
     const poruke = async () => {
       const primljenePoruke = await getMessages();
-      console.log(primljenePoruke);
       setMessages(primljenePoruke);
     };
     poruke();
   }, []);
 
   const getMessages = async () => {
-    const friendshipIdN = 1;
-    const allMessages = await getAllMessages(friendshipIdN);
-    //  setMessages(allMessages);
-    console.log(messages);
+    const allMessages = await getAllMessages(friendshipId);
     return allMessages;
   };
   useEffect(() => {
@@ -68,23 +67,18 @@ const Chat = ({ friend, socket, friendshipId, sender }) => {
     socket.on('receive_message', data => {
       setMessages(messages => [...messages, data]);
     });
-
-    socket.on('connnection', () => {
-      console.log('connected to server');
+    socket.on('chat_messages', data => {
+      setMessages(data);
     });
-
-    // socket.on('receive_message', newMessage: Message) => {
-    //   console.log(newMessage);
-    //   setMessages(meessage => [...messages, newMessage]);
-    // });
   }, []);
-
   const handleEnter = e => {
     if (e.code === 'Enter') {
+      console.log(sender);
+      console.log(sender.id);
       let messageData = {
         content: currentMessage,
-        room: friendshipId,
-        sender: sender,
+        friendshipId: friendshipId,
+        senderId: sender.id,
       };
       socket.emit('send_message', messageData);
       setCurrentMessage('');
@@ -123,8 +117,8 @@ const Chat = ({ friend, socket, friendshipId, sender }) => {
           }}
           onKeyPress={handleEnter}
         />
-        {messages.map(message => (
-          <Message message={message} />
+        {messages.map((message, index) => (
+          <Message key={index} message={message} />
         ))}
       </div>
     </div>
