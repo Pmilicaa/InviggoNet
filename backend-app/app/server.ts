@@ -10,14 +10,9 @@ import mongoose, { ConnectOptions } from "mongoose";
 import * as http from "http";
 
 import { connectToDatabase } from "../app/config/mongodb";
-<<<<<<< HEAD
-import {  } from "socket.io";
-import { MessageDTO } from "./dto/message.dto";
-=======
 import * as socketio from "socket.io";
 import { getMessages, newMessage } from "./services/message.service";
 import { join } from "path/posix";
->>>>>>> a419b9564f5fdbf56b2cc13cf1698e97337efd03
 
 async function start() {
   try {
