@@ -1,14 +1,14 @@
-import { TextField } from '@mui/material';
+import { Box, InputAdornment, TextField } from '@mui/material';
 import { getAllMessages } from 'app/services/MessageService';
-import React, { useEffect, useState } from 'react';
-import { io } from 'socket.io-client';
+import React, { useEffect, useState, useRef } from 'react';
+import SendIcon from '@mui/icons-material/Send';
 
 const Message = ({ message }) => {
   return (
     <div
       style={{
         display: 'flex',
-        justifyContent: message.content ? 'flex-end' : 'flex-start',
+        justifyContent: message.myMessage ? 'flex-end' : 'flex-start',
       }}
     >
       <div
@@ -19,7 +19,7 @@ const Message = ({ message }) => {
         <div
           style={{
             borderRadius: '15px',
-            backgroundColor: message.content ? 'orange' : 'red',
+            backgroundColor: message.myMessage ? 'orange' : 'red',
             color: 'white',
             margin: '10px',
             padding: '10px',
@@ -30,10 +30,10 @@ const Message = ({ message }) => {
         <div
           style={{
             paddingInline: '20px',
-            textAlign: message.content ? 'end' : 'start',
+            textAlign: message.myMessage ? 'end' : 'start',
           }}
         >
-          Sent: {message.sender}
+          Sent:
         </div>
       </div>
     </div>
@@ -42,53 +42,73 @@ const Message = ({ message }) => {
 
 const Chat = ({ friend, socket, friendshipId, sender }) => {
   const [messages, setMessages] = useState<any>([]);
+  const messagesEnd = useRef<HTMLDivElement>(null);
   const [currentMessage, setCurrentMessage] = useState('');
 
-  useEffect(() => {
-    // const poruke = svePoruke();
-    //console.log(poruke + 'sve poruke u chatu');
-    const poruke = async () => {
-      const primljenePoruke = await getMessages();
-      console.log(primljenePoruke);
-      setMessages(primljenePoruke);
-    };
-    poruke();
-  }, []);
+  // useEffect(() => {
+  //   // const poruke = svePoruke();
+  //   //console.log(poruke + 'sve poruke u chatu');
+  //   const poruke = async () => {
+  //     const primljenePoruke = await getMessages();
+  //     console.log(primljenePoruke);
+  //     setMessages(primljenePoruke);
+  //   };
+  //   poruke();
+  // }, [friendshipId]);
 
-  const getMessages = async () => {
-    const friendshipIdN = 1;
-    const allMessages = await getAllMessages(friendshipIdN);
-    //  setMessages(allMessages);
-    console.log(messages);
-    return allMessages;
-  };
+  // const getMessages = async () => {
+  //   const allMessages = await getAllMessages(friendshipId);
+  //   console.log(allMessages);
+  //   for (const message of allMessages) {
+  //     message.myMessage = message.senderId === sender.id;
+  //   }
+  //   return allMessages;
+  // };
+
+
   useEffect(() => {
-    const socket = io('ws://localhost:5000');
+    let init = false;
+    socket.on('initilize_chat', data => {
+      if (!init) {
+        for (const message of data) {
+          message.myMessage = message.sender.id === sender.id;
+        }
+        console.log("prosao i ovde");
+        setMessages(data);
+      }
+    });
 
     socket.on('receive_message', data => {
-      setMessages(messages => [...messages, data]);
+      console.log(data);
+      data.myMessage = data.sender.id === sender.id;
+      setMessages((list) => [...list, data]);
     });
+  }, [socket]);
 
-    socket.on('connnection', () => {
-      console.log('connected to server');
-    });
-
-    // socket.on('receive_message', newMessage: Message) => {
-    //   console.log(newMessage);
-    //   setMessages(meessage => [...messages, newMessage]);
-    // });
-  }, []);
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   const handleEnter = e => {
+    if (!currentMessage) return;
     if (e.code === 'Enter') {
-      let messageData = {
-        content: currentMessage,
-        room: friendshipId,
-        sender: sender,
-      };
-      socket.emit('send_message', messageData);
-      setCurrentMessage('');
+      sendMessage();
     }
+  };
+
+  const sendMessage = async () => {
+    let messageData = {
+      content: currentMessage,
+      room: friendshipId,
+      sender: sender,
+    };
+    await socket.emit('send_message', messageData);
+    setCurrentMessage('');
+  };
+
+  const scrollToBottom = () => {
+    if (messagesEnd.current)
+      messagesEnd.current.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -98,23 +118,45 @@ const Chat = ({ friend, socket, friendshipId, sender }) => {
         style={{
           padding: '10px',
           borderLeft: 'black solid 1px',
-          height: '100%',
           backgroundImage: 'linear-gradient(white, #00aaff)',
         }}
       >
-        <h1 style={{ textAlign: 'center' }}></h1>
-
-        {/* {messages.map(message => (
-          <Message message={message} />
-        ))} */}
-      </div>
-      <div>
+        <h1 style={{ textAlign: 'center' }}>
+          {friend.firstName} {friend.lastName}
+        </h1>
+        <div
+          style={{
+            overflow: 'scroll',
+            overflowY: 'auto',
+            height: '74vh',
+            overflowX: 'hidden',
+            marginBottom: '30px',
+          }}
+        >
+          {messages.map((message, index) => (
+            <Message message={message} key={index}/>
+          ))}
+          <div ref={messagesEnd} />
+        </div>
         <TextField
           id="outlined-search"
           type="search"
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <div style={{ color: 'white' }}>
+                  <SendIcon color="inherit" onClick={sendMessage} />
+                </div>
+              </InputAdornment>
+            ),
+          }}
           variant="outlined"
           inputProps={{
             style: { backgroundColor: 'white' },
+          }}
+          sx={{
+            margin: 'auto',
+            width: '70%',
           }}
           size="small"
           value={currentMessage}
@@ -123,9 +165,6 @@ const Chat = ({ friend, socket, friendshipId, sender }) => {
           }}
           onKeyPress={handleEnter}
         />
-        {messages.map(message => (
-          <Message message={message} />
-        ))}
       </div>
     </div>
   );

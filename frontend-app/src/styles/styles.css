@@ -23,7 +23,7 @@ div .containerLittleMargin {
 }
 
 div .containerWithoutMargin {
-  max-width: 90vw;
+  max-height: 90vw;
   margin: 5px auto;
   padding: 25px;
   background-color: white;

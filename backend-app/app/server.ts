@@ -3,7 +3,6 @@ import cors from "cors";
 import { sequelize } from "./sequelize";
 import { User } from "./ts-models/User";
 import { Friendship } from "./ts-models/Friendship";
-import busboy from "connect-busboy";
 import { upload } from "./firebase/firebase";
 import { editUser } from "./services/user.service";
 import { MongoClient } from "mongodb";
@@ -11,7 +10,8 @@ import mongoose, { ConnectOptions } from "mongoose";
 import * as http from "http";
 
 import { connectToDatabase } from "../app/config/mongodb";
-import * as socketio from "socket.io";
+import {  } from "socket.io";
+import { MessageDTO } from "./dto/message.dto";
 
 async function start() {
   try {
@@ -55,50 +55,6 @@ app.get("/", (req: Request, res: Response) => {
   res.json({ message: "Welcome to inviggo application." });
 });
 
-app.post(
-  "/api/users/edit",
-  busboy({ immediate: true }),
-  (req: Request, res: Response) => {
-    if (req.busboy) {
-      let fileData: Uint8Array | Buffer | null = null;
-      let fileName: any;
-      const user: any = {
-        id: -1,
-        email: "",
-        username: "",
-        firstName: "",
-        lastName: "",
-        password: "",
-        image: "",
-        age: 0,
-        gender: "",
-      };
-      req.busboy.on("file", (name, file, info) => {
-        fileName = info;
-        file.on("data", (data) => {
-          if (fileData === null) {
-            fileData = data;
-          } else {
-            fileData = Buffer.concat([fileData, data]);
-          }
-        });
-      });
-      req.busboy.on("field", (fieldName, value) => {
-        user[fieldName] = value;
-      });
-
-      req.busboy.on("finish", async () => {
-        if (fileName) {
-          const url = await upload(fileData, fileName);
-          user.image = url;
-        }
-        const newUser = await editUser(user);
-        res.json(newUser);
-      });
-    }
-  }
-);
-
 require("../app/routes/user.routes")(app);
 require("../app/routes/post.routes")(app);
 require("../app/routes/message.routes")(app);
@@ -116,15 +72,13 @@ const io = require("socket.io")(server, {
     credentials: true,
   },
 });
-console.log("usao");
+
+
+
+
 server.listen(5000, () => {
   start();
   console.log("Running at localhost:5000");
 });
 
-// const PORT = process.env.PORT || 5000;
-// app.listen(PORT, () => {
-//   console.log(`Server is running on port ${PORT}.`);
-//   start();
-// });
 export { io };

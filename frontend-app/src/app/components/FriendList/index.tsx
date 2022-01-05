@@ -4,7 +4,6 @@ import ListItem from '@mui/material/ListItem';
 import { Avatar } from '@mui/material';
 
 const FriendList = ({ friends, changeChat }) => {
-
   return (
     <div
       className="containerWithoutMargin"

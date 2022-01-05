@@ -8,6 +8,7 @@ import {
   infoForLogin,
   searchUsersNotLogedIn,
   getFriendInfo,
+  editUser,
 } from "../services/user.service";
 
 exports.findAll = async (req: any, res: any) => {
@@ -60,3 +61,43 @@ exports.search = async (req: any, res: Response) => {
     return res.sendStatus(400);
   }
 };
+
+exports.edit = async (req: Request, res: Response) => {
+  if (req.busboy) {
+    let fileData: Uint8Array | Buffer | null = null;
+    let fileName: any;
+    const user: any = {
+      id: -1,
+      email: "",
+      username: "",
+      firstName: "",
+      lastName: "",
+      password: "",
+      image: "",
+      age: 0,
+      gender: "",
+    };
+    req.busboy.on("file", (name, file, info) => {
+      fileName = info;
+      file.on("data", (data) => {
+        if (fileData === null) {
+          fileData = data;
+        } else {
+          fileData = Buffer.concat([fileData, data]);
+        }
+      });
+    });
+    req.busboy.on("field", (fieldName, value) => {
+      user[fieldName] = value;
+    });
+
+    req.busboy.on("finish", async () => {
+      if (fileName) {
+        const url = await upload(fileData, fileName);
+        user.image = url;
+      }
+      const newUser = await editUser(user);
+      res.json(newUser);
+    });
+  }
+}

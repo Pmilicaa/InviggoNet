@@ -43,12 +43,12 @@ export const MessagesPage = () => {
   const [friend, setFriend] = useState<User>();
 
   const changeChat = (friendshipId: number) => {
-    setChat(friendshipId);
+    socket.emit('join_room', friendshipId);
     const findFriendship = requests?.find(req => req.id === friendshipId);
     if (findFriendship?.reciverId === currentUser?.id)
-      setFriend(findFriendship?.sender);
+    setFriend(findFriendship?.sender);
     else setFriend(findFriendship?.reciver);
-    socket.emit('join_room', friendshipId);
+    setChat(friendshipId);
   };
 
   useEffect(() => {
@@ -64,12 +64,16 @@ export const MessagesPage = () => {
         />
       </div>
       <div style={{ flexGrow: 7, width: '70%', height: 'calc(100vh - 68px)' }}>
-        <Chat
-          friend={friend}
-          socket={socket}
-          friendshipId={chat}
-          sender={currentUser}
-        />
+        {chat !== 0 ? (
+          <Chat
+            friend={friend}
+            socket={socket}
+            friendshipId={chat}
+            sender={currentUser}
+          />
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );
