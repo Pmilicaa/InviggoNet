@@ -2,14 +2,17 @@ import { User } from "../ts-models/User";
 import { getPost } from "../repositories/post.repository";
 import { Op, fn, col, where } from "sequelize";
 
-const searchUser = async (query: string, userId: number | undefined): Promise<User[]> => {
+const searchUser = async (
+  query: string,
+  userId: number | undefined
+): Promise<User[]> => {
   let users;
-  if(userId){
+  if (userId) {
     users = await User.findAll({
       raw: true,
       where: {
         id: {
-          [Op.not]: userId
+          [Op.not]: userId,
         },
         [Op.or]: [
           where(fn("concat", col("firstName"), " ", col("lastName")), {
@@ -33,35 +36,51 @@ const searchUser = async (query: string, userId: number | undefined): Promise<Us
         ],
       },
     });
-  }else{
+  } else {
     users = await User.findAll({
-    raw: true,
-    where: {
-      [Op.or]: [
-        where(fn("concat", col("firstName"), " ", col("lastName")), {
-          [Op.substring]: query,
-        }),
-        {
-          username: {
+      raw: true,
+      where: {
+        [Op.or]: [
+          where(fn("concat", col("firstName"), " ", col("lastName")), {
             [Op.substring]: query,
+          }),
+          {
+            username: {
+              [Op.substring]: query,
+            },
           },
-        },
-        {
-          firstName: {
-            [Op.substring]: query,
+          {
+            firstName: {
+              [Op.substring]: query,
+            },
           },
-        },
-        {
-          lastName: {
-            [Op.substring]: query,
+          {
+            lastName: {
+              [Op.substring]: query,
+            },
           },
-        },
-      ],
-    },
-  });
+        ],
+      },
+    });
   }
-  
+
   return users;
+};
+
+const updateUser = async (user: User) => {
+  try {
+    await User.update(user, {
+      where: {
+        id: user.id,
+      },
+    });
+    
+    const updateUser = await getOneById(user.id);
+    return updateUser;
+  } catch (error) {
+    console.log(error);
+  }
+
 };
 
 const getAllUsers = async () => {
@@ -131,4 +150,4 @@ const addPostToUser = async (body: any) => {
     throw new Error();
   }
 };
-export { createUser, getAllUsers, getOne, addPostToUser, searchUser, getInfo };
+export { createUser, getAllUsers, getOne, addPostToUser, searchUser, getInfo, updateUser };

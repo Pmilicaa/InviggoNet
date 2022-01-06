@@ -1,14 +1,13 @@
 import { Button } from '@mui/material';
-import { postService, getPosts } from '../../services/PostService';
+import { postService } from '../../services/PostService';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import './styles.css';
 
 type FormValues = {
   content: string;
 };
-export default function AddPost() {
+export default function AddPost({ username }) {
   const { register, handleSubmit } = useForm<FormValues>();
-  const username = 'dusanstoajn0';
 
   const onSubmit: SubmitHandler<FormValues> = data =>
     addPost(data.content, username);

@@ -11,6 +11,8 @@ import { useSelector } from 'react-redux';
 import { selectUser } from '../../pages/LoginPage/slice/selectors';
 import LoggedMenu from '../Menu/LoggedMenu';
 import NotLoggedMenu from '../Menu/NotLoggedMenu';
+import { Avatar } from '@mui/material';
+import DraftsIcon from '@mui/icons-material/Drafts';
 
 export function Header() {
   const [search, setSearch] = useState('');
@@ -72,6 +74,43 @@ export function Header() {
               onKeyPress={handleEnter}
             />
           </Box>
+          {user?.id !== -1 ? (
+            <DraftsIcon
+              onClick={handleNavigate('/messages')}
+              sx={{
+                marginLeft: '20px',
+                cursor: 'pointer',
+              }}
+            />
+          ) : (
+            <></>
+          )}
+          {user?.id !== -1 ? (
+            user?.image ? (
+              <>
+                <Avatar
+                  alt=""
+                  src={user?.image + ''}
+                  sx={{
+                    marginLeft: '20px',
+                    cursor: 'pointer',
+                  }}
+                  onClick={handleNavigate('/profile')}
+                />
+              </>
+            ) : (
+              <Avatar
+                sx={{
+                  marginLeft: '20px',
+                  cursor: 'pointer',
+                }}
+                onClick={handleNavigate('/profile')}
+              />
+            )
+          ) : (
+            <></>
+          )}
+
           {user?.id === -1 ? <NotLoggedMenu /> : <LoggedMenu />}
         </Toolbar>
       </AppBar>

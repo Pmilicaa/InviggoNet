@@ -1,11 +1,9 @@
 import './styles.css';
 import * as React from 'react';
 import Box from '@mui/material/Box';
-
 import { getUserInfo } from 'app/services/UserService';
 import { Grid, Paper } from '@material-ui/core';
 import { Likes } from '../Likes';
-
 import Comments from '../Comments/Comments';
 import AddComment from '../AddComment/AddComment';
 export default function Post(props) {

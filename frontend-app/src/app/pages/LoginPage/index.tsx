@@ -2,14 +2,11 @@ import Button from '@mui/material/Button';
 import { TextField } from '@mui/material';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import { useCurrentUserSlice } from './slice';
 
 export const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-
-  const history = useHistory();
 
   const { actions } = useCurrentUserSlice();
 
@@ -19,9 +16,6 @@ export const LoginPage = () => {
     dispatch(actions.login({ username, password }));
     setUsername('');
     setPassword('');
-    history.push({
-      pathname: '/',
-    });
   };
 
   const handleEnter = e => {

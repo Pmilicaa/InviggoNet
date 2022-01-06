@@ -25,7 +25,7 @@ export function FriendRequestsPage() {
 
   useEffect(() => {
     if (currentUser) dispatch(actions.getRequests(currentUser.id));
-  }, [currentUser]);
+  }, [currentUser, actions, dispatch]);
 
   return (
     <>
@@ -42,6 +42,7 @@ export function FriendRequestsPage() {
             requests.map(req =>
               !req.accepted && req.senderId !== currentUser?.id ? (
                 <UserRequest
+                  key={req.id}
                   user={req.sender}
                   acceptRequest={() => {
                     acceptRequest(req.id);
@@ -51,9 +52,15 @@ export function FriendRequestsPage() {
                   }}
                 />
               ) : req.senderId !== currentUser?.id ? (
-                <User user={req.sender} addFriend={undefined} loggedIn={true} />
+                <User
+                  key={req.id}
+                  user={req.sender}
+                  addFriend={undefined}
+                  loggedIn={true}
+                />
               ) : (
                 <User
+                  key={req.id}
                   user={{ ...req.reciver, friends: req.accepted }}
                   addFriend={undefined}
                   loggedIn={true}

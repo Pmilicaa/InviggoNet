@@ -1,5 +1,7 @@
 import verifyToken from "../services/auth.service";
-import { searchMiddleware } from "../services/auth.service";
+import { searchMiddleware } from "../services/auth.service"
+import busboy from "connect-busboy";
+
 
 module.exports = (app: any) => {
   const users = require("../controllers/user.controller");
@@ -12,5 +14,6 @@ module.exports = (app: any) => {
   router.get("/search", searchMiddleware, users.search);
   router.post("/login", auth.login);
   router.post("/getInfo", users.getFriend);
+  router.post("/edit", busboy({ immediate: true }), users.edit)
   app.use("/api/users", router);
 };

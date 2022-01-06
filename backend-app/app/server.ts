@@ -1,12 +1,12 @@
-// const mongodb = require("./config/db.mongodb");
-// const express = require("express");
-// const cors = require("cors");
-import { run } from "./models/Message";
 import express, { Request, Response } from "express";
 import cors from "cors";
 import { sequelize } from "./sequelize";
 import { User } from "./ts-models/User";
 import { Friendship } from "./ts-models/Friendship";
+import * as http from "http";
+
+import { connectToDatabase } from "../app/config/mongodb";
+import { getMessages, newMessage } from "./services/message.service";
 
 async function start() {
   try {
@@ -24,10 +24,25 @@ async function start() {
         firstName: "Dusan" + i,
         lastName: "Stojancevic" + i,
         password: "1234" + i,
+        age: 30,
+        gender: i % 2 ? "male" : "female",
       };
       await User.create(user);
     }
-    // await run();
+
+    await Friendship.create({
+      accepted: true,
+      senderId: 1,
+      reciverId: 2,
+    });
+
+    Friendship.create({
+      accepted: true,
+      senderId: 1,
+      reciverId: 3,
+    });
+
+    connectToDatabase();
   } catch (error) {
     console.log(error);
   }
@@ -50,12 +65,47 @@ app.get("/", (req: Request, res: Response) => {
 
 require("../app/routes/user.routes")(app);
 require("../app/routes/post.routes")(app);
+require("../app/routes/message.routes")(app);
 require("../app/routes/friendship.routes")(app);
 require("../app/routes/comment.routes")(app);
 require("../app/routes/like.routes")(app);
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}.`);
-  start();
+const server = http.createServer(app);
+
+const io = require("socket.io")(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+    allowedHeaders: ["my-custom-header"],
+    credentials: true,
+  },
 });
+io.on("connection", (socket: any) => {
+  socket.on("join_room", (data: any) => {
+    socket.join(data);
+    getMessages(data).then((messages) =>
+      io.in(data).emit("chat_messages", messages)
+    );
+  });
+
+  socket.on("send_message", (data: any) => {
+    async function message(data: any) {
+      const addedMessage = await newMessage(data);
+      return addedMessage;
+    }
+    message(data).then((added) =>
+      io.in(data.friendshipId).emit("receive_message", added)
+    );
+  });
+
+  socket.on("disconnect", () => {
+    console.log("User Disconnected", socket.id);
+  });
+});
+console.log("usao");
+server.listen(5000, () => {
+  start();
+  console.log("Running at localhost:5000");
+});
+
+export { io };

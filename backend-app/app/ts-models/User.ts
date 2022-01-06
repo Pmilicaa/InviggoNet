@@ -4,7 +4,6 @@ import {
   Model,
   HasMany,
   NotEmpty,
-  BelongsToMany,
 } from "sequelize-typescript";
 import { Comment } from "./Comment";
 import { Friendship } from "./Friendship";

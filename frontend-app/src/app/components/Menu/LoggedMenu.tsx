@@ -39,7 +39,7 @@ export default function NotLogedMenu() {
   };
 
   return (
-    <div style={{ marginLeft: '30px' }}>
+    <div>
       <IconButton
         aria-label="more"
         id="long-button"
@@ -62,6 +62,9 @@ export default function NotLogedMenu() {
       >
         <MenuItem color="inherit" onClick={handleNavigate('/profile')}>
           Profile
+        </MenuItem>
+        <MenuItem color="inherit" onClick={handleNavigate('/edit')}>
+          Edit Profile
         </MenuItem>
         <MenuItem />
         <MenuItem color="inherit" onClick={handleNavigate('/requests')}>
