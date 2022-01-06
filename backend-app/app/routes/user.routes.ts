@@ -3,7 +3,6 @@ import { searchMiddleware } from "../services/auth.service"
 import busboy from "connect-busboy";
 
 
-
 module.exports = (app: any) => {
   const users = require("../controllers/user.controller");
   const auth = require("../controllers/auth.controller");

@@ -3,6 +3,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import { getUserInfo } from 'app/services/UserService';
 import { Grid, Paper } from '@material-ui/core';
+import { Likes } from '../Likes';
 import Comments from '../Comments/Comments';
 import AddComment from '../AddComment/AddComment';
 export default function Post(props) {
@@ -41,6 +42,7 @@ export default function Post(props) {
                 <p style={{ textAlign: 'left', color: 'gray' }}>
                   posted {new Date(props.post.createdAt).toLocaleDateString()}
                 </p>
+                <Likes postId={props.post.id} />
               </Grid>
             </Grid>
           </Paper>
