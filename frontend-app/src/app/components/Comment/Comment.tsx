@@ -1,8 +1,4 @@
-import { Box } from '@mui/system';
-//import { List, TextField } from 'material-ui';
-import * as React from 'react';
-import List from '@mui/material/List';
-import { Divider, Avatar, Grid, Paper } from '@material-ui/core';
+import { Grid, Paper } from '@material-ui/core';
 
 export default function Comment(props) {
   return (

@@ -1,6 +1,3 @@
-import { Box } from '@mui/system';
-import * as React from 'react';
-
 import { useForm } from 'react-hook-form';
 import { Button, TextField } from '@mui/material';
 import { addComment } from 'app/services/CommentService';
@@ -14,7 +11,7 @@ export default function AddComment(props) {
     const userId = 1;
     console.log(comment + 'komentari');
     console.log(postId + 'id posta');
-    if (comment != '') {
+    if (comment !== '') {
       addComments(comment, userId, postId);
     } else {
       return console.log('nema nista');

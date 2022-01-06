@@ -1,5 +1,4 @@
 import { Profile } from 'app/components/Profile/Profile';
-import { getUserInfo } from 'app/services/UserService';
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useSelector } from 'react-redux';

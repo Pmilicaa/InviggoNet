@@ -1,10 +1,8 @@
-import React, { useEffect } from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import { Avatar } from '@mui/material';
 
 const FriendList = ({ friends, changeChat }) => {
-
   return (
     <div
       className="containerWithoutMargin"

@@ -37,11 +37,11 @@ export function Register() {
     const age = data.age;
     console.log(data);
     let gender;
-    if (male == true) {
+    if (male === true) {
       console.log(male);
       gender = 'm';
       signUp(username, password, lastName, firstName, email, age, gender);
-    } else if (female == true) {
+    } else if (female === true) {
       console.log(female);
       gender = 'f';
       signUp(username, password, lastName, firstName, email, age, gender);

@@ -39,7 +39,7 @@ export default function NotLogedMenu() {
   };
 
   return (
-    <div style={{ marginLeft: '30px' }}>
+    <div>
       <IconButton
         aria-label="more"
         id="long-button"

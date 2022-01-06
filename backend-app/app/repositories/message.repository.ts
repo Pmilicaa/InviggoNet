@@ -13,10 +13,11 @@ const addMessage = async (body: any) => {
       senderId: senderId,
       friendshipId: friendshipId,
       sender: firstAndLastName,
+      createdAt: new Date(),
     };
     console.log(senderId + "dosao senderId u bodiju za message");
     console.log(content + "dosao  content u bodiju za message");
-    console.log(friendshipId + "dosao id friendship u bodiju za message");
+    console.log(message.createdAt + "date u bodiju za message");
     MessageModel.create(message);
     return message;
   } catch (err: any) {
@@ -25,13 +26,13 @@ const addMessage = async (body: any) => {
 };
 const getAllMessages = async (body: any) => {
   try {
-    const friendshipId = body.friendshipId;
+    const friendshipId = body;
     const messages = await MessageModel.find({
       friendshipId: friendshipId,
     });
-    console.log(messages);
     return messages;
   } catch (err: any) {
+    console.log(err);
     throw new Error("nema poruka");
   }
 };

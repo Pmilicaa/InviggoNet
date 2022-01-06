@@ -7,8 +7,7 @@ import { User } from 'types/models/User';
 import { useFriendRequestSlice } from '../FriendRequests/slice';
 import { selectRequests } from '../FriendRequests/slice/selectors';
 import { selectUser } from '../LoginPage/slice/selectors';
-import io from "socket.io-client";
-
+import io, { Socket } from 'socket.io-client';
 
 const mapedRequests = (
   requests: Friendship[] | undefined,
@@ -28,8 +27,6 @@ const mapedRequests = (
     });
 };
 
-const socket = io("http://localhost:5000");
-
 export const MessagesPage = () => {
   const requests = useSelector(selectRequests);
 
@@ -41,24 +38,25 @@ export const MessagesPage = () => {
 
   const [chat, setChat] = useState(0);
 
-  const [friend, setFriend] = useState<User>()
+  const [friend, setFriend] = useState<User>();
+
+  const [socket, setSocket] = useState<Socket>();
 
   const changeChat = (friendshipId: number) => {
-    setChat(friendshipId);
     const findFriendship = requests?.find(req => req.id === friendshipId);
     if (findFriendship?.reciverId === currentUser?.id)
       setFriend(findFriendship?.sender);
-    else
-      setFriend(findFriendship?.reciver);
-    socket.emit("join_room", friendshipId);
-
+    else setFriend(findFriendship?.reciver);
+    setChat(friendshipId);
+    if (socket) socket.emit('join_room', friendshipId);
   };
 
   useEffect(() => {
+    if (socket) socket.disconnect();
+    const initSocket = io('ws://localhost:5000');
+    setSocket(initSocket);
     if (currentUser) dispatch(actions.getRequests(currentUser.id));
   }, [currentUser, actions, dispatch]);
-
-
 
   return (
     <div style={{ display: 'flex', marginTop: '10px' }}>
@@ -69,12 +67,16 @@ export const MessagesPage = () => {
         />
       </div>
       <div style={{ flexGrow: 7, width: '70%', height: 'calc(100vh - 68px)' }}>
-        <Chat
-          friend={friend}
-          socket={socket}
-          friendshipId={chat}
-          sender={currentUser}
-        />
+        {chat !== 0 ? (
+          <Chat
+            friend={friend}
+            socket={socket}
+            friendshipId={chat}
+            sender={currentUser}
+          />
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );
