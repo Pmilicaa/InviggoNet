@@ -1,4 +1,5 @@
-import { Grid, Paper } from '@material-ui/core';
+import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
 
 export default function Comment(props) {
   return (

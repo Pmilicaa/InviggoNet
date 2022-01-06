@@ -13,6 +13,7 @@ import './styles.css';
 import { Radio, RadioGroup } from '@mui/material';
 import { useCurrentUserSlice } from '../LoginPage/slice';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 export function EditProfilePage() {
   const currentUser = useSelector(selectUser);
@@ -48,6 +49,7 @@ export function EditProfilePage() {
     if (data['image'] === null) formData.append('image', '');
     editUser(formData).then(freshUser => {
       dispatch(actions.changeUser(freshUser));
+      toast.success('You successfully changed profile')
     });
   };
 
