@@ -5,8 +5,6 @@ import {
   NotEmpty,
   CreatedAt,
   BelongsTo,
-  HasMany,
-  HasOne,
   ForeignKey,
 } from "sequelize-typescript";
 import { Post } from "./Post";

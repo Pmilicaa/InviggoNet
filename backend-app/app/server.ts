@@ -3,16 +3,10 @@ import cors from "cors";
 import { sequelize } from "./sequelize";
 import { User } from "./ts-models/User";
 import { Friendship } from "./ts-models/Friendship";
-import { upload } from "./firebase/firebase";
-import { editUser } from "./services/user.service";
-import { MongoClient } from "mongodb";
-import mongoose, { ConnectOptions } from "mongoose";
 import * as http from "http";
 
 import { connectToDatabase } from "../app/config/mongodb";
-import * as socketio from "socket.io";
 import { getMessages, newMessage } from "./services/message.service";
-import { join } from "path/posix";
 
 async function start() {
   try {

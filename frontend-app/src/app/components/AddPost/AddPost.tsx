@@ -6,9 +6,8 @@ import './styles.css';
 type FormValues = {
   content: string;
 };
-export default function AddPost() {
+export default function AddPost({ username }) {
   const { register, handleSubmit } = useForm<FormValues>();
-  const username = 'user0';
 
   const onSubmit: SubmitHandler<FormValues> = data =>
     addPost(data.content, username);
