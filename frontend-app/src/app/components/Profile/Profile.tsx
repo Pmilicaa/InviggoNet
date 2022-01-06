@@ -18,19 +18,12 @@ export function Profile({ user, myProfile }) {
     return () => {
       setPosts([]);
     };
-  }, []);
+  }, [user]);
 
   const userPosts = async (username: string) => {
     const userPosts = await getPosts(username);
     return userPosts;
   };
-
-  const getAllPosts = async () => {
-    const get = await getPosts(user.username);
-    return get;
-  };
-
-  getAllPosts();
 
   return (
     <div>
@@ -70,7 +63,7 @@ export function Profile({ user, myProfile }) {
           </Grid>
         </Grid>
       </Paper>
-      {myProfile ? <AddPost /> : <></>}
+      {myProfile ? <AddPost username={user.username}/> : <></>}
       <Posts posts={posts} />
     </div>
   );
