@@ -17,6 +17,7 @@ export default function AddComment(props) {
       return console.log('nema nista');
     }
   };
+
   const addComments = async (content, userId, postId) => {
     const addedComm = await addComment(content, userId, postId);
     return addedComm;

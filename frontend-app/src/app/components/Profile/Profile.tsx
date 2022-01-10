@@ -6,31 +6,47 @@ import { getPosts } from '../../services/PostService';
 import AddPost from '../AddPost/AddPost';
 import Posts from '../Posts/Posts';
 import { Avatar } from '@mui/material';
+import { io } from 'socket.io-client';
+import { Post } from 'types/models/Post';
 
 export function Profile({ user, myProfile }) {
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState([]) as any;
 
   useEffect(() => {
-    if (user.username) {
-      const userPost = userPosts(user.username);
-      userPost.then(post => setPosts(post));
-    }
+    const userPost = async () => {
+      const receivedPosts = await userPosts(user.username);
+      setPosts(receivedPosts);
+    };
+    userPost();
+  }, []);
+  useEffect(() => {
+    const socket = io('ws://localhost:5000');
+
+    socket.on('connnection', () => {
+      console.log('connected to server');
+    });
+
+    socket.on('post-added', (newPost: Post) => {
+      console.log(newPost);
+      setPosts(posts => [...posts, newPost]);
+    });
+
+    socket.on('message', message => {
+      console.log(message);
+    });
+
+    socket.on('disconnect', () => {
+      console.log('Socket disconnecting');
+    });
     return () => {
-      setPosts([]);
+      setPosts({});
     };
   }, []);
 
   const userPosts = async (username: string) => {
-    const userPosts = await getPosts(username);
-    return userPosts;
+    const receivedPosts = await getPosts(username);
+    return receivedPosts;
   };
-
-  const getAllPosts = async () => {
-    const get = await getPosts(user.username);
-    return get;
-  };
-
-  getAllPosts();
 
   return (
     <div>

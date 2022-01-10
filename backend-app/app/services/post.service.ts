@@ -14,7 +14,6 @@ const addPost = async (params: any) => {
 const getAllUserPost = async (params: any) => {
   try {
     const userPosts = await getPosts(params);
-    console.log(JSON.stringify(userPosts) + "listy");
     return userPosts;
   } catch (err) {
     throw new Error("Error");
@@ -23,8 +22,8 @@ const getAllUserPost = async (params: any) => {
 const friendsPosts = async (params: any) => {
   try {
     const friends = await getFriendsPosts(params);
-    console.log(params + "doslo u servis parametri");
-    return friends;
+    var posts = friends.filter((x: any, y: any) => friends.indexOf(x) == y);
+    return JSON.stringify(posts);
   } catch (err: any) {
     throw new Error();
   }
