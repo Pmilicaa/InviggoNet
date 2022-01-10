@@ -6,11 +6,10 @@ import {
   searchUser,
   getInfo,
   getOneById,
-  updateUser
+  updateUser,
 } from "../repositories/user.repository";
 import { checkFriends } from "../repositories/friendship.repository";
 import { User } from "../ts-models/User";
-
 
 const getUsers = async () => {
   const users = await getAllUsers();
@@ -18,7 +17,6 @@ const getUsers = async () => {
 };
 const register = async (params: any) => {
   const createdUser = await createUser(params);
-  console.log(createdUser.username + "user u servicu kao");
 };
 const getMe = async (username: string) => {
   try {
@@ -58,9 +56,7 @@ const searchUsers = async (
   return usersDTO;
 };
 
-const searchUsersNotLogedIn = async (
-  query: string,
-): Promise<User[]> => {
+const searchUsersNotLogedIn = async (query: string): Promise<User[]> => {
   const users = await searchUser(query, undefined);
   return users;
 };
@@ -68,6 +64,15 @@ const searchUsersNotLogedIn = async (
 const editUser = async (user: User) => {
   const newUser = await updateUser(user);
   return newUser;
-}
+};
 
-export { register, getUsers, getMe, searchUsers, infoForLogin, getFriendInfo, searchUsersNotLogedIn, editUser };
+export {
+  register,
+  getUsers,
+  getMe,
+  searchUsers,
+  infoForLogin,
+  getFriendInfo,
+  searchUsersNotLogedIn,
+  editUser,
+};

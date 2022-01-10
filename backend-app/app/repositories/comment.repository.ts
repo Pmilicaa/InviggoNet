@@ -6,11 +6,9 @@ import { getOne, getOneById } from "./user.repository";
 const createComment = async (body: any) => {
   try {
     const user = await getOneById(body.userId);
-    console.log(body.userId + "user id hehe");
     const idPosta = body.postId;
     const post = await getPost(idPosta);
     const postId = post?.id;
-    console.log(idPosta + "post id y repou");
     const comment = {
       content: String(body.content),
       createdAt: new Date(),
@@ -26,7 +24,6 @@ const createComment = async (body: any) => {
   }
 };
 const getComments = async (id: any) => {
-  console.log(id + "id posta je");
   try {
     const comments = await Comment.findAll({
       where: {

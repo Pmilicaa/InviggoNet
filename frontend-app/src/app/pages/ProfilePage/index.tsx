@@ -41,7 +41,9 @@ export function ProfilePage() {
     <>
       <Helmet>Profile</Helmet>
 
-      <Profile user={user} myProfile={userId === undefined} />
+      {user.id !== 0 && (
+        <Profile user={user} myProfile={userId === undefined} />
+      )}
     </>
   );
 }

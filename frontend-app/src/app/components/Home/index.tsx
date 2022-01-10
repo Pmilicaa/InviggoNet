@@ -3,13 +3,20 @@ import { useEffect, useState } from 'react';
 import Posts from '../Posts/Posts';
 import { io } from 'socket.io-client';
 import { Post } from '../../../types/models/Post';
+import { useSelector } from 'react-redux';
+import { selectUser } from '../../pages/LoginPage/slice/selectors';
 
 export function Home() {
   const [posts, setPosts]: any = useState([]);
+  const currentUser = useSelector(selectUser);
+  if (currentUser?.id === undefined) {
+    throw new Error('Unexpected error: Missing id');
+  }
+  let id = currentUser?.id;
   useEffect(() => {
-    const userId = 1;
-    const friendsPosts = getFriendsPosts(userId);
-    friendsPosts.then(post => setPosts(post));
+    const friendsPosts = getFriendsPosts(id);
+    console.log(friendsPosts);
+    friendsPosts.then(posts => setPosts(posts));
   }, []);
 
   useEffect(() => {
@@ -31,6 +38,9 @@ export function Home() {
     socket.on('disconnect', () => {
       console.log('Socket disconnecting');
     });
+    return () => {
+      setPosts({}); // This worked for me
+    };
   }, []);
 
   return (

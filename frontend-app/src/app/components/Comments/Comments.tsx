@@ -9,11 +9,13 @@ import Collapse from '@mui/material/Collapse';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import Comment from '../Comment/Comment';
 import './styles.css';
+import { io } from 'socket.io-client';
+import { Comment as komentar } from 'types/models/Comment';
+import Comment from '../Comment/Comment';
 
 export default function Comments(props) {
-  const [comments, setComments] = useState([]);
+  const [comments, setComments] = useState([]) as any;
   const [open, setOpen] = useState(false);
 
   const handleClick = () => {
@@ -23,7 +25,29 @@ export default function Comments(props) {
     const allComments = allPostComments();
     allComments.then(comment => setComments(comment));
   }, []);
+  useEffect(() => {
+    const socket = io('ws://localhost:5000');
 
+    socket.on('connnection', () => {
+      console.log('connected to server');
+    });
+
+    socket.on('comment-added', (newPost: Comment) => {
+      console.log(newPost);
+      setComments(comments => [...comments, newPost]);
+    });
+
+    socket.on('message', message => {
+      console.log(message);
+    });
+
+    socket.on('disconnect', () => {
+      console.log('Socket disconnecting');
+    });
+    return () => {
+      setComments({}); // This worked for me
+    };
+  }, []);
   const allPostComments = async () => {
     const comments = await getComments(props.postId);
     return comments;

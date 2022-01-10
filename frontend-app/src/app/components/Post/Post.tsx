@@ -8,15 +8,15 @@ import { Likes } from '../Likes';
 import Comments from '../Comments/Comments';
 import AddComment from '../AddComment/AddComment';
 export default function Post(props) {
-  const [firstName, setFirstName] = React.useState('');
-  const [lastName, setLastName] = React.useState('');
+  const [firstName, setFirstName] = React.useState('Dusan0');
+  const [lastName, setLastName] = React.useState('Stojakovic');
 
   const userFriends = async (userId: number) => {
     const newFriends = await getUserInfo(userId);
     setFirstName(newFriends.firstName);
     setLastName(newFriends.lastName);
-    console.log(props.post.id + 'post id je taj i taj');
   };
+  userFriends(props.post.userId);
   React.useEffect(() => {
     userFriends(props.post.userId);
   }, []);

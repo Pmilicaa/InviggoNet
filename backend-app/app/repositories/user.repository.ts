@@ -74,13 +74,12 @@ const updateUser = async (user: User) => {
         id: user.id,
       },
     });
-    
+
     const updateUser = await getOneById(user.id);
     return updateUser;
   } catch (error) {
     console.log(error);
   }
-
 };
 
 const getAllUsers = async () => {
@@ -128,10 +127,8 @@ const createUser = async (body: any) => {
       gender: String(body.gender),
       age: Number(body.age),
     };
-    console.log(user.username + "user u repou");
     try {
       const newUser = await User.create(user);
-      console.log("success", newUser.toJSON());
     } catch (err) {
       console.log(err, user.email);
     }
@@ -142,7 +139,6 @@ const createUser = async (body: any) => {
 };
 const addPostToUser = async (body: any) => {
   const id = body.userId;
-  console.log(id + "id usera");
 
   try {
     const result = await User.update({ posts: body }, { where: { id } });
@@ -150,4 +146,12 @@ const addPostToUser = async (body: any) => {
     throw new Error();
   }
 };
-export { createUser, getAllUsers, getOne, addPostToUser, searchUser, getInfo, updateUser };
+export {
+  createUser,
+  getAllUsers,
+  getOne,
+  addPostToUser,
+  searchUser,
+  getInfo,
+  updateUser,
+};
