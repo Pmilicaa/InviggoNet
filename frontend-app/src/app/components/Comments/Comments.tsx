@@ -32,9 +32,9 @@ export default function Comments(props) {
       console.log('connected to server');
     });
 
-    socket.on('comment-added', (newPost: Comment) => {
-      console.log(newPost);
-      setComments(comments => [...comments, newPost]);
+    socket.on('comment-added', (newComment: Comment) => {
+      console.log(newComment);
+      setComments(comments => [...comments, newComment]);
     });
 
     socket.on('message', message => {

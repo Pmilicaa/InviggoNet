@@ -32,7 +32,20 @@ const getPostLikes = async (postId: number) => {
     });
     return likes;
   } catch (err: any) {
-    throw new Error("nema post lajkove");
+    throw new Error("Error getting likes");
+  }
+};
+const getPostLikesByUser = async (postId: number, userId: number) => {
+  try {
+    const likes = await Like.findOne({
+      where: {
+        postId: postId,
+        userId: userId,
+      },
+    });
+    return likes;
+  } catch (err: any) {
+    throw new Error("Error getting likes by user");
   }
 };
 const getPostAndUserLikes = async (postId: number, userId: number) => {
@@ -45,7 +58,7 @@ const getPostAndUserLikes = async (postId: number, userId: number) => {
     });
     return likes;
   } catch (err: any) {
-    throw new Error("nema user lajkove");
+    throw new Error("Error getting likes");
   }
 };
 const getLikes = async () => {
@@ -73,7 +86,6 @@ const getUserLikes = async (postId: number) => {
 };
 const createLike = async (body: any) => {
   try {
-    console.log(body + "dosao u repo");
     const user = await getOneById(body.userId);
     const post = await getPost(body.postId);
     const like = {
@@ -88,4 +100,11 @@ const createLike = async (body: any) => {
     throw new Error();
   }
 };
-export { getLike, getLikes, createLike, getPostLikes, getPostAndUserLikes };
+export {
+  getLike,
+  getLikes,
+  createLike,
+  getPostLikes,
+  getPostAndUserLikes,
+  getPostLikesByUser,
+};

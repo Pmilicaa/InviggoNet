@@ -9,8 +9,6 @@ export default function AddComment(props) {
     const comment = data.comment;
     const postId = props.postId;
     const userId = 1;
-    console.log(comment + 'komentari');
-    console.log(postId + 'id posta');
     if (comment !== '') {
       addComments(comment, userId, postId);
     } else {
