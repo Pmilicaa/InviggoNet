@@ -15,7 +15,6 @@ export function Home() {
   let id = currentUser?.id;
   useEffect(() => {
     const friendsPosts = getFriendsPosts(id);
-    console.log(friendsPosts);
     friendsPosts.then(posts => setPosts(posts));
   }, []);
 

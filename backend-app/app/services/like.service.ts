@@ -6,11 +6,11 @@ import {
   getPostAndUserLikes,
   getPostLikes,
 } from "../repositories/like.repository";
+import { io } from "../server";
 
 const create = async (params: any) => {
   try {
     const like = await createLike(params);
-    console.log(JSON.stringify(like) + "kreiran like");
     return like;
   } catch (err: any) {
     throw new Error("greska");
@@ -19,7 +19,6 @@ const create = async (params: any) => {
 const getAll = async () => {
   try {
     const likes = await getLikes();
-    console.log(JSON.stringify(likes) + "lajkovi");
     return likes;
   } catch (err: any) {
     throw new Error("nema lajkova");
@@ -28,7 +27,6 @@ const getAll = async () => {
 const getOne = async (params: any) => {
   try {
     const like = await getLike(params.id);
-    console.log(JSON.stringify(like) + "jedan like");
     return like;
   } catch (err: any) {
     throw new Error("nema tog lajka");
@@ -37,7 +35,6 @@ const getOne = async (params: any) => {
 const allUserLikes = async (params: any) => {
   try {
     const likes = await getPostAndUserLikes(params.postId, params.userId);
-    console.log(JSON.stringify(likes) + "lajkovao user");
     return likes;
   } catch (err: any) {
     throw new Error("nema lajka");
