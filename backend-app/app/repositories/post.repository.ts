@@ -60,8 +60,11 @@ const getFriendsPosts = async (id: any) => {
   const allPosts = await getAllPosts();
   const friendsPosts: any = [];
   for (let index = 0; index < allPosts.length; index++) {
-    for (let inx = 0; inx < friends.length; inx++) {
-      if (allPosts[index].userId === friends[inx]) {
+    for (let inx = 0; inx < friendReq.length; inx++) {
+      if (
+        allPosts[index].userId === friendReq[inx].senderId ||
+        allPosts[index].userId === friendReq[inx].reciverId
+      ) {
         friendsPosts.push(allPosts[index]);
       }
     }

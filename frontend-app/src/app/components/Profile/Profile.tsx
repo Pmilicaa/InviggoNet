@@ -27,7 +27,6 @@ export function Profile({ user, myProfile }) {
     });
 
     socket.on('post-added', (newPost: Post) => {
-      console.log(newPost);
       setPosts(posts => [...posts, newPost]);
     });
 
@@ -86,7 +85,7 @@ export function Profile({ user, myProfile }) {
           </Grid>
         </Grid>
       </Paper>
-      {myProfile ? <AddPost username={user.username}/> : <></>}
+      {myProfile ? <AddPost username={user.username} /> : <></>}
       <Posts posts={posts} />
     </div>
   );
