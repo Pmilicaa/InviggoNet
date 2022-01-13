@@ -59,7 +59,7 @@ export const MessagesPage = () => {
   }, [currentUser, actions, dispatch]);
 
   return (
-    <div style={{ display: 'flex', marginTop: '10px' }}>
+    <div style={{ display: 'flex' }}>
       <div style={{ flexGrow: 3, width: '30%', height: 'calc(100vh - 68px)' }}>
         <FriendList
           friends={mapedRequests(requests, currentUser)}

@@ -44,7 +44,7 @@ export function Header() {
   };
 
   return (
-    <Box sx={{ height: '50px', flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" style={{ backgroundColor: 'red' }}>
         <Toolbar sx={{ alignContent: 'center' }}>
           <Typography
@@ -55,25 +55,30 @@ export function Header() {
           >
             InviggoNet
           </Typography>
-          <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
-            <IconButton onClick={handleSearch}>
-              <SearchIcon style={{ fill: 'white' }} />
-            </IconButton>
-            <TextField
-              id="outlined-search"
-              type="search"
-              variant="outlined"
-              inputProps={{
-                style: { backgroundColor: 'white' },
-              }}
-              size="small"
-              value={search}
-              onChange={e => {
-                setSearch(e.target.value);
-              }}
-              onKeyPress={handleEnter}
-            />
-          </Box>
+          {
+            user?.id !== -1 ? (
+
+              <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
+                <IconButton onClick={handleSearch}>
+                  <SearchIcon style={{ fill: 'white' }} />
+                </IconButton>
+                <TextField
+                  id="outlined-search"
+                  type="search"
+                  variant="outlined"
+                  inputProps={{
+                    style: { backgroundColor: 'white' },
+                  }}
+                  size="small"
+                  value={search}
+                  onChange={e => {
+                    setSearch(e.target.value);
+                  }}
+                  onKeyPress={handleEnter}
+                />
+              </Box>
+            ) : <></>
+          }
           {user?.id !== -1 ? (
             <DraftsIcon
               onClick={handleNavigate('/messages')}
@@ -114,6 +119,6 @@ export function Header() {
           {user?.id === -1 ? <NotLoggedMenu /> : <LoggedMenu />}
         </Toolbar>
       </AppBar>
-    </Box>
+    </Box >
   );
 }

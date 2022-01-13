@@ -30,6 +30,7 @@ import { EditProfilePage } from './pages/EditProfilePage/Loadable';
 import { MessagesPage } from './pages/MessagesPage/Loadable';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import { HeroPage } from './pages/HeroPage/Loadable';
 
 export function App() {
   const dispatch = useDispatch();
@@ -68,7 +69,12 @@ export function App() {
         pauseOnHover
       />
       <Switch>
-        <Route exact path="/" component={() => <HomePage />} />
+        <Route exact path="/" component={() =>
+          auth ?
+            <HomePage /> :
+            <HeroPage />
+        }
+        />
         <Route
           exact
           path="/search/:search"
