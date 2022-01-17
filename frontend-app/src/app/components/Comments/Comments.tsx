@@ -53,7 +53,7 @@ export default function Comments(props) {
     return comments;
   };
   return (
-    <div>
+    <div className="background-color">
       <List
         sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
         component="nav"
@@ -67,9 +67,6 @@ export default function Comments(props) {
         {comments.length > 0 && (
           <div>
             <ListItemButton onClick={handleClick} className="width">
-              <ListItemIcon>
-                <InboxIcon />
-              </ListItemIcon>
               <ListItemText />
               {open ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
