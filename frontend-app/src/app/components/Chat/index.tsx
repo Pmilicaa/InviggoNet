@@ -3,7 +3,12 @@ import { getAllMessages } from 'app/services/MessageService';
 import { useEffect, useState, useRef } from 'react';
 import SendIcon from '@mui/icons-material/Send';
 
-const Message = ({ message }) => {
+const Message = ({ message, showTime }) => {
+  const currentDate = new Date(message.createdAt);
+  const previouseDate = new Date();
+  previouseDate.setDate(currentDate.getDate() + 1);
+  const olderThenOneDay = Date.parse(previouseDate.toISOString()) < Date.now();
+
   return (
     <>
       <div
@@ -15,6 +20,7 @@ const Message = ({ message }) => {
         <div
           style={{
             maxWidth: '50%',
+            marginBottom: showTime ? '75px' : '0px',
           }}
         >
           <div
@@ -22,20 +28,29 @@ const Message = ({ message }) => {
               borderRadius: '15px',
               backgroundColor: message.myMessage ? 'orange' : 'red',
               color: 'white',
-              margin: '10px',
+              margin: '1px 10px',
               padding: '10px',
             }}
           >
             {message.content}
           </div>
-          <div
-            style={{
-              paddingInline: '20px',
-              textAlign: message.myMessage ? 'end' : 'start',
-            }}
-          >
-            Sent: {new Date(message.createdAt).toLocaleDateString('sr-RS')}
-          </div>
+          {showTime && (
+            <div
+              style={{
+                paddingInline: '20px',
+                textAlign: message.myMessage ? 'end' : 'start',
+              }}
+            >
+              {olderThenOneDay ? (
+                <>
+                  <div>Date: {currentDate.toLocaleDateString('sr-RS')}</div>
+                  <div>Sent: {currentDate.toLocaleTimeString('sr-RS')}</div>
+                </>
+              ) : (
+                <>Sent: {currentDate.toLocaleTimeString('sr-RS')}</>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </>
@@ -85,8 +100,14 @@ const Chat = ({ friend, socket, friendshipId, sender }) => {
   };
 
   const sendMessage = async () => {
+    let message = currentMessage.trim();
+    if (!message) {
+      setCurrentMessage('');
+      return;
+    }
+
     let messageData = {
-      content: currentMessage,
+      content: message,
       friendshipId: friendshipId,
       senderId: sender.id,
     };
@@ -98,6 +119,7 @@ const Chat = ({ friend, socket, friendshipId, sender }) => {
     if (messagesEnd.current)
       messagesEnd.current.scrollIntoView({ behavior: 'smooth' });
   };
+
 
   return (
     <div>
@@ -121,9 +143,22 @@ const Chat = ({ friend, socket, friendshipId, sender }) => {
             marginBottom: '30px',
           }}
         >
-          {messages.map((message, index) => (
-            <Message message={message} key={index} />
-          ))}
+          {messages.map((message, index) => {
+            if (index < messages.length - 1) {
+              const nextMessage = messages[index + 1];
+              const currentDate = Date.parse(message.createdAt);
+              const nextDate = Date.parse(nextMessage.createdAt);
+              return (
+                <Message
+                  message={message}
+                  key={index}
+                  showTime={currentDate + 5 * 1000 * 60 < nextDate}
+                />
+              );
+            }
+
+            return <Message message={message} key={index} showTime={true} />;
+          })}
           <div ref={messagesEnd} />
         </div>
         <TextField

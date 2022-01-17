@@ -69,11 +69,10 @@ export function App() {
         pauseOnHover
       />
       <Switch>
-        <Route exact path="/" component={() =>
-          auth ?
-            <HomePage /> :
-            <HeroPage />
-        }
+        <Route
+          exact
+          path="/"
+          component={() => (auth ? <HomePage /> : <HeroPage />)}
         />
         <Route
           exact

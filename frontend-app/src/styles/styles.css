@@ -17,7 +17,7 @@ div .containerLittleMargin {
   padding: 25px;
   background-color: white;
   background-image: linear-gradient(to bottom right, #00aaff, #aaaaff);
-  
+
   box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.5);
   border-radius: 3px;
 }
@@ -82,11 +82,10 @@ body {
   margin: 0px;
 }
 
-
-
 div .hero-image {
   /* Use "linear-gradient" to add a darken background effect to the image. This will make the text easier to read */
-  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("./inviggoNet.png");
+  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+    url('./inviggoNet.png');
 
   /* Set a specific height */
   height: 90vh;
