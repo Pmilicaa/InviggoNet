@@ -49,7 +49,7 @@ export function EditProfilePage() {
     if (data['image'] === null) formData.append('image', '');
     editUser(formData).then(freshUser => {
       dispatch(actions.changeUser(freshUser));
-      toast.success('You successfully changed profile')
+      toast.success('You successfully changed profile');
     });
   };
 

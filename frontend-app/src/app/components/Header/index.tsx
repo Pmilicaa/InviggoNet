@@ -55,30 +55,29 @@ export function Header() {
           >
             InviggoNet
           </Typography>
-          {
-            user?.id !== -1 ? (
-
-              <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
-                <IconButton onClick={handleSearch}>
-                  <SearchIcon style={{ fill: 'white' }} />
-                </IconButton>
-                <TextField
-                  id="outlined-search"
-                  type="search"
-                  variant="outlined"
-                  inputProps={{
-                    style: { backgroundColor: 'white' },
-                  }}
-                  size="small"
-                  value={search}
-                  onChange={e => {
-                    setSearch(e.target.value);
-                  }}
-                  onKeyPress={handleEnter}
-                />
-              </Box>
-            ) : <></>
-          }
+          {user?.id !== -1 ? (
+            <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
+              <IconButton onClick={handleSearch}>
+                <SearchIcon style={{ fill: 'white' }} />
+              </IconButton>
+              <TextField
+                id="outlined-search"
+                type="search"
+                variant="outlined"
+                inputProps={{
+                  style: { backgroundColor: 'white' },
+                }}
+                size="small"
+                value={search}
+                onChange={e => {
+                  setSearch(e.target.value);
+                }}
+                onKeyPress={handleEnter}
+              />
+            </Box>
+          ) : (
+            <></>
+          )}
           {user?.id !== -1 ? (
             <DraftsIcon
               onClick={handleNavigate('/messages')}
@@ -119,6 +118,6 @@ export function Header() {
           {user?.id === -1 ? <NotLoggedMenu /> : <LoggedMenu />}
         </Toolbar>
       </AppBar>
-    </Box >
+    </Box>
   );
 }
