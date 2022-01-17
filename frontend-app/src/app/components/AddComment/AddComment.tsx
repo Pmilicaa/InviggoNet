@@ -30,12 +30,17 @@ export default function AddComment(props) {
       <nav aria-label="secondary mailbox folders">
         <form onSubmit={handleSubmit(onSubmit)}>
           <TextField
-            className="width-input"
+            className="width-input position-button"
             {...register('comment')}
             label="comment"
           />
           <div>
-            <Button type="submit" variant="contained" color="primary">
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              className="margin-left"
+            >
               add comment
             </Button>
           </div>
